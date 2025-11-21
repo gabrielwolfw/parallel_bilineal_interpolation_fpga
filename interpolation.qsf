@@ -38,7 +38,7 @@
 
 set_global_assignment -name FAMILY "Cyclone V"
 set_global_assignment -name DEVICE 5CSEMA5F31C6
-set_global_assignment -name TOP_LEVEL_ENTITY dsa_datapath
+set_global_assignment -name TOP_LEVEL_ENTITY testbench_simd
 set_global_assignment -name ORIGINAL_QUARTUS_VERSION 18.1.0
 set_global_assignment -name PROJECT_CREATION_TIME_DATE "14:55:30  NOVEMBER 13, 2025"
 set_global_assignment -name LAST_QUARTUS_VERSION "18.1.0 Lite Edition"
@@ -55,12 +55,19 @@ set_global_assignment -name EDA_SIMULATION_TOOL "ModelSim-Altera (Verilog)"
 set_global_assignment -name EDA_TIME_SCALE "1 ps" -section_id eda_simulation
 set_global_assignment -name EDA_OUTPUT_DATA_FORMAT "VERILOG HDL" -section_id eda_simulation
 set_global_assignment -name EDA_TEST_BENCH_ENABLE_STATUS TEST_BENCH_MODE -section_id eda_simulation
-set_global_assignment -name EDA_NATIVELINK_SIMULATION_TEST_BENCH testbench -section_id eda_simulation
+set_global_assignment -name EDA_NATIVELINK_SIMULATION_TEST_BENCH testbench_simd -section_id eda_simulation
 set_global_assignment -name EDA_TEST_BENCH_NAME testbench -section_id eda_simulation
 set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id testbench
 set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME testbench -section_id testbench
-set_global_assignment -name EDA_TEST_BENCH_FILE fpga/testbench.sv -section_id testbench
+set_global_assignment -name SYSTEMVERILOG_FILE fpga/dsa_datapath_simd.sv
+set_global_assignment -name SYSTEMVERILOG_FILE fpga/dsa_simd_registers.sv
+set_global_assignment -name SYSTEMVERILOG_FILE fpga/testbench_simd.sv
 set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
 set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+set_global_assignment -name EDA_TEST_BENCH_FILE fpga/testbench.sv -section_id testbench
+set_global_assignment -name EDA_TEST_BENCH_NAME testbench_simd -section_id eda_simulation
+set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id testbench_simd
+set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME testbench_simd -section_id testbench_simd
+set_global_assignment -name EDA_TEST_BENCH_FILE fpga/testbench_simd.sv -section_id testbench_simd
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
