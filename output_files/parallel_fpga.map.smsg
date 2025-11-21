@@ -1,1 +1,0 @@
-Info (10281): Verilog HDL Declaration information at testbench_fsms.sv(12): object "TOTAL_PIXELS" differs only in case from object "total_pixels" in the same scope File: C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/testbench_fsms.sv Line: 12
