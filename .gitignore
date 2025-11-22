@@ -1,1 +1,34 @@
 fpga/db/parallel_fpga.quiproj.2872.rdr.flock
+url=
+# Quartus
+*.qws
+*.bak
+*.rpt
+*.summary
+*.done
+*.jdi
+*.pin
+*.sof
+*.pof
+db/
+incremental_db/
+output_files/*.sof
+output_files/*.pof
+
+# ModelSim/Questa
+work/
+*.wlf
+*.vstf
+transcript
+*.vcd
+*.log
+
+# Temporales
+*.tmp
+*~
+*.swp
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
