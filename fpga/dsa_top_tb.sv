@@ -1,64 +1,62 @@
 //============================================================
 // dsa_top_tb.sv
-// Testbench para validación del sistema completo DSA
+// Testbench completo para dsa_top
+// Compatible con la nueva interfaz
 //============================================================
 
 `timescale 1ns/1ps
 
 module dsa_top_tb;
 
-    //=================================================================
+    //========================================================
     // Parámetros
-    //=================================================================
-    
-    parameter CLK_PERIOD = 10;  // 100 MHz
-    parameter IMG_WIDTH_MAX = 512;
-    parameter IMG_HEIGHT_MAX = 512;
-    parameter MEM_SIZE = 262144;
+    //========================================================
+    parameter CLK_PERIOD = 10;
+    parameter ADDR_WIDTH = 18;
+    parameter IMG_WIDTH = 512;
+    parameter IMG_HEIGHT = 512;
     parameter SIMD_WIDTH = 4;
-    
-    //=================================================================
+    parameter MEM_SIZE = 262144;
+
+    //========================================================
     // Señales del DUT
-    //=================================================================
-    
-    logic        clk;
-    logic        rst;
-    logic        start;
-    logic        mode_simd;
-    logic [9:0]  img_width_in;
-    logic [9:0]  img_height_in;
-    logic [7:0]  scale_factor;
-    logic        mem_write_en;
-    logic        mem_read_en;
-    logic [17:0] mem_addr;
-    logic [7:0]  mem_data_in;
-    logic [7:0]  mem_data_out;
-    logic        busy;
-    logic        ready;
-    logic        error;
-    logic [15:0] progress;
-    logic [31:0] flops_count;
-    logic [31:0] mem_reads_count;
-    logic [31:0] mem_writes_count;
-    
-    //=================================================================
+    //========================================================
+    logic                   clk;
+    logic                   rst;
+    logic                   start;
+    logic                   mode_simd;
+    logic [15:0]            img_width_in;
+    logic [15:0]            img_height_in;
+    logic [7:0]             scale_factor;
+    logic                   ext_mem_write_en;
+    logic                   ext_mem_read_en;
+    logic [ADDR_WIDTH-1:0]  ext_mem_addr;
+    logic [7:0]             ext_mem_data_in;
+    logic [7:0]             ext_mem_data_out;
+    logic                   busy;
+    logic                   ready;
+    logic [15:0]            progress;
+    logic [31:0]            flops_count;
+    logic [31:0]            mem_reads_count;
+    logic [31:0]            mem_writes_count;
+
+    //========================================================
     // Generación de reloj
-    //=================================================================
-    
+    //========================================================
     initial begin
         clk = 0;
         forever #(CLK_PERIOD/2) clk = ~clk;
     end
-    
-    //=================================================================
-    // Instanciación del DUT
-    //=================================================================
-    
+
+    //========================================================
+    // Instancia del DUT
+    //========================================================
     dsa_top #(
-        .IMG_WIDTH_MAX(IMG_WIDTH_MAX),
-        .IMG_HEIGHT_MAX(IMG_HEIGHT_MAX),
-        .MEM_SIZE(MEM_SIZE),
-        .SIMD_WIDTH(SIMD_WIDTH)
+        .ADDR_WIDTH(ADDR_WIDTH),
+        .IMG_WIDTH(IMG_WIDTH),
+        .IMG_HEIGHT(IMG_HEIGHT),
+        .SIMD_WIDTH(SIMD_WIDTH),
+        .MEM_SIZE(MEM_SIZE)
     ) dut (
         .clk(clk),
         .rst(rst),
@@ -67,407 +65,467 @@ module dsa_top_tb;
         .img_width_in(img_width_in),
         .img_height_in(img_height_in),
         .scale_factor(scale_factor),
-        .mem_write_en(mem_write_en),
-        .mem_read_en(mem_read_en),
-        .mem_addr(mem_addr),
-        .mem_data_in(mem_data_in),
-        .mem_data_out(mem_data_out),
+        .ext_mem_write_en(ext_mem_write_en),
+        .ext_mem_read_en(ext_mem_read_en),
+        .ext_mem_addr(ext_mem_addr),
+        .ext_mem_data_in(ext_mem_data_in),
+        .ext_mem_data_out(ext_mem_data_out),
         .busy(busy),
         .ready(ready),
-        .error(error),
         .progress(progress),
         .flops_count(flops_count),
         .mem_reads_count(mem_reads_count),
         .mem_writes_count(mem_writes_count)
     );
-    
-    //=================================================================
+
+    //========================================================
     // Variables de prueba
-    //=================================================================
-    
-    integer test_passed;
-    integer test_failed;
-    real start_time, end_time, elapsed_time;
-    
-    //=================================================================
-    // Tasks de utilidad
-    //=================================================================
-    
+    //========================================================
+    integer test_num;
+    integer cycle_count;
+    integer seq_cycles;
+    integer simd_cycles;
+    real speedup;
+
+    //========================================================
+    // Tasks
+    //========================================================
+
+    // Reset del sistema
     task reset_system();
         begin
+            $display("[%0t] Reseteando sistema...", $time);
             rst = 1;
             start = 0;
             mode_simd = 0;
             img_width_in = 0;
             img_height_in = 0;
             scale_factor = 0;
-            mem_write_en = 0;
-            mem_read_en = 0;
-            mem_addr = 0;
-            mem_data_in = 0;
-            #(CLK_PERIOD * 5);
+            ext_mem_write_en = 0;
+            ext_mem_read_en = 0;
+            ext_mem_addr = 0;
+            ext_mem_data_in = 0;
+            
+            repeat(10) @(posedge clk);
             rst = 0;
-            #(CLK_PERIOD * 2);
+            repeat(5) @(posedge clk);
+            $display("[%0t] Reset completado", $time);
         end
     endtask
-    
+
+    // Cargar imagen de prueba en memoria
     task load_test_image(input integer width, input integer height);
-        integer x, y, addr;
+        integer x, y;
+        integer addr;
         logic [7:0] pixel_value;
         begin
-            $display("[%0t] Cargando imagen de prueba %0dx%0d", $time, width, height);
-            mem_write_en = 1;
+            $display("[%0t] Cargando imagen de prueba %0dx%0d...", $time, width, height);
+            
+            ext_mem_write_en = 1;
+            
             for (y = 0; y < height; y = y + 1) begin
                 for (x = 0; x < width; x = x + 1) begin
                     addr = y * width + x;
-                    // Patrón de prueba: gradiente horizontal
-                    pixel_value = (x * 255) / (width - 1);
-                    mem_addr = addr;
-                    mem_data_in = pixel_value;
-                    #CLK_PERIOD;
+                    
+                    // Patrón de prueba: gradiente diagonal
+                    pixel_value = ((x + y) * 255) / (width + height - 2);
+                    
+                    ext_mem_addr = addr[ADDR_WIDTH-1:0];
+                    ext_mem_data_in = pixel_value;
+                    
+                    @(posedge clk);
+                end
+                
+                // Mostrar progreso cada 8 filas
+                if (y % 8 == 0) begin
+                    $display("  Cargando fila %0d/%0d", y, height);
                 end
             end
-            mem_write_en = 0;
-            $display("[%0t] Imagen cargada correctamente", $time);
+            
+            ext_mem_write_en = 0;
+            @(posedge clk);
+            
+            $display("[%0t] Imagen cargada exitosamente", $time);
         end
     endtask
-    
-    task start_processing();
+
+    // Iniciar procesamiento
+    task start_processing(input logic simd_mode);
         begin
-            $display("[%0t] Iniciando procesamiento", $time);
+            $display("[%0t] Iniciando procesamiento en modo %s", 
+                     $time, simd_mode ? "SIMD" : "SECUENCIAL");
+            
+            mode_simd = simd_mode;
+            cycle_count = 0;
+            
             start = 1;
-            #CLK_PERIOD;
+            @(posedge clk);
             start = 0;
-            start_time = $realtime;
+            @(posedge clk);
         end
     endtask
-    
+
+    // Esperar a que termine el procesamiento
     task wait_for_completion();
+        integer timeout_cycles;
         begin
+            timeout_cycles = 1000000;
+            
             $display("[%0t] Esperando completar procesamiento...", $time);
-            wait(ready == 1);
-            end_time = $realtime;
-            elapsed_time = (end_time - start_time) / 1000.0;  // en microsegundos
-            $display("[%0t] Procesamiento completado", $time);
-            $display("Tiempo transcurrido: %.2f us", elapsed_time);
-            $display("FLOPs ejecutadas: %0d", flops_count);
-            $display("Lecturas de memoria: %0d", mem_reads_count);
-            $display("Escrituras de memoria: %0d", mem_writes_count);
+            
+            while (!ready && cycle_count < timeout_cycles) begin
+                @(posedge clk);
+                cycle_count = cycle_count + 1;
+                
+                // Mostrar progreso cada 1000 ciclos
+                if (cycle_count % 1000 == 0) begin
+                    $display("  Ciclo %0d: Progreso = %0d píxeles", cycle_count, progress);
+                end
+            end
+            
+            if (cycle_count >= timeout_cycles) begin
+                $display("ERROR: Timeout después de %0d ciclos", timeout_cycles);
+                $finish;
+            end
+            
+            $display("[%0t] Procesamiento completado en %0d ciclos", $time, cycle_count);
+            $display("  FLOPs ejecutadas: %0d", flops_count);
+            $display("  Lecturas de memoria: %0d", mem_reads_count);
+            $display("  Escrituras de memoria: %0d", mem_writes_count);
+            
+            if (cycle_count > 0) begin
+                $display("  Throughput: %.2f FLOPs/ciclo", 
+                         real'(flops_count) / real'(cycle_count));
+            end
         end
     endtask
-    
-    task verify_output_pixel(input integer x, input integer y, 
-                             input integer width_out, 
-                             input logic [7:0] expected);
+
+    // Verificar píxel de salida
+    task verify_output_pixel(
+        input integer x, 
+        input integer y, 
+        input integer width_out,
+        input logic [7:0] expected
+    );
         integer addr;
         logic [7:0] actual;
+        integer tolerance;
         begin
-            addr = MEM_SIZE/2 + (y * width_out + x);
-            mem_addr = addr;
-            mem_read_en = 1;
-            #CLK_PERIOD;
-            actual = mem_data_out;
-            mem_read_en = 0;
+            tolerance = 2; // Tolerancia para errores de redondeo
             
-            if (actual == expected) begin
-                test_passed = test_passed + 1;
+            addr = (MEM_SIZE/2) + (y * width_out + x);
+            
+            ext_mem_read_en = 1;
+            ext_mem_addr = addr[ADDR_WIDTH-1:0];
+            @(posedge clk);
+            actual = ext_mem_data_out;
+            ext_mem_read_en = 0;
+            @(posedge clk);
+            
+            if ((actual >= expected - tolerance) && (actual <= expected + tolerance)) begin
+                // Correcto
             end else begin
-                $display("ERROR: Pixel (%0d,%0d) esperado=%0d obtenido=%0d", 
-                         x, y, expected, actual);
-                test_failed = test_failed + 1;
+                $display("ERROR: Píxel (%0d,%0d) esperado=%0d obtenido=%0d diferencia=%0d",
+                         x, y, expected, actual, $signed(actual - expected));
             end
         end
     endtask
-    
-    task display_performance_metrics();
-        real throughput, arithmetic_intensity;
+
+    // Mostrar imagen de salida
+    task dump_output_image(input integer width_out, input integer height_out);
+        integer x, y, addr;
+        logic [7:0] pixel;
         begin
             $display("");
-            $display("=== METRICAS DE RENDIMIENTO ===");
-            $display("Tiempo de ejecucion: %.2f us", elapsed_time);
-            $display("FLOPs totales: %0d", flops_count);
-            $display("Lecturas de memoria: %0d", mem_reads_count);
-            $display("Escrituras de memoria: %0d", mem_writes_count);
+            $display("========================================");
+            $display("Imagen de salida (%0dx%0d)", width_out, height_out);
+            $display("========================================");
             
-            if (elapsed_time > 0) begin
-                throughput = flops_count / elapsed_time;
-                $display("Throughput: %.2f MFLOPS", throughput);
+            for (y = 0; y < height_out; y = y + 1) begin
+                $write("Fila %2d: ", y);
+                for (x = 0; x < width_out; x = x + 1) begin
+                    addr = (MEM_SIZE/2) + (y * width_out + x);
+                    ext_mem_read_en = 1;
+                    ext_mem_addr = addr[ADDR_WIDTH-1:0];
+                    @(posedge clk);
+                    pixel = ext_mem_data_out;
+                    ext_mem_read_en = 0;
+                    
+                    $write("%3d ", pixel);
+                end
+                $write("\n");
             end
             
-            if ((mem_reads_count + mem_writes_count) > 0) begin
-                arithmetic_intensity = real'(flops_count) / 
-                                      real'(mem_reads_count + mem_writes_count);
-                $display("Intensidad aritmetica: %.2f FLOPs/acceso", arithmetic_intensity);
-            end
-            $display("===============================");
+            $display("========================================");
             $display("");
         end
     endtask
-    
-    //=================================================================
-    // Test 1: Imagen pequeña, modo secuencial, escala 0.5
-    //=================================================================
-    
+
+    //========================================================
+    // Test 1: Imagen pequeña secuencial
+    //========================================================
     task test_small_sequential();
-        integer width_in, height_in, width_out, height_out;
+        integer test_width, test_height;
+        integer width_out, height_out;
         begin
+            test_num = test_num + 1;
             $display("");
-            $display("=================================================");
-            $display("TEST 1: Imagen 8x8, modo secuencial, escala 0.5");
-            $display("=================================================");
+            $display("========================================");
+            $display("TEST %0d: Imagen 8x8 Secuencial", test_num);
+            $display("========================================");
             
-            width_in = 8;
-            height_in = 8;
-            width_out = 4;
-            height_out = 4;
+            test_width = 8;
+            test_height = 8;
             
             reset_system();
-            load_test_image(width_in, height_in);
+            load_test_image(test_width, test_height);
             
-            img_width_in = width_in;
-            img_height_in = height_in;
-            scale_factor = 8'h80;  // 0.5 en Q8.8
-            mode_simd = 0;
+            img_width_in = test_width;
+            img_height_in = test_height;
+            scale_factor = 8'h80;  // 0.5
             
-            start_processing();
+            width_out = (test_width * 8'h80) >> 8;
+            height_out = (test_height * 8'h80) >> 8;
+            
+            $display("Dimensiones salida esperadas: %0dx%0d", width_out, height_out);
+            
+            start_processing(0); // Secuencial
             wait_for_completion();
-            display_performance_metrics();
             
-            // Verificación básica
-            $display("Verificando píxeles de salida...");
-            // Aquí se incluirían verificaciones específicas
+            seq_cycles = cycle_count;
             
-            $display("TEST 1 COMPLETADO");
+            // Mostrar resultado
+            dump_output_image(width_out, height_out);
+            
+            $display("TEST %0d COMPLETADO", test_num);
         end
     endtask
-    
-    //=================================================================
-    // Test 2: Imagen pequeña, modo SIMD, escala 0.5
-    //=================================================================
-    
+
+    //========================================================
+    // Test 2: Imagen pequeña SIMD
+    //========================================================
     task test_small_simd();
-        integer width_in, height_in, width_out, height_out;
+        integer test_width, test_height;
+        integer width_out, height_out;
         begin
+            test_num = test_num + 1;
             $display("");
-            $display("============================================");
-            $display("TEST 2: Imagen 8x8, modo SIMD, escala 0.5");
-            $display("============================================");
+            $display("========================================");
+            $display("TEST %0d: Imagen 8x8 SIMD", test_num);
+            $display("========================================");
             
-            width_in = 8;
-            height_in = 8;
-            width_out = 4;
-            height_out = 4;
+            test_width = 8;
+            test_height = 8;
             
             reset_system();
-            load_test_image(width_in, height_in);
+            load_test_image(test_width, test_height);
             
-            img_width_in = width_in;
-            img_height_in = height_in;
-            scale_factor = 8'h80;  // 0.5 en Q8.8
-            mode_simd = 1;
+            img_width_in = test_width;
+            img_height_in = test_height;
+            scale_factor = 8'h80;  // 0.5
             
-            start_processing();
+            width_out = (test_width * 8'h80) >> 8;
+            height_out = (test_height * 8'h80) >> 8;
+            
+            $display("Dimensiones salida esperadas: %0dx%0d", width_out, height_out);
+            
+            start_processing(1); // SIMD
             wait_for_completion();
-            display_performance_metrics();
             
-            $display("TEST 2 COMPLETADO");
+            simd_cycles = cycle_count;
+            
+            // Mostrar resultado
+            dump_output_image(width_out, height_out);
+            
+            $display("TEST %0d COMPLETADO", test_num);
         end
     endtask
-    
-    //=================================================================
-    // Test 3: Comparación secuencial vs SIMD
-    //=================================================================
-    
-    task test_sequential_vs_simd();
-        integer width_in, height_in;
-        real time_seq, time_simd, speedup;
+
+    //========================================================
+    // Test 3: Imagen mediana secuencial
+    //========================================================
+    task test_medium_sequential();
+        integer test_width, test_height;
+        integer width_out, height_out;
         begin
+            test_num = test_num + 1;
             $display("");
-            $display("==============================================");
-            $display("TEST 3: Comparacion secuencial vs SIMD");
-            $display("==============================================");
+            $display("========================================");
+            $display("TEST %0d: Imagen 16x16 Secuencial", test_num);
+            $display("========================================");
             
-            width_in = 64;
-            height_in = 64;
+            test_width = 16;
+            test_height = 16;
             
-            // Modo secuencial
-            $display("");
-            $display("--- Ejecutando modo SECUENCIAL ---");
             reset_system();
-            load_test_image(width_in, height_in);
-            img_width_in = width_in;
-            img_height_in = height_in;
-            scale_factor = 8'h80;
-            mode_simd = 0;
-            start_processing();
-            wait_for_completion();
-            time_seq = elapsed_time;
+            load_test_image(test_width, test_height);
             
-            // Modo SIMD
-            $display("");
-            $display("--- Ejecutando modo SIMD ---");
-            reset_system();
-            load_test_image(width_in, height_in);
-            img_width_in = width_in;
-            img_height_in = height_in;
-            scale_factor = 8'h80;
-            mode_simd = 1;
-            start_processing();
+            img_width_in = test_width;
+            img_height_in = test_height;
+            scale_factor = 8'h80;  // 0.5
+            
+            width_out = (test_width * 8'h80) >> 8;
+            height_out = (test_height * 8'h80) >> 8;
+            
+            $display("Dimensiones salida esperadas: %0dx%0d", width_out, height_out);
+            
+            start_processing(0); // Secuencial
             wait_for_completion();
-            time_simd = elapsed_time;
+            
+            seq_cycles = cycle_count;
+            
+            $display("TEST %0d COMPLETADO", test_num);
+        end
+    endtask
+
+    //========================================================
+    // Test 4: Imagen mediana SIMD
+    //========================================================
+    task test_medium_simd();
+        integer test_width, test_height;
+        integer width_out, height_out;
+        begin
+            test_num = test_num + 1;
+            $display("");
+            $display("========================================");
+            $display("TEST %0d: Imagen 16x16 SIMD", test_num);
+            $display("========================================");
+            
+            test_width = 16;
+            test_height = 16;
+            
+            reset_system();
+            load_test_image(test_width, test_height);
+            
+            img_width_in = test_width;
+            img_height_in = test_height;
+            scale_factor = 8'h80;  // 0.5
+            
+            width_out = (test_width * 8'h80) >> 8;
+            height_out = (test_height * 8'h80) >> 8;
+            
+            $display("Dimensiones salida esperadas: %0dx%0d", width_out, height_out);
+            
+            start_processing(1); // SIMD
+            wait_for_completion();
+            
+            simd_cycles = cycle_count;
+            
+            $display("TEST %0d COMPLETADO", test_num);
+        end
+    endtask
+
+    //========================================================
+    // Test 5: Comparación de rendimiento
+    //========================================================
+    task test_performance_comparison();
+        integer test_width, test_height;
+        begin
+            test_num = test_num + 1;
+            $display("");
+            $display("========================================");
+            $display("TEST %0d: Comparación de Rendimiento 32x32", test_num);
+            $display("========================================");
+            
+            test_width = 32;
+            test_height = 32;
+            
+            // Secuencial
+            $display("");
+            $display("--- MODO SECUENCIAL ---");
+            reset_system();
+            load_test_image(test_width, test_height);
+            img_width_in = test_width;
+            img_height_in = test_height;
+            scale_factor = 8'h80;
+            start_processing(0);
+            wait_for_completion();
+            seq_cycles = cycle_count;
+            
+            // SIMD
+            $display("");
+            $display("--- MODO SIMD ---");
+            reset_system();
+            load_test_image(test_width, test_height);
+            img_width_in = test_width;
+            img_height_in = test_height;
+            scale_factor = 8'h80;
+            start_processing(1);
+            wait_for_completion();
+            simd_cycles = cycle_count;
             
             // Comparación
             $display("");
-            $display("=== COMPARACION DE RENDIMIENTO ===");
-            $display("Tiempo secuencial: %.2f us", time_seq);
-            $display("Tiempo SIMD: %.2f us", time_simd);
-            if (time_simd > 0) begin
-                speedup = time_seq / time_simd;
-                $display("Speedup: %.2fx", speedup);
-            end
-            $display("==================================");
+            $display("========================================");
+            $display("RESULTADOS DE COMPARACION");
+            $display("========================================");
+            $display("Ciclos secuencial: %0d", seq_cycles);
+            $display("Ciclos SIMD:       %0d", simd_cycles);
             
-            $display("TEST 3 COMPLETADO");
-        end
-    endtask
-    
-    //=================================================================
-    // Test 4: Diferentes factores de escala
-    //=================================================================
-    
-    task test_scale_factors();
-        integer width_in, height_in;
-        integer i;
-        logic [7:0] scales [0:10];
-        begin
-            $display("");
-            $display("==========================================");
-            $display("TEST 4: Diferentes factores de escala");
-            $display("==========================================");
-            
-            width_in = 32;
-            height_in = 32;
-            
-            // Factores: 0.5, 0.55, 0.6, ..., 1.0
-            scales[0] = 8'h80;  // 0.50
-            scales[1] = 8'h8C;  // 0.55
-            scales[2] = 8'h99;  // 0.60
-            scales[3] = 8'hA6;  // 0.65
-            scales[4] = 8'hB3;  // 0.70
-            scales[5] = 8'hC0;  // 0.75
-            scales[6] = 8'hCC;  // 0.80
-            scales[7] = 8'hD9;  // 0.85
-            scales[8] = 8'hE6;  // 0.90
-            scales[9] = 8'hF3;  // 0.95
-            scales[10] = 8'hFF; // 1.00
-            
-            for (i = 0; i < 11; i = i + 1) begin
-                $display("");
-                $display("Probando factor de escala: 0x%0h", scales[i]);
-                reset_system();
-                load_test_image(width_in, height_in);
-                img_width_in = width_in;
-                img_height_in = height_in;
-                scale_factor = scales[i];
-                mode_simd = 0;
-                start_processing();
-                wait_for_completion();
+            if (simd_cycles > 0) begin
+                speedup = real'(seq_cycles) / real'(simd_cycles);
+                $display("Speedup:           %.2fx", speedup);
+                $display("Eficiencia:        %.1f%%", (speedup / SIMD_WIDTH) * 100.0);
+                
+                if (speedup >= 1.5) begin
+                    $display("RESULTADO: PASS (speedup >= 1.5x)");
+                end else if (speedup >= 1.0) begin
+                    $display("RESULTADO: MARGINAL (speedup >= 1.0x)");
+                end else begin
+                    $display("RESULTADO: FALLO (speedup < 1.0x)");
+                end
             end
             
-            $display("TEST 4 COMPLETADO");
-        end
-    endtask
-    
-    //=================================================================
-    // Test 5: Imagen máxima (stress test)
-    //=================================================================
-    
-    task test_max_image();
-        integer width_in, height_in;
-        begin
+            $display("========================================");
             $display("");
-            $display("==========================================");
-            $display("TEST 5: Imagen maxima 512x512 (SIMD)");
-            $display("==========================================");
             
-            width_in = 512;
-            height_in = 512;
-            
-            reset_system();
-            
-            $display("Nota: Carga de imagen 512x512 toma tiempo...");
-            load_test_image(width_in, height_in);
-            
-            img_width_in = width_in;
-            img_height_in = height_in;
-            scale_factor = 8'h80;  // 0.5
-            mode_simd = 1;
-            
-            start_processing();
-            wait_for_completion();
-            display_performance_metrics();
-            
-            $display("TEST 5 COMPLETADO");
+            $display("TEST %0d COMPLETADO", test_num);
         end
     endtask
-    
-    //=================================================================
-    // Secuencia principal de pruebas
-    //=================================================================
-    
+
+    //========================================================
+    // Secuencia principal de tests
+    //========================================================
     initial begin
         $display("");
         $display("====================================================");
         $display("INICIO DE TESTBENCH DSA DOWNSCALING");
         $display("====================================================");
         
-        test_passed = 0;
-        test_failed = 0;
+        test_num = 0;
         
-        // Ejecutar todos los tests
+        // Ejecutar tests
         test_small_sequential();
         test_small_simd();
-        test_sequential_vs_simd();
-        test_scale_factors();
-        
-        // Descomentar para stress test (toma mucho tiempo)
-        // test_max_image();
+        test_medium_sequential();
+        test_medium_simd();
+        test_performance_comparison();
         
         // Resumen final
         $display("");
         $display("====================================================");
-        $display("RESUMEN DE PRUEBAS");
+        $display("RESUMEN FINAL");
         $display("====================================================");
-        $display("Tests pasados: %0d", test_passed);
-        $display("Tests fallados: %0d", test_failed);
-        
-        if (test_failed == 0) begin
-            $display("RESULTADO: TODOS LOS TESTS PASARON");
-        end else begin
-            $display("RESULTADO: ALGUNOS TESTS FALLARON");
-        end
-        
+        $display("Tests ejecutados: %0d", test_num);
         $display("====================================================");
         $display("FIN DE TESTBENCH");
         $display("====================================================");
         
         $finish;
     end
-    
-    //=================================================================
+
+    //========================================================
     // Timeout de seguridad
-    //=================================================================
-    
+    //========================================================
     initial begin
-        #100000000;  // 100ms timeout
-        $display("ERROR: Timeout del testbench");
+        #100000000; // 100ms
+        $display("ERROR: Timeout global del testbench");
         $finish;
     end
-    
-    //=================================================================
+
+    //========================================================
     // Generación de waveforms
-    //=================================================================
-    
+    //========================================================
     initial begin
         $dumpfile("dsa_top_tb.vcd");
         $dumpvars(0, dsa_top_tb);

@@ -1,69 +1,157 @@
 //============================================================
 // dsa_top.sv
-// Módulo Top para DSA Downscaling con Interpolación Bilineal
-// Soporta modo secuencial y SIMD
+// Top integrado con FSMs separados
 //============================================================
 
 module dsa_top #(
-    parameter IMG_WIDTH_MAX  = 512,
-    parameter IMG_HEIGHT_MAX = 512,
-    parameter MEM_SIZE       = 262144,
-    parameter SIMD_WIDTH     = 4
+    parameter ADDR_WIDTH = 18,
+    parameter IMG_WIDTH  = 512,
+    parameter IMG_HEIGHT = 512,
+    parameter SIMD_WIDTH = 4,
+    parameter MEM_SIZE   = 262144
 )(
-    input  logic        clk,
-    input  logic        rst,
-    
-    // Interfaz de control desde host (JTAG/UART)
-    input  logic        start,
-    input  logic        mode_simd,           // 0: secuencial, 1: SIMD
-    input  logic [9:0]  img_width_in,        // Ancho imagen entrada
-    input  logic [9:0]  img_height_in,       // Alto imagen entrada
-    input  logic [7:0]  scale_factor,        // Factor escala Q8.8 (ej: 0x80 = 0.5)
-    
-    // Interfaz de memoria (carga/descarga imágenes)
-    input  logic        mem_write_en,
-    input  logic        mem_read_en,
-    input  logic [17:0] mem_addr,
-    input  logic [7:0]  mem_data_in,
-    output logic [7:0]  mem_data_out,
-    
-    // Registros de estado
-    output logic        busy,
-    output logic        ready,
-    output logic        error,
-    output logic [15:0] progress,            // Píxeles procesados
-    
-    // Performance counters
-    output logic [31:0] flops_count,
-    output logic [31:0] mem_reads_count,
-    output logic [31:0] mem_writes_count
+    input  logic                   clk,
+    input  logic                   rst,
+    input  logic                   start,
+    input  logic                   mode_simd,
+    input  logic [15:0]            img_width_in,
+    input  logic [15:0]            img_height_in,
+    input  logic [7:0]             scale_factor,
+    input  logic                   ext_mem_write_en,
+    input  logic                   ext_mem_read_en,
+    input  logic [ADDR_WIDTH-1:0]  ext_mem_addr,
+    input  logic [7:0]             ext_mem_data_in,
+    output logic [7:0]             ext_mem_data_out,
+    output logic                   busy,
+    output logic                   ready,
+    output logic [15:0]            progress,
+    output logic [31:0]            flops_count,
+    output logic [31:0]            mem_reads_count,
+    output logic [31:0]            mem_writes_count
 );
 
-    //=================================================================
-    // Señales internas
-    //=================================================================
+    logic [15:0] img_width_out;
+    logic [15:0] img_height_out;
     
-    // Dimensiones imagen salida
-    logic [9:0]  img_width_out;
-    logic [9:0]  img_height_out;
-    logic [15:0] total_pixels_out;
+    assign img_width_out = (img_width_in * scale_factor) >> 8;
+    assign img_height_out = (img_height_in * scale_factor) >> 8;
     
-    // Control FSM
-    logic        fsm_start;
-    logic        fsm_busy;
-    logic        fsm_ready;
-    logic        fsm_next_pixel;
-    logic [15:0] fsm_pixel_index;
+    logic        seq_enable;
+    logic        seq_fetch_req;
+    logic        seq_fetch_done;
+    logic        seq_dp_start;
+    logic        seq_dp_done;
+    logic        seq_write_enable;
+    logic [15:0] seq_current_x;
+    logic [15:0] seq_current_y;
+    logic        seq_busy;
+    logic        seq_ready;
     
-    // Datapath secuencial
-    logic        dp_seq_start;
-    logic [7:0]  dp_seq_p00, dp_seq_p01, dp_seq_p10, dp_seq_p11;
-    logic [15:0] dp_seq_a, dp_seq_b;
+    logic        simd_enable;
+    logic        simd_fetch_req;
+    logic        simd_fetch_done;
+    logic        simd_dp_start;
+    logic        simd_dp_done;
+    logic        simd_write_enable;
+    logic [3:0]  simd_write_index;
+    logic [15:0] simd_current_x;
+    logic [15:0] simd_current_y;
+    logic        simd_busy;
+    logic        simd_ready;
+    
+    logic        active_fetch_req;
+    logic        active_dp_start;
+    logic        active_write_enable;
+    logic [15:0] active_x;
+    logic [15:0] active_y;
+    logic [3:0]  active_write_index;
+    
+    assign active_fetch_req = mode_simd ? simd_fetch_req : seq_fetch_req;
+    assign active_dp_start = mode_simd ? simd_dp_start : seq_dp_start;
+    assign active_write_enable = mode_simd ? simd_write_enable : seq_write_enable;
+    assign active_x = mode_simd ? simd_current_x : seq_current_x;
+    assign active_y = mode_simd ? simd_current_y : seq_current_y;
+    assign active_write_index = mode_simd ? simd_write_index : 4'd0;
+    
+    always_ff @(posedge clk or posedge rst) begin
+        if (rst) begin
+            seq_enable <= 1'b0;
+            simd_enable <= 1'b0;
+        end else if (start) begin
+            if (mode_simd) begin
+                seq_enable <= 1'b0;
+                simd_enable <= 1'b1;
+            end else begin
+                seq_enable <= 1'b1;
+                simd_enable <= 1'b0;
+            end
+        end else if (seq_ready || simd_ready) begin
+            seq_enable <= 1'b0;
+            simd_enable <= 1'b0;
+        end
+    end
+    
+    logic        fetch_mem_read_en;
+    logic [ADDR_WIDTH-1:0] fetch_mem_addr;
+    
+    logic        seq_fetch_valid;
+    logic [7:0]  seq_p00;
+    logic [7:0]  seq_p01;
+    logic [7:0]  seq_p10;
+    logic [7:0]  seq_p11;
+    logic [15:0] seq_a;
+    logic [15:0] seq_b;
+    logic        seq_fetch_busy;
+    logic [15:0] seq_src_x_int;
+    logic [15:0] seq_src_y_int;
+    logic [15:0] seq_frac_x;
+    logic [15:0] seq_frac_y;
+    
+    logic        simd_fetch_valid;
+    logic [7:0]  simd_p00_0;
+    logic [7:0]  simd_p00_1;
+    logic [7:0]  simd_p00_2;
+    logic [7:0]  simd_p00_3;
+    logic [7:0]  simd_p01_0;
+    logic [7:0]  simd_p01_1;
+    logic [7:0]  simd_p01_2;
+    logic [7:0]  simd_p01_3;
+    logic [7:0]  simd_p10_0;
+    logic [7:0]  simd_p10_1;
+    logic [7:0]  simd_p10_2;
+    logic [7:0]  simd_p10_3;
+    logic [7:0]  simd_p11_0;
+    logic [7:0]  simd_p11_1;
+    logic [7:0]  simd_p11_2;
+    logic [7:0]  simd_p11_3;
+    logic [15:0] simd_a_0;
+    logic [15:0] simd_a_1;
+    logic [15:0] simd_a_2;
+    logic [15:0] simd_a_3;
+    logic [15:0] simd_b_0;
+    logic [15:0] simd_b_1;
+    logic [15:0] simd_b_2;
+    logic [15:0] simd_b_3;
+    logic        simd_fetch_busy;
+    
+    assign seq_fetch_done = seq_fetch_valid;
+    assign simd_fetch_done = simd_fetch_valid;
+    
+    logic [25:0] inv_scale;
+    logic [25:0] src_x_fixed;
+    logic [25:0] src_y_fixed;
+    
+    assign inv_scale = (scale_factor != 8'd0) ? (26'd65536 / scale_factor) : 26'd65536;
+    assign src_x_fixed = active_x * inv_scale;
+    assign src_y_fixed = active_y * inv_scale;
+    assign seq_src_x_int = src_x_fixed[25:16];
+    assign seq_src_y_int = src_y_fixed[25:16];
+    assign seq_frac_x = src_x_fixed[15:0];
+    assign seq_frac_y = src_y_fixed[15:0];
+    
     logic [7:0]  dp_seq_pixel_out;
     logic        dp_seq_done;
     
-    // Datapath SIMD
-    logic        dp_simd_start;
     logic [7:0]  dp_simd_p00 [0:SIMD_WIDTH-1];
     logic [7:0]  dp_simd_p01 [0:SIMD_WIDTH-1];
     logic [7:0]  dp_simd_p10 [0:SIMD_WIDTH-1];
@@ -73,328 +161,233 @@ module dsa_top #(
     logic [7:0]  dp_simd_pixel_out [0:SIMD_WIDTH-1];
     logic        dp_simd_done;
     
-    // SIMD registers
-    logic        simd_reg_load_en;
-    logic [7:0]  simd_reg_out_p00 [0:SIMD_WIDTH-1];
-    logic [7:0]  simd_reg_out_p01 [0:SIMD_WIDTH-1];
-    logic [7:0]  simd_reg_out_p10 [0:SIMD_WIDTH-1];
-    logic [7:0]  simd_reg_out_p11 [0:SIMD_WIDTH-1];
+    assign dp_simd_p00[0] = simd_p00_0;
+    assign dp_simd_p00[1] = simd_p00_1;
+    assign dp_simd_p00[2] = simd_p00_2;
+    assign dp_simd_p00[3] = simd_p00_3;
+    assign dp_simd_p01[0] = simd_p01_0;
+    assign dp_simd_p01[1] = simd_p01_1;
+    assign dp_simd_p01[2] = simd_p01_2;
+    assign dp_simd_p01[3] = simd_p01_3;
+    assign dp_simd_p10[0] = simd_p10_0;
+    assign dp_simd_p10[1] = simd_p10_1;
+    assign dp_simd_p10[2] = simd_p10_2;
+    assign dp_simd_p10[3] = simd_p10_3;
+    assign dp_simd_p11[0] = simd_p11_0;
+    assign dp_simd_p11[1] = simd_p11_1;
+    assign dp_simd_p11[2] = simd_p11_2;
+    assign dp_simd_p11[3] = simd_p11_3;
+    assign dp_simd_a[0] = simd_a_0;
+    assign dp_simd_a[1] = simd_a_1;
+    assign dp_simd_a[2] = simd_a_2;
+    assign dp_simd_a[3] = simd_a_3;
+    assign dp_simd_b[0] = simd_b_0;
+    assign dp_simd_b[1] = simd_b_1;
+    assign dp_simd_b[2] = simd_b_2;
+    assign dp_simd_b[3] = simd_b_3;
     
-    // Memoria interna
-    logic        mem_int_read_en;
-    logic        mem_int_write_en;
-    logic [17:0] mem_int_addr;
-    logic [7:0]  mem_int_data_in;
-    logic [7:0]  mem_int_data_out;
+    assign seq_dp_done = dp_seq_done;
+    assign simd_dp_done = dp_simd_done;
     
-    // Coordenadas actuales en imagen de salida
-    logic [9:0]  out_x, out_y;
+    logic                   int_mem_write_en;
+    logic [ADDR_WIDTH-1:0]  int_mem_addr;
+    logic [7:0]             int_mem_data_in;
+    logic [7:0]             mem_data_out;
     
-    // Coordenadas mapeadas en imagen de entrada (Q8.8)
-    logic [25:0] src_x_fixed, src_y_fixed;  // 10 bits entero + 16 bits fracción
-    logic [9:0]  src_x_int, src_y_int;
-    logic [15:0] frac_x, frac_y;            // Parte fraccionaria Q8.8
+    logic [ADDR_WIDTH-1:0] write_base_addr;
     
-    // Estado interno de procesamiento
-    typedef enum logic [3:0] {
-        ST_IDLE,
-        ST_CALC_PARAMS,
-        ST_FETCH_PIXELS,
-        ST_INTERPOLATE,
-        ST_WRITE_RESULT,
-        ST_NEXT,
-        ST_DONE,
-        ST_ERROR
-    } proc_state_t;
+    assign write_base_addr = (MEM_SIZE/2) + (active_y * img_width_out + active_x);
+    assign int_mem_write_en = active_write_enable;
+    assign int_mem_addr = active_write_enable ? 
+                          (mode_simd ? (write_base_addr + active_write_index) : write_base_addr) :
+                          {ADDR_WIDTH{1'b0}};
+    assign int_mem_data_in = active_write_enable ?
+                             (mode_simd ? dp_simd_pixel_out[active_write_index] : dp_seq_pixel_out) :
+                             8'd0;
     
-    proc_state_t proc_state, proc_next_state;
+	 //========================================================
+	 // Performance counters - SIN LATCHES
+	 //========================================================
+	 always_ff @(posedge clk or posedge rst) begin
+		  if (rst) begin
+			   flops_count <= 32'd0;
+			   mem_reads_count <= 32'd0;
+			   mem_writes_count <= 32'd0;
+		  end else begin
+			   // FLOPS: Siempre asignar un valor
+			   if (active_dp_start) begin
+					 if (mode_simd)
+						  flops_count <= flops_count + (SIMD_WIDTH * 32'd8);
+					 else
+						  flops_count <= flops_count + 32'd8;
+			   end else begin
+					 flops_count <= flops_count;  // Mantener valor actual
+			   end
+			  
+			   // LECTURAS: Siempre asignar un valor
+			   if (fetch_mem_read_en || ext_mem_read_en)
+					 mem_reads_count <= mem_reads_count + 32'd1;
+			   else
+					 mem_reads_count <= mem_reads_count;  // Mantener valor actual
+			  
+			   // ESCRITURAS: Siempre asignar un valor
+			   if (int_mem_write_en || ext_mem_write_en)
+				 	 mem_writes_count <= mem_writes_count + 32'd1;
+			   else
+					 mem_writes_count <= mem_writes_count;  // Mantener valor actual
+		  end
+	 end
     
-    //=================================================================
-    // Cálculo de dimensiones de salida
-    //=================================================================
+    assign busy = mode_simd ? simd_busy : seq_busy;
+    assign ready = mode_simd ? simd_ready : seq_ready;
+    assign progress = active_y * img_width_out + active_x;
     
-    always_comb begin
-        // scale_factor en Q8.8: 0x80 = 0.5, 0xFF = ~1.0
-        img_width_out  = (img_width_in * scale_factor) >> 8;
-        img_height_out = (img_height_in * scale_factor) >> 8;
-        total_pixels_out = img_width_out * img_height_out;
-    end
+    logic                   final_mem_read_en;
+    logic                   final_mem_write_en;
+    logic [ADDR_WIDTH-1:0]  final_mem_addr;
+    logic [7:0]             final_mem_data_in;
     
-    //=================================================================
-    // Máquina de estados de procesamiento
-    //=================================================================
+    assign final_mem_read_en = (ext_mem_write_en || ext_mem_read_en) ? ext_mem_read_en :
+                               (fetch_mem_read_en ? 1'b1 : 1'b0);
+    assign final_mem_write_en = (ext_mem_write_en || ext_mem_read_en) ? 
+                            ext_mem_write_en :
+                            int_mem_write_en;
+    assign final_mem_addr = (ext_mem_write_en || ext_mem_read_en) ? ext_mem_addr :
+                            (fetch_mem_read_en ? fetch_mem_addr : int_mem_addr);
+    assign final_mem_data_in = (ext_mem_write_en || ext_mem_read_en) ? ext_mem_data_in :
+                               int_mem_data_in;
     
-    always_ff @(posedge clk or posedge rst) begin
-        if (rst) begin
-            proc_state <= ST_IDLE;
-            out_x <= 0;
-            out_y <= 0;
-        end else begin
-            proc_state <= proc_next_state;
-            
-            if (proc_state == ST_CALC_PARAMS && proc_next_state == ST_FETCH_PIXELS) begin
-                // Mantener coordenadas
-            end else if (proc_state == ST_WRITE_RESULT && proc_next_state == ST_NEXT) begin
-                // Avanzar coordenadas
-                if (out_x + (mode_simd ? SIMD_WIDTH : 1) < img_width_out) begin
-                    out_x <= out_x + (mode_simd ? SIMD_WIDTH : 1);
-                end else begin
-                    out_x <= 0;
-                    out_y <= out_y + 1;
-                end
-            end else if (proc_state == ST_IDLE && start) begin
-                out_x <= 0;
-                out_y <= 0;
-            end
-        end
-    end
+    dsa_control_fsm_sequential #(
+        .IMG_WIDTH_MAX(IMG_WIDTH),
+        .IMG_HEIGHT_MAX(IMG_HEIGHT)
+    ) fsm_seq (
+        .clk(clk),
+        .rst(rst),
+        .enable(seq_enable),
+        .img_width_out(img_width_out),
+        .img_height_out(img_height_out),
+        .fetch_req(seq_fetch_req),
+        .fetch_done(seq_fetch_done),
+        .dp_start(seq_dp_start),
+        .dp_done(seq_dp_done),
+        .write_enable(seq_write_enable),
+        .current_x(seq_current_x),
+        .current_y(seq_current_y),
+        .busy(seq_busy),
+        .ready(seq_ready)
+    );
     
-    always_comb begin
-        proc_next_state = proc_state;
-        
-        case (proc_state)
-            ST_IDLE: begin
-                if (start)
-                    proc_next_state = ST_CALC_PARAMS;
-            end
-            
-            ST_CALC_PARAMS: begin
-                proc_next_state = ST_FETCH_PIXELS;
-            end
-            
-            ST_FETCH_PIXELS: begin
-                proc_next_state = ST_INTERPOLATE;
-            end
-            
-            ST_INTERPOLATE: begin
-                if (mode_simd && dp_simd_done)
-                    proc_next_state = ST_WRITE_RESULT;
-                else if (!mode_simd && dp_seq_done)
-                    proc_next_state = ST_WRITE_RESULT;
-            end
-            
-            ST_WRITE_RESULT: begin
-                proc_next_state = ST_NEXT;
-            end
-            
-            ST_NEXT: begin
-                if (out_y >= img_height_out)
-                    proc_next_state = ST_DONE;
-                else
-                    proc_next_state = ST_CALC_PARAMS;
-            end
-            
-            ST_DONE: begin
-                proc_next_state = ST_IDLE;
-            end
-            
-            default: proc_next_state = ST_IDLE;
-        endcase
-    end
+    dsa_control_fsm_simd #(
+        .IMG_WIDTH_MAX(IMG_WIDTH),
+        .IMG_HEIGHT_MAX(IMG_HEIGHT),
+        .SIMD_WIDTH(SIMD_WIDTH)
+    ) fsm_simd (
+        .clk(clk),
+        .rst(rst),
+        .enable(simd_enable),
+        .img_width_out(img_width_out),
+        .img_height_out(img_height_out),
+        .fetch_req(simd_fetch_req),
+        .fetch_done(simd_fetch_done),
+        .dp_start(simd_dp_start),
+        .dp_done(simd_dp_done),
+        .write_enable(simd_write_enable),
+        .write_index(simd_write_index),
+        .current_x(simd_current_x),
+        .current_y(simd_current_y),
+        .busy(simd_busy),
+        .ready(simd_ready)
+    );
     
-    //=================================================================
-    // Cálculo de coordenadas en imagen fuente
-    //=================================================================
+    dsa_pixel_fetch_unified #(
+        .ADDR_WIDTH(ADDR_WIDTH),
+        .IMG_WIDTH(IMG_WIDTH),
+        .SIMD_WIDTH(SIMD_WIDTH)
+    ) fetch_unit (
+        .clk(clk),
+        .rst(rst),
+        .mode_simd(mode_simd),
+        .req_valid(active_fetch_req),
+        .seq_src_x_int(seq_src_x_int),
+        .seq_src_y_int(seq_src_y_int),
+        .seq_frac_x(seq_frac_x),
+        .seq_frac_y(seq_frac_y),
+        .simd_base_x(active_x),
+        .simd_base_y(active_y),
+        .scale_factor(scale_factor),
+        .img_base_addr({ADDR_WIDTH{1'b0}}),
+        .mem_read_en(fetch_mem_read_en),
+        .mem_addr(fetch_mem_addr),
+        .mem_data(mem_data_out),
+        .seq_fetch_valid(seq_fetch_valid),
+        .seq_p00(seq_p00),
+        .seq_p01(seq_p01),
+        .seq_p10(seq_p10),
+        .seq_p11(seq_p11),
+        .seq_a(seq_a),
+        .seq_b(seq_b),
+        .seq_busy(seq_fetch_busy),
+        .simd_fetch_valid(simd_fetch_valid),
+        .simd_p00_0(simd_p00_0),
+        .simd_p00_1(simd_p00_1),
+        .simd_p00_2(simd_p00_2),
+        .simd_p00_3(simd_p00_3),
+        .simd_p01_0(simd_p01_0),
+        .simd_p01_1(simd_p01_1),
+        .simd_p01_2(simd_p01_2),
+        .simd_p01_3(simd_p01_3),
+        .simd_p10_0(simd_p10_0),
+        .simd_p10_1(simd_p10_1),
+        .simd_p10_2(simd_p10_2),
+        .simd_p10_3(simd_p10_3),
+        .simd_p11_0(simd_p11_0),
+        .simd_p11_1(simd_p11_1),
+        .simd_p11_2(simd_p11_2),
+        .simd_p11_3(simd_p11_3),
+        .simd_a_0(simd_a_0),
+        .simd_a_1(simd_a_1),
+        .simd_a_2(simd_a_2),
+        .simd_a_3(simd_a_3),
+        .simd_b_0(simd_b_0),
+        .simd_b_1(simd_b_1),
+        .simd_b_2(simd_b_2),
+        .simd_b_3(simd_b_3),
+        .simd_busy(simd_fetch_busy)
+    );
     
-    logic [25:0] inv_scale_fixed;  // 1/scale_factor en Q8.8
-    
-    always_comb begin
-        // Aproximación: inv_scale = 256*256 / scale_factor
-        if (scale_factor != 0)
-            inv_scale_fixed = (26'd65536 / scale_factor);
-        else
-            inv_scale_fixed = 26'd65536;
-        
-        // Mapeo: src = dst * (1/scale)
-        src_x_fixed = out_x * inv_scale_fixed;
-        src_y_fixed = out_y * inv_scale_fixed;
-        
-        // Separar parte entera y fraccionaria
-        src_x_int = src_x_fixed[25:16];
-        src_y_int = src_y_fixed[25:16];
-        frac_x    = src_x_fixed[15:0];
-        frac_y    = src_y_fixed[15:0];
-    end
-    
-    //=================================================================
-    // Lógica de fetch de píxeles vecinos
-    //=================================================================
-    
-    logic [17:0] addr_p00, addr_p01, addr_p10, addr_p11;
-    logic [3:0]  fetch_counter;
-    
-    always_comb begin
-        // Direcciones de los 4 píxeles vecinos
-        addr_p00 = src_y_int * img_width_in + src_x_int;
-        addr_p01 = src_y_int * img_width_in + (src_x_int + 1);
-        addr_p10 = (src_y_int + 1) * img_width_in + src_x_int;
-        addr_p11 = (src_y_int + 1) * img_width_in + (src_x_int + 1);
-    end
-    
-    always_ff @(posedge clk or posedge rst) begin
-        if (rst) begin
-            fetch_counter <= 0;
-            dp_seq_p00 <= 0;
-            dp_seq_p01 <= 0;
-            dp_seq_p10 <= 0;
-            dp_seq_p11 <= 0;
-        end else if (proc_state == ST_FETCH_PIXELS) begin
-            case (fetch_counter)
-                0: begin
-                    mem_int_addr <= addr_p00;
-                    mem_int_read_en <= 1;
-                    fetch_counter <= 1;
-                end
-                1: begin
-                    dp_seq_p00 <= mem_int_data_out;
-                    mem_int_addr <= addr_p01;
-                    fetch_counter <= 2;
-                end
-                2: begin
-                    dp_seq_p01 <= mem_int_data_out;
-                    mem_int_addr <= addr_p10;
-                    fetch_counter <= 3;
-                end
-                3: begin
-                    dp_seq_p10 <= mem_int_data_out;
-                    mem_int_addr <= addr_p11;
-                    fetch_counter <= 4;
-                end
-                4: begin
-                    dp_seq_p11 <= mem_int_data_out;
-                    mem_int_read_en <= 0;
-                    fetch_counter <= 0;
-                end
-            endcase
-        end else begin
-            fetch_counter <= 0;
-            mem_int_read_en <= 0;
-        end
-    end
-    
-    //=================================================================
-    // Control de datapaths
-    //=================================================================
-    
-    always_comb begin
-        dp_seq_start = (proc_state == ST_INTERPOLATE) && !mode_simd;
-        dp_simd_start = (proc_state == ST_INTERPOLATE) && mode_simd;
-        
-        dp_seq_a = frac_x[15:8];  // Convertir a Q8.8
-        dp_seq_b = frac_y[15:8];
-    end
-    
-    //=================================================================
-    // Escritura de resultados
-    //=================================================================
-    
-    logic [17:0] write_addr_base;
-    logic [3:0]  write_counter;
-    
-    always_comb begin
-        write_addr_base = MEM_SIZE/2 + (out_y * img_width_out + out_x);
-    end
-    
-    always_ff @(posedge clk or posedge rst) begin
-        if (rst) begin
-            write_counter <= 0;
-        end else if (proc_state == ST_WRITE_RESULT) begin
-            if (!mode_simd) begin
-                mem_int_addr <= write_addr_base;
-                mem_int_data_in <= dp_seq_pixel_out;
-                mem_int_write_en <= 1;
-                write_counter <= 0;
-            end else begin
-                if (write_counter < SIMD_WIDTH) begin
-                    mem_int_addr <= write_addr_base + write_counter;
-                    mem_int_data_in <= dp_simd_pixel_out[write_counter];
-                    mem_int_write_en <= 1;
-                    write_counter <= write_counter + 1;
-                end else begin
-                    mem_int_write_en <= 0;
-                    write_counter <= 0;
-                end
-            end
-        end else begin
-            mem_int_write_en <= 0;
-            write_counter <= 0;
-        end
-    end
-    
-    //=================================================================
-    // Performance counters
-    //=================================================================
-    
-    always_ff @(posedge clk or posedge rst) begin
-        if (rst) begin
-            flops_count <= 0;
-            mem_reads_count <= 0;
-            mem_writes_count <= 0;
-        end else begin
-            if (proc_state == ST_INTERPOLATE) begin
-                if (mode_simd)
-                    flops_count <= flops_count + (SIMD_WIDTH * 8); // 8 ops por pixel
-                else
-                    flops_count <= flops_count + 8;
-            end
-            
-            if (mem_int_read_en)
-                mem_reads_count <= mem_reads_count + 1;
-            
-            if (mem_int_write_en)
-                mem_writes_count <= mem_writes_count + 1;
-        end
-    end
-    
-    //=================================================================
-    // Señales de estado
-    //=================================================================
-    
-    assign busy = (proc_state != ST_IDLE) && (proc_state != ST_DONE);
-    assign ready = (proc_state == ST_DONE);
-    assign error = (proc_state == ST_ERROR);
-    assign progress = out_y * img_width_out + out_x;
-    
-    //=================================================================
-    // Instanciación de módulos
-    //=================================================================
-    
-    // Memoria interna
     dsa_mem_interface #(
         .MEM_SIZE(MEM_SIZE)
     ) mem_inst (
         .clk(clk),
-        .read_en(mem_read_en || mem_int_read_en),
-        .write_en(mem_write_en || mem_int_write_en),
-        .addr(mem_write_en || mem_read_en ? mem_addr : mem_int_addr),
-        .data_in(mem_write_en ? mem_data_in : mem_int_data_in),
+        .read_en(final_mem_read_en),
+        .write_en(final_mem_write_en),
+        .addr(final_mem_addr),
+        .data_in(final_mem_data_in),
         .data_out(mem_data_out)
     );
     
-    assign mem_int_data_out = mem_data_out;
+    assign ext_mem_data_out = mem_data_out;
     
-    // Datapath secuencial
     dsa_datapath dp_seq (
         .clk(clk),
         .rst(rst),
-        .start(dp_seq_start),
-        .p00(dp_seq_p00),
-        .p01(dp_seq_p01),
-        .p10(dp_seq_p10),
-        .p11(dp_seq_p11),
-        .a(dp_seq_a),
-        .b(dp_seq_b),
+        .start(active_dp_start && !mode_simd),
+        .p00(seq_p00),
+        .p01(seq_p01),
+        .p10(seq_p10),
+        .p11(seq_p11),
+        .a(seq_a),
+        .b(seq_b),
         .pixel_out(dp_seq_pixel_out),
         .done(dp_seq_done)
     );
     
-    // Datapath SIMD
     dsa_datapath_simd #(
         .N(SIMD_WIDTH)
     ) dp_simd (
         .clk(clk),
         .rst(rst),
-        .start(dp_simd_start),
+        .start(active_dp_start && mode_simd),
         .p00(dp_simd_p00),
         .p01(dp_simd_p01),
         .p10(dp_simd_p10),
@@ -403,23 +396,6 @@ module dsa_top #(
         .b(dp_simd_b),
         .pixel_out(dp_simd_pixel_out),
         .done(dp_simd_done)
-    );
-    
-    // SIMD registers
-    dsa_simd_registers #(
-        .N(SIMD_WIDTH)
-    ) simd_regs (
-        .clk(clk),
-        .rst(rst),
-        .load_en(simd_reg_load_en),
-        .in_p00(dp_simd_p00),
-        .in_p01(dp_simd_p01),
-        .in_p10(dp_simd_p10),
-        .in_p11(dp_simd_p11),
-        .out_p00(simd_reg_out_p00),
-        .out_p01(simd_reg_out_p01),
-        .out_p10(simd_reg_out_p10),
-        .out_p11(simd_reg_out_p11)
     );
 
 endmodule
