@@ -1,5 +1,5 @@
 //============================================================
-// dsa_top.sv - VERSIÓN FINAL CORREGIDA
+// dsa_top.sv - VERSIÓN CORREGIDA CON ALINEACIÓN SIMD
 //============================================================
 
 module dsa_top #(
@@ -116,7 +116,7 @@ module dsa_top #(
     logic [15:0] seq_frac_x;
     logic [15:0] seq_frac_y;
     
-    // Señales SIMD (declaradas pero simplificadas para este ejemplo)
+    // Señales SIMD
     logic        simd_fetch_valid;
     logic [7:0]  simd_p00_0, simd_p00_1, simd_p00_2, simd_p00_3;
     logic [7:0]  simd_p01_0, simd_p01_1, simd_p01_2, simd_p01_3;
@@ -130,27 +130,20 @@ module dsa_top #(
     assign simd_fetch_done = simd_fetch_valid;
     
     //========================================================
-    // CÁLCULO DE COORDENADAS FUENTE - CORREGIDO PARA Q8.8
+    // CÁLCULO DE COORDENADAS FUENTE PARA Q8. 8
     //========================================================
-    // scale_factor en Q0.8: 0x80 = 0.5, 0xCC = 0. 8, 0xFF ≈ 1.0
-    // inv_scale = 256/scale_factor (en Q8.8)
-    // Para scale=0x80: inv_scale = 256/128 = 2. 0 = 0x0200 en Q8.8
-    
     logic [31:0] inv_scale_q8_8;
-    assign inv_scale_q8_8 = (scale_factor != 8'd0) ?  
+    assign inv_scale_q8_8 = (scale_factor != 8'd0) ? 
                             (32'd65536 / {24'd0, scale_factor}) : 
                             32'd256;
     
-    // Coordenadas fuente en Q16. 8
     logic [31:0] src_x_full, src_y_full;
     assign src_x_full = active_x * inv_scale_q8_8;
     assign src_y_full = active_y * inv_scale_q8_8;
     
-    // Extraer parte entera y fraccionaria
-    // src_x_full está en Q16.8 después de la multiplicación
-    assign seq_src_x_int = src_x_full[23:8];  // Parte entera
+    assign seq_src_x_int = src_x_full[23:8];
     assign seq_src_y_int = src_y_full[23:8];
-    assign seq_frac_x = {src_x_full[7:0], 8'd0};  // Q0.8 -> Q8.8 para el datapath
+    assign seq_frac_x = {src_x_full[7:0], 8'd0};
     assign seq_frac_y = {src_y_full[7:0], 8'd0};
     
     //========================================================
@@ -197,7 +190,35 @@ module dsa_top #(
     assign dp_simd_b[3] = simd_b_3;
     
     assign seq_dp_done = dp_seq_done;
-    assign simd_dp_done = dp_simd_done;
+    
+    //========================================================
+    // REGISTROS DE ALINEACIÓN SIMD - CORREGIDO
+    // Captura los resultados del datapath y genera done retrasado
+    //========================================================
+    logic [7:0]  dp_simd_pixel_latched [0:SIMD_WIDTH-1];
+    logic        dp_simd_done_latched;  // done retrasado 1 ciclo
+    
+    always_ff @(posedge clk or posedge rst) begin
+        if (rst) begin
+            dp_simd_done_latched <= 1'b0;
+            for (int i = 0; i < SIMD_WIDTH; i++) begin
+                dp_simd_pixel_latched[i] <= 8'd0;
+            end
+        end else begin
+            // Capturar done con 1 ciclo de retraso
+            dp_simd_done_latched <= dp_simd_done;
+            
+            // Latchar resultados cuando datapath completa
+            if (dp_simd_done) begin
+                for (int i = 0; i < SIMD_WIDTH; i++) begin
+                    dp_simd_pixel_latched[i] <= dp_simd_pixel_out[i];
+                end
+            end
+        end
+    end
+    
+    // La FSM SIMD usa el done retrasado para sincronización
+    assign simd_dp_done = dp_simd_done_latched;
     
     //========================================================
     // Escritura a memoria de salida
@@ -212,7 +233,9 @@ module dsa_top #(
     assign write_base_addr = (MEM_SIZE/2) + (active_y * img_width_out + active_x);
     assign int_mem_write_en = active_write_enable;
     assign int_mem_addr = write_base_addr + (mode_simd ? {14'd0, active_write_index} : 18'd0);
-    assign int_mem_data_in = mode_simd ? dp_simd_pixel_out[active_write_index] : dp_seq_pixel_out;
+    
+    // Usar datos latcheados para SIMD
+    assign int_mem_data_in = mode_simd ? dp_simd_pixel_latched[active_write_index] : dp_seq_pixel_out;
     
     //========================================================
     // Performance counters
@@ -279,17 +302,17 @@ module dsa_top #(
     //========================================================
     
     dsa_control_fsm_sequential #(
-        . IMG_WIDTH_MAX(IMG_WIDTH),
+        .IMG_WIDTH_MAX(IMG_WIDTH),
         .IMG_HEIGHT_MAX(IMG_HEIGHT)
     ) fsm_seq (
         .clk(clk),
         .rst(rst),
-        .enable(seq_enable),
+        . enable(seq_enable),
         .img_width_out(img_width_out),
         . img_height_out(img_height_out),
         . fetch_req(seq_fetch_req),
         .fetch_done(seq_fetch_done),
-        .dp_start(seq_dp_start),
+        . dp_start(seq_dp_start),
         .dp_done(seq_dp_done),
         . write_enable(seq_write_enable),
         .current_x(seq_current_x),
@@ -321,16 +344,16 @@ module dsa_top #(
     );
     
     dsa_pixel_fetch_unified #(
-        .ADDR_WIDTH(ADDR_WIDTH),
-        .SIMD_WIDTH(SIMD_WIDTH)
+        . ADDR_WIDTH(ADDR_WIDTH),
+        . SIMD_WIDTH(SIMD_WIDTH)
     ) fetch_unit (
-        .clk(clk),
-        . rst(rst),
+        . clk(clk),
+        .rst(rst),
         .mode_simd(mode_simd),
         .req_valid(active_fetch_req),
-		  .img_width(img_width_in),
-		  .img_height(img_height_in),
-        . seq_src_x_int(seq_src_x_int),
+        .img_width(img_width_in),
+        .img_height(img_height_in),
+        .seq_src_x_int(seq_src_x_int),
         .seq_src_y_int(seq_src_y_int),
         . seq_frac_x(seq_frac_x),
         .seq_frac_y(seq_frac_y),
@@ -339,10 +362,10 @@ module dsa_top #(
         . scale_factor(scale_factor),
         . img_base_addr('0),
         . mem_read_en(fetch_mem_read_en),
-        .mem_addr(fetch_mem_addr),
+        . mem_addr(fetch_mem_addr),
         . mem_data(mem_data_out),
         .seq_fetch_valid(seq_fetch_valid),
-        . seq_p00(seq_p00),
+        .seq_p00(seq_p00),
         . seq_p01(seq_p01),
         .seq_p10(seq_p10),
         .seq_p11(seq_p11),
@@ -353,26 +376,26 @@ module dsa_top #(
         .simd_p00_0(simd_p00_0),
         .simd_p00_1(simd_p00_1),
         .simd_p00_2(simd_p00_2),
-        .simd_p00_3(simd_p00_3),
-        . simd_p01_0(simd_p01_0),
+        . simd_p00_3(simd_p00_3),
+        .simd_p01_0(simd_p01_0),
         .simd_p01_1(simd_p01_1),
         .simd_p01_2(simd_p01_2),
         .simd_p01_3(simd_p01_3),
-        .simd_p10_0(simd_p10_0),
-        . simd_p10_1(simd_p10_1),
+        . simd_p10_0(simd_p10_0),
+        .simd_p10_1(simd_p10_1),
         .simd_p10_2(simd_p10_2),
         .simd_p10_3(simd_p10_3),
         .simd_p11_0(simd_p11_0),
-        .simd_p11_1(simd_p11_1),
-        . simd_p11_2(simd_p11_2),
+        . simd_p11_1(simd_p11_1),
+        .simd_p11_2(simd_p11_2),
         .simd_p11_3(simd_p11_3),
         .simd_a_0(simd_a_0),
-        . simd_a_1(simd_a_1),
+        .simd_a_1(simd_a_1),
         .simd_a_2(simd_a_2),
         .simd_a_3(simd_a_3),
-        .simd_b_0(simd_b_0),
+        . simd_b_0(simd_b_0),
         .simd_b_1(simd_b_1),
-        . simd_b_2(simd_b_2),
+        .simd_b_2(simd_b_2),
         .simd_b_3(simd_b_3),
         .simd_busy(simd_fetch_busy)
     );
@@ -382,10 +405,10 @@ module dsa_top #(
     ) mem_inst (
         .clk(clk),
         .read_en(final_mem_read_en),
-        . write_en(final_mem_write_en),
-        . addr(final_mem_addr),
-        .data_in(final_mem_data_in),
-        .data_out(mem_data_out)
+        .write_en(final_mem_write_en),
+        .addr(final_mem_addr),
+        . data_in(final_mem_data_in),
+        . data_out(mem_data_out)
     );
     
     assign ext_mem_data_out = mem_data_out;
@@ -393,7 +416,7 @@ module dsa_top #(
     dsa_datapath dp_seq (
         .clk(clk),
         .rst(rst),
-        . start(active_dp_start && !mode_simd),
+        .start(active_dp_start && ! mode_simd),
         .p00(seq_p00),
         .p01(seq_p01),
         . p10(seq_p10),
@@ -410,14 +433,14 @@ module dsa_top #(
         .clk(clk),
         .rst(rst),
         .start(active_dp_start && mode_simd),
-        . p00(dp_simd_p00),
-        . p01(dp_simd_p01),
+        .p00(dp_simd_p00),
+        .p01(dp_simd_p01),
         .p10(dp_simd_p10),
         .p11(dp_simd_p11),
-        .a(dp_simd_a),
+        . a(dp_simd_a),
         .b(dp_simd_b),
         .pixel_out(dp_simd_pixel_out),
-        .done(dp_simd_done)
+        . done(dp_simd_done)
     );
 
 endmodule

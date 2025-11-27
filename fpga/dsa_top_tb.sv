@@ -86,30 +86,6 @@ module dsa_top_tb;
     integer seq_cycles;
     integer simd_cycles;
     real speedup;
-	 // Agregar al testbench - Monitor de escrituras SIMD
-	always @(posedge clk) begin
-		 if (dut.mode_simd && dut.active_write_enable) begin
-			  $display("[SIMD WRITE] Time=%0t x=%0d y=%0d idx=%0d data=%0d addr=%0d",
-						  $time,
-						  dut.active_x,
-						  dut.active_y, 
-						  dut.active_write_index,
-						  dut.int_mem_data_in,
-						  dut.int_mem_addr);
-		 end
-	end
-
-	// Monitor del datapath SIMD
-	always @(posedge clk) begin
-		 if (dut. dp_simd_done) begin
-			  $display("[SIMD DP DONE] pixel_out[0]=%0d [1]=%0d [2]=%0d [3]=%0d",
-						  dut.dp_simd_pixel_out[0],
-						  dut.dp_simd_pixel_out[1],
-						  dut.dp_simd_pixel_out[2],
-						  dut. dp_simd_pixel_out[3]);
-		 end
-	end
-
     //========================================================
     // Tasks
     //========================================================
@@ -298,8 +274,8 @@ module dsa_top_tb;
             $display("TEST %0d: Imagen 8x8 Secuencial", test_num);
             $display("========================================");
             
-            test_width = 8;
-            test_height = 8;
+            test_width = 32;
+            test_height = 32;
             
             reset_system();
             load_test_image(test_width, test_height);
@@ -338,8 +314,8 @@ module dsa_top_tb;
             $display("TEST %0d: Imagen 8x8 SIMD", test_num);
             $display("========================================");
             
-            test_width = 8;
-            test_height = 8;
+            test_width = 32;
+            test_height = 32;
             
             reset_system();
             load_test_image(test_width, test_height);
@@ -378,8 +354,8 @@ module dsa_top_tb;
             $display("TEST %0d: Imagen 16x16 Secuencial", test_num);
             $display("========================================");
             
-            test_width = 16;
-            test_height = 16;
+            test_width = 32;
+            test_height = 32;
             
             reset_system();
             load_test_image(test_width, test_height);
@@ -415,8 +391,8 @@ module dsa_top_tb;
             $display("TEST %0d: Imagen 16x16 SIMD", test_num);
             $display("========================================");
             
-            test_width = 16;
-            test_height = 16;
+            test_width = 32;
+            test_height = 32;
             
             reset_system();
             load_test_image(test_width, test_height);
