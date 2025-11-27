@@ -240,13 +240,18 @@ module dsa_top #(
     //========================================================
     // Performance counters
     //========================================================
+    logic dp_start_prev;
+
     always_ff @(posedge clk or posedge rst) begin
         if (rst) begin
             flops_count <= 32'd0;
             mem_reads_count <= 32'd0;
             mem_writes_count <= 32'd0;
+            dp_start_prev <= 1'b0;
         end else begin
-            if (active_dp_start) begin
+            dp_start_prev <= active_dp_start;
+            
+            if (active_dp_start && !dp_start_prev) begin
                 flops_count <= flops_count + (mode_simd ? (SIMD_WIDTH * 32'd8) : 32'd8);
             end
             
@@ -257,6 +262,10 @@ module dsa_top #(
                 mem_writes_count <= mem_writes_count + 32'd1;
         end
     end
+	 
+	 //========================================================
+    // Señales de estado
+    //========================================================
     
     assign busy = mode_simd ? simd_busy : seq_busy;
     assign ready = mode_simd ? simd_ready : seq_ready;
