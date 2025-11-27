@@ -247,7 +247,8 @@ module dsa_top_tb;
                     addr = (MEM_SIZE/2) + (y * width_out + x);
                     ext_mem_read_en = 1;
                     ext_mem_addr = addr[ADDR_WIDTH-1:0];
-                    @(posedge clk);
+                    @(posedge clk); // Ciclo 1: Dirección registrada
+						  @(posedge clk); // Ciclo 2: Dato disponible
                     pixel = ext_mem_data_out;
                     ext_mem_read_en = 0;
                     

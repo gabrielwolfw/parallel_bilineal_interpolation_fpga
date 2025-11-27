@@ -61,6 +61,8 @@ module dsa_pixel_fetch_simd #(
     logic [1:0]  save_neighbor_idx;
     assign save_pixel_idx    = fetch_idx_save[3:2];
     assign save_neighbor_idx = fetch_idx_save[1:0];
+	 
+	 logic [25:0] temp_x, temp_y;
 
     logic [ADDR_WIDTH-1:0] row_addr;
 
@@ -79,7 +81,7 @@ module dsa_pixel_fetch_simd #(
             if (state == ST_CALC) begin
                 // Hacemos el cálculo iterativo para ahorrar hardware o usamos tu lógica combinacional
                 // Aquí uso una versión simplificada de tu lógica original pero serializada para no explotar el área
-                logic [25:0] temp_x, temp_y;
+                
                 temp_x = (base_x + calc_idx) * inv_scale_fixed;
                 temp_y = base_y * inv_scale_fixed;
                 

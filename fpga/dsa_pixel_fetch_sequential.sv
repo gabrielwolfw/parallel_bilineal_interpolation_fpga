@@ -149,8 +149,8 @@ module dsa_pixel_fetch_sequential #(
                 ST_DONE: begin
                     // Capturar p11 y coeficientes
                     p11 <= mem_data;
-                    a   <= frac_x_r[15:8];  // Tomar parte alta de Q8.8
-                    b   <= frac_y_r[15:8];
+                    a   <= {8'd0, frac_x_r[15:8]};  // Tomar parte alta de Q8.8
+                    b   <= {8'd0, frac_y_r[15:8]};
                 end
             endcase
         end

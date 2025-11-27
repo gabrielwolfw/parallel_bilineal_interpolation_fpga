@@ -1,6 +1,7 @@
 //============================================================
-// dsa_top.sv
+// dsa_top. sv - VERSIÓN CORREGIDA
 // Top integrado con FSMs separados
+// FIX: Multiplexor de memoria corregido
 //============================================================
 
 module dsa_top #(
@@ -29,7 +30,6 @@ module dsa_top #(
     output logic [31:0]            mem_reads_count,
     output logic [31:0]            mem_writes_count
 );
-
     logic [15:0] img_width_out;
     logic [15:0] img_height_out;
     
@@ -66,12 +66,12 @@ module dsa_top #(
     logic [15:0] active_y;
     logic [3:0]  active_write_index;
     
-    assign active_fetch_req = mode_simd ? simd_fetch_req : seq_fetch_req;
+    assign active_fetch_req = mode_simd ?  simd_fetch_req : seq_fetch_req;
     assign active_dp_start = mode_simd ? simd_dp_start : seq_dp_start;
     assign active_write_enable = mode_simd ? simd_write_enable : seq_write_enable;
     assign active_x = mode_simd ? simd_current_x : seq_current_x;
     assign active_y = mode_simd ? simd_current_y : seq_current_y;
-    assign active_write_index = mode_simd ? simd_write_index : 4'd0;
+    assign active_write_index = mode_simd ?  simd_write_index : 4'd0;
     
     always_ff @(posedge clk or posedge rst) begin
         if (rst) begin
@@ -141,7 +141,7 @@ module dsa_top #(
     logic [25:0] src_x_fixed;
     logic [25:0] src_y_fixed;
     
-    assign inv_scale = (scale_factor != 8'd0) ? (26'd65536 / scale_factor) : 26'd65536;
+    assign inv_scale = (scale_factor != 8'd0) ? (26'd16777216 / scale_factor) : 26'd65536;
     assign src_x_fixed = active_x * inv_scale;
     assign src_y_fixed = active_y * inv_scale;
     assign seq_src_x_int = src_x_fixed[25:16];
@@ -198,64 +198,81 @@ module dsa_top #(
     
     assign write_base_addr = (MEM_SIZE/2) + (active_y * img_width_out + active_x);
     assign int_mem_write_en = active_write_enable;
-    assign int_mem_addr = active_write_enable ? 
-                          (mode_simd ? (write_base_addr + active_write_index) : write_base_addr) :
-                          {ADDR_WIDTH{1'b0}};
-    assign int_mem_data_in = active_write_enable ?
-                             (mode_simd ? dp_simd_pixel_out[active_write_index] : dp_seq_pixel_out) :
-                             8'd0;
+    assign int_mem_addr = write_base_addr + (mode_simd ? active_write_index : 18'd0);
+    assign int_mem_data_in = mode_simd ? dp_simd_pixel_out[active_write_index] : dp_seq_pixel_out;
     
-	 //========================================================
-	 // Performance counters - SIN LATCHES
-	 //========================================================
-	 always_ff @(posedge clk or posedge rst) begin
-		  if (rst) begin
-			   flops_count <= 32'd0;
-			   mem_reads_count <= 32'd0;
-			   mem_writes_count <= 32'd0;
-		  end else begin
-			   // FLOPS: Siempre asignar un valor
-			   if (active_dp_start) begin
-					 if (mode_simd)
-						  flops_count <= flops_count + (SIMD_WIDTH * 32'd8);
-					 else
-						  flops_count <= flops_count + 32'd8;
-			   end else begin
-					 flops_count <= flops_count;  // Mantener valor actual
-			   end
-			  
-			   // LECTURAS: Siempre asignar un valor
-			   if (fetch_mem_read_en || ext_mem_read_en)
-					 mem_reads_count <= mem_reads_count + 32'd1;
-			   else
-					 mem_reads_count <= mem_reads_count;  // Mantener valor actual
-			  
-			   // ESCRITURAS: Siempre asignar un valor
-			   if (int_mem_write_en || ext_mem_write_en)
-				 	 mem_writes_count <= mem_writes_count + 32'd1;
-			   else
-					 mem_writes_count <= mem_writes_count;  // Mantener valor actual
-		  end
-	 end
+    //========================================================
+    // Performance counters
+    //========================================================
+    always_ff @(posedge clk or posedge rst) begin
+        if (rst) begin
+            flops_count <= 32'd0;
+            mem_reads_count <= 32'd0;
+            mem_writes_count <= 32'd0;
+        end else begin
+            if (active_dp_start) begin
+                if (mode_simd)
+                    flops_count <= flops_count + (SIMD_WIDTH * 32'd8);
+                else
+                    flops_count <= flops_count + 32'd8;
+            end
+            
+            if (fetch_mem_read_en || ext_mem_read_en)
+                mem_reads_count <= mem_reads_count + 32'd1;
+            
+            if (int_mem_write_en || ext_mem_write_en)
+                mem_writes_count <= mem_writes_count + 32'd1;
+        end
+    end
     
     assign busy = mode_simd ? simd_busy : seq_busy;
     assign ready = mode_simd ? simd_ready : seq_ready;
     assign progress = active_y * img_width_out + active_x;
     
+    //========================================================
+    // MULTIPLEXOR DE MEMORIA CORREGIDO
+    //========================================================
     logic                   final_mem_read_en;
     logic                   final_mem_write_en;
     logic [ADDR_WIDTH-1:0]  final_mem_addr;
     logic [7:0]             final_mem_data_in;
     
-    assign final_mem_read_en = (ext_mem_write_en || ext_mem_read_en) ? ext_mem_read_en :
-                               (fetch_mem_read_en ? 1'b1 : 1'b0);
-    assign final_mem_write_en = (ext_mem_write_en || ext_mem_read_en) ? 
-                            ext_mem_write_en :
-                            int_mem_write_en;
-    assign final_mem_addr = (ext_mem_write_en || ext_mem_read_en) ? ext_mem_addr :
-                            (fetch_mem_read_en ? fetch_mem_addr : int_mem_addr);
-    assign final_mem_data_in = (ext_mem_write_en || ext_mem_read_en) ? ext_mem_data_in :
-                               int_mem_data_in;
+    // Señal para detectar acceso externo
+    logic external_access;
+    assign external_access = ext_mem_write_en || ext_mem_read_en;
+    
+    // Lógica de control de memoria
+    always_comb begin
+        if (external_access) begin
+            // Acceso externo tiene máxima prioridad
+            final_mem_read_en  = ext_mem_read_en;
+            final_mem_write_en = ext_mem_write_en;
+            final_mem_addr     = ext_mem_addr;
+            final_mem_data_in  = ext_mem_data_in;
+        end else if (int_mem_write_en) begin
+            // Escritura interna (resultado de interpolación)
+            final_mem_read_en  = 1'b0;
+            final_mem_write_en = 1'b1;
+            final_mem_addr     = int_mem_addr;
+            final_mem_data_in  = int_mem_data_in;
+        end else if (fetch_mem_read_en) begin
+            // Lectura interna (fetch de píxeles)
+            final_mem_read_en  = 1'b1;
+            final_mem_write_en = 1'b0;
+            final_mem_addr     = fetch_mem_addr;
+            final_mem_data_in  = 8'd0;
+        end else begin
+            // Idle - sin operación
+            final_mem_read_en  = 1'b0;
+            final_mem_write_en = 1'b0;
+            final_mem_addr     = {ADDR_WIDTH{1'b0}};
+            final_mem_data_in  = 8'd0;
+        end
+    end
+    
+    //========================================================
+    // Instancias de módulos
+    //========================================================
     
     dsa_control_fsm_sequential #(
         .IMG_WIDTH_MAX(IMG_WIDTH),
@@ -265,15 +282,15 @@ module dsa_top #(
         .rst(rst),
         .enable(seq_enable),
         .img_width_out(img_width_out),
-        .img_height_out(img_height_out),
-        .fetch_req(seq_fetch_req),
+        . img_height_out(img_height_out),
+        . fetch_req(seq_fetch_req),
         .fetch_done(seq_fetch_done),
-        .dp_start(seq_dp_start),
+        . dp_start(seq_dp_start),
         .dp_done(seq_dp_done),
-        .write_enable(seq_write_enable),
+        . write_enable(seq_write_enable),
         .current_x(seq_current_x),
         .current_y(seq_current_y),
-        .busy(seq_busy),
+        . busy(seq_busy),
         .ready(seq_ready)
     );
     
@@ -291,64 +308,64 @@ module dsa_top #(
         .fetch_done(simd_fetch_done),
         .dp_start(simd_dp_start),
         .dp_done(simd_dp_done),
-        .write_enable(simd_write_enable),
+        . write_enable(simd_write_enable),
         .write_index(simd_write_index),
         .current_x(simd_current_x),
-        .current_y(simd_current_y),
+        . current_y(simd_current_y),
         .busy(simd_busy),
         .ready(simd_ready)
     );
     
     dsa_pixel_fetch_unified #(
-        .ADDR_WIDTH(ADDR_WIDTH),
+        . ADDR_WIDTH(ADDR_WIDTH),
         .IMG_WIDTH(IMG_WIDTH),
-        .SIMD_WIDTH(SIMD_WIDTH)
+        . SIMD_WIDTH(SIMD_WIDTH)
     ) fetch_unit (
         .clk(clk),
-        .rst(rst),
+        . rst(rst),
         .mode_simd(mode_simd),
         .req_valid(active_fetch_req),
         .seq_src_x_int(seq_src_x_int),
         .seq_src_y_int(seq_src_y_int),
-        .seq_frac_x(seq_frac_x),
+        . seq_frac_x(seq_frac_x),
         .seq_frac_y(seq_frac_y),
         .simd_base_x(active_x),
         .simd_base_y(active_y),
-        .scale_factor(scale_factor),
-        .img_base_addr({ADDR_WIDTH{1'b0}}),
+        . scale_factor(scale_factor),
+        . img_base_addr({ADDR_WIDTH{1'b0}}),
         .mem_read_en(fetch_mem_read_en),
         .mem_addr(fetch_mem_addr),
-        .mem_data(mem_data_out),
+        . mem_data(mem_data_out),
         .seq_fetch_valid(seq_fetch_valid),
         .seq_p00(seq_p00),
-        .seq_p01(seq_p01),
+        . seq_p01(seq_p01),
         .seq_p10(seq_p10),
         .seq_p11(seq_p11),
         .seq_a(seq_a),
-        .seq_b(seq_b),
+        . seq_b(seq_b),
         .seq_busy(seq_fetch_busy),
         .simd_fetch_valid(simd_fetch_valid),
         .simd_p00_0(simd_p00_0),
         .simd_p00_1(simd_p00_1),
         .simd_p00_2(simd_p00_2),
-        .simd_p00_3(simd_p00_3),
+        . simd_p00_3(simd_p00_3),
         .simd_p01_0(simd_p01_0),
         .simd_p01_1(simd_p01_1),
         .simd_p01_2(simd_p01_2),
         .simd_p01_3(simd_p01_3),
-        .simd_p10_0(simd_p10_0),
+        . simd_p10_0(simd_p10_0),
         .simd_p10_1(simd_p10_1),
         .simd_p10_2(simd_p10_2),
         .simd_p10_3(simd_p10_3),
         .simd_p11_0(simd_p11_0),
-        .simd_p11_1(simd_p11_1),
+        . simd_p11_1(simd_p11_1),
         .simd_p11_2(simd_p11_2),
         .simd_p11_3(simd_p11_3),
         .simd_a_0(simd_a_0),
         .simd_a_1(simd_a_1),
         .simd_a_2(simd_a_2),
         .simd_a_3(simd_a_3),
-        .simd_b_0(simd_b_0),
+        . simd_b_0(simd_b_0),
         .simd_b_1(simd_b_1),
         .simd_b_2(simd_b_2),
         .simd_b_3(simd_b_3),
@@ -356,14 +373,14 @@ module dsa_top #(
     );
     
     dsa_mem_interface #(
-        .MEM_SIZE(MEM_SIZE)
+        . MEM_SIZE(MEM_SIZE)
     ) mem_inst (
         .clk(clk),
         .read_en(final_mem_read_en),
         .write_en(final_mem_write_en),
         .addr(final_mem_addr),
-        .data_in(final_mem_data_in),
-        .data_out(mem_data_out)
+        . data_in(final_mem_data_in),
+        . data_out(mem_data_out)
     );
     
     assign ext_mem_data_out = mem_data_out;
@@ -371,9 +388,9 @@ module dsa_top #(
     dsa_datapath dp_seq (
         .clk(clk),
         .rst(rst),
-        .start(active_dp_start && !mode_simd),
+        . start(active_dp_start && !mode_simd),
         .p00(seq_p00),
-        .p01(seq_p01),
+        . p01(seq_p01),
         .p10(seq_p10),
         .p11(seq_p11),
         .a(seq_a),
@@ -388,8 +405,8 @@ module dsa_top #(
         .clk(clk),
         .rst(rst),
         .start(active_dp_start && mode_simd),
-        .p00(dp_simd_p00),
-        .p01(dp_simd_p01),
+        . p00(dp_simd_p00),
+        . p01(dp_simd_p01),
         .p10(dp_simd_p10),
         .p11(dp_simd_p11),
         .a(dp_simd_a),

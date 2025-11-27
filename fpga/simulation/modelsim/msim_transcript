@@ -12,109 +12,109 @@
 # 
 # vlog -sv -work work +incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_datapath.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 00:05:20 on Nov 22,2025
+# Start time: 11:52:40 on Nov 27,2025
 # vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga" C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_datapath.sv 
 # -- Compiling module dsa_datapath
 # 
 # Top level modules:
 # 	dsa_datapath
-# End time: 00:05:20 on Nov 22,2025, Elapsed time: 0:00:00
+# End time: 11:52:41 on Nov 27,2025, Elapsed time: 0:00:01
 # Errors: 0, Warnings: 0
 # vlog -sv -work work +incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_datapath_simd.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 00:05:20 on Nov 22,2025
+# Start time: 11:52:41 on Nov 27,2025
 # vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga" C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_datapath_simd.sv 
 # -- Compiling module dsa_datapath_simd
 # 
 # Top level modules:
 # 	dsa_datapath_simd
-# End time: 00:05:20 on Nov 22,2025, Elapsed time: 0:00:00
+# End time: 11:52:41 on Nov 27,2025, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -sv -work work +incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_mem_interface.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 00:05:20 on Nov 22,2025
+# Start time: 11:52:41 on Nov 27,2025
 # vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga" C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_mem_interface.sv 
 # -- Compiling module dsa_mem_interface
 # 
 # Top level modules:
 # 	dsa_mem_interface
-# End time: 00:05:20 on Nov 22,2025, Elapsed time: 0:00:00
+# End time: 11:52:41 on Nov 27,2025, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -sv -work work +incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_top.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 00:05:20 on Nov 22,2025
+# Start time: 11:52:41 on Nov 27,2025
 # vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga" C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_top.sv 
 # -- Compiling module dsa_top
 # 
 # Top level modules:
 # 	dsa_top
-# End time: 00:05:20 on Nov 22,2025, Elapsed time: 0:00:00
+# End time: 11:52:41 on Nov 27,2025, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -sv -work work +incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_sequential.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 00:05:21 on Nov 22,2025
+# Start time: 11:52:41 on Nov 27,2025
 # vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga" C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_sequential.sv 
 # -- Compiling module dsa_pixel_fetch_sequential
 # 
 # Top level modules:
 # 	dsa_pixel_fetch_sequential
-# End time: 00:05:21 on Nov 22,2025, Elapsed time: 0:00:00
+# End time: 11:52:41 on Nov 27,2025, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -sv -work work +incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_simd.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 00:05:21 on Nov 22,2025
+# Start time: 11:52:42 on Nov 27,2025
 # vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga" C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_simd.sv 
 # -- Compiling module dsa_pixel_fetch_simd
 # 
 # Top level modules:
 # 	dsa_pixel_fetch_simd
-# End time: 00:05:21 on Nov 22,2025, Elapsed time: 0:00:00
+# End time: 11:52:42 on Nov 27,2025, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -sv -work work +incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_unified.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 00:05:21 on Nov 22,2025
+# Start time: 11:52:42 on Nov 27,2025
 # vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga" C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_unified.sv 
 # -- Compiling module dsa_pixel_fetch_unified
 # 
 # Top level modules:
 # 	dsa_pixel_fetch_unified
-# End time: 00:05:21 on Nov 22,2025, Elapsed time: 0:00:00
+# End time: 11:52:42 on Nov 27,2025, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -sv -work work +incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_control_fsm_simd.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 00:05:21 on Nov 22,2025
+# Start time: 11:52:42 on Nov 27,2025
 # vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga" C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_control_fsm_simd.sv 
 # -- Compiling module dsa_control_fsm_simd
 # 
 # Top level modules:
 # 	dsa_control_fsm_simd
-# End time: 00:05:21 on Nov 22,2025, Elapsed time: 0:00:00
+# End time: 11:52:43 on Nov 27,2025, Elapsed time: 0:00:01
 # Errors: 0, Warnings: 0
 # vlog -sv -work work +incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_control_fsm_sequential.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 00:05:21 on Nov 22,2025
+# Start time: 11:52:43 on Nov 27,2025
 # vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga" C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_control_fsm_sequential.sv 
 # -- Compiling module dsa_control_fsm_sequential
 # 
 # Top level modules:
 # 	dsa_control_fsm_sequential
-# End time: 00:05:21 on Nov 22,2025, Elapsed time: 0:00:00
+# End time: 11:52:43 on Nov 27,2025, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # 
 # vlog -sv -work work +incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_top_tb.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 00:05:21 on Nov 22,2025
+# Start time: 11:52:43 on Nov 27,2025
 # vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga" C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_top_tb.sv 
 # -- Compiling module dsa_top_tb
 # 
 # Top level modules:
 # 	dsa_top_tb
-# End time: 00:05:21 on Nov 22,2025, Elapsed time: 0:00:00
+# End time: 11:52:43 on Nov 27,2025, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # 
 # vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cyclonev_ver -L cyclonev_hssi_ver -L cyclonev_pcie_hip_ver -L rtl_work -L work -voptargs="+acc"  dsa_top_tb
 # vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cyclonev_ver -L cyclonev_hssi_ver -L cyclonev_pcie_hip_ver -L rtl_work -L work -voptargs=""+acc"" dsa_top_tb 
-# Start time: 00:05:21 on Nov 22,2025
+# Start time: 11:52:44 on Nov 27,2025
 # Loading sv_std.std
 # Loading work.dsa_top_tb
 # Loading work.dsa_top
@@ -169,15 +169,15 @@
 # ========================================
 # TEST 2: Imagen 8x8 SIMD
 # ========================================
-# [2595000] Reseteando sistema...
-# [2745000] Reset completado
-# [2745000] Cargando imagen de prueba 8x8...
+# [2755000] Reseteando sistema...
+# [2905000] Reset completado
+# [2905000] Cargando imagen de prueba 8x8...
 #   Cargando fila 0/8
-# [3395000] Imagen cargada exitosamente
+# [3555000] Imagen cargada exitosamente
 # Dimensiones salida esperadas: 4x4
-# [3395000] Iniciando procesamiento en modo       SIMD
-# [3415000] Esperando completar procesamiento...
-# [4635000] Procesamiento completado en 122 ciclos
+# [3555000] Iniciando procesamiento en modo       SIMD
+# [3575000] Esperando completar procesamiento...
+# [4795000] Procesamiento completado en 122 ciclos
 #   FLOPs ejecutadas: 256
 #   Lecturas de memoria: 64
 #   Escrituras de memoria: 80
@@ -197,16 +197,16 @@
 # ========================================
 # TEST 3: Imagen 16x16 Secuencial
 # ========================================
-# [4795000] Reseteando sistema...
-# [4945000] Reset completado
-# [4945000] Cargando imagen de prueba 16x16...
+# [5115000] Reseteando sistema...
+# [5265000] Reset completado
+# [5265000] Cargando imagen de prueba 16x16...
 #   Cargando fila 0/16
 #   Cargando fila 8/16
-# [7515000] Imagen cargada exitosamente
+# [7835000] Imagen cargada exitosamente
 # Dimensiones salida esperadas: 8x8
-# [7515000] Iniciando procesamiento en modo SECUENCIAL
-# [7535000] Esperando completar procesamiento...
-# [13955000] Procesamiento completado en 642 ciclos
+# [7835000] Iniciando procesamiento en modo SECUENCIAL
+# [7855000] Esperando completar procesamiento...
+# [14275000] Procesamiento completado en 642 ciclos
 #   FLOPs ejecutadas: 1024
 #   Lecturas de memoria: 256
 #   Escrituras de memoria: 320
@@ -216,16 +216,16 @@
 # ========================================
 # TEST 4: Imagen 16x16 SIMD
 # ========================================
-# [13955000] Reseteando sistema...
-# [14105000] Reset completado
-# [14105000] Cargando imagen de prueba 16x16...
+# [14275000] Reseteando sistema...
+# [14425000] Reset completado
+# [14425000] Cargando imagen de prueba 16x16...
 #   Cargando fila 0/16
 #   Cargando fila 8/16
-# [16675000] Imagen cargada exitosamente
+# [16995000] Imagen cargada exitosamente
 # Dimensiones salida esperadas: 8x8
-# [16675000] Iniciando procesamiento en modo       SIMD
-# [16695000] Esperando completar procesamiento...
-# [21515000] Procesamiento completado en 482 ciclos
+# [16995000] Iniciando procesamiento en modo       SIMD
+# [17015000] Esperando completar procesamiento...
+# [21835000] Procesamiento completado en 482 ciclos
 #   FLOPs ejecutadas: 1024
 #   Lecturas de memoria: 256
 #   Escrituras de memoria: 320
@@ -237,37 +237,37 @@
 # ========================================
 # 
 # --- MODO SECUENCIAL ---
-# [21515000] Reseteando sistema...
-# [21665000] Reset completado
-# [21665000] Cargando imagen de prueba 32x32...
+# [21835000] Reseteando sistema...
+# [21985000] Reset completado
+# [21985000] Cargando imagen de prueba 32x32...
 #   Cargando fila 0/32
 #   Cargando fila 8/32
 #   Cargando fila 16/32
 #   Cargando fila 24/32
-# [31915000] Imagen cargada exitosamente
-# [31915000] Iniciando procesamiento en modo SECUENCIAL
-# [31935000] Esperando completar procesamiento...
+# [32235000] Imagen cargada exitosamente
+# [32235000] Iniciando procesamiento en modo SECUENCIAL
+# [32255000] Esperando completar procesamiento...
 #   Ciclo 1000: Progreso = 99 píxeles
 #   Ciclo 2000: Progreso = 199 píxeles
-# [57555000] Procesamiento completado en 2562 ciclos
+# [57875000] Procesamiento completado en 2562 ciclos
 #   FLOPs ejecutadas: 4096
 #   Lecturas de memoria: 1024
 #   Escrituras de memoria: 1280
 #   Throughput: 1.60 FLOPs/ciclo
 # 
 # --- MODO SIMD ---
-# [57555000] Reseteando sistema...
-# [57705000] Reset completado
-# [57705000] Cargando imagen de prueba 32x32...
+# [57875000] Reseteando sistema...
+# [58025000] Reset completado
+# [58025000] Cargando imagen de prueba 32x32...
 #   Cargando fila 0/32
 #   Cargando fila 8/32
 #   Cargando fila 16/32
 #   Cargando fila 24/32
-# [67955000] Imagen cargada exitosamente
-# [67955000] Iniciando procesamiento en modo       SIMD
-# [67975000] Esperando completar procesamiento...
+# [68275000] Imagen cargada exitosamente
+# [68275000] Iniciando procesamiento en modo       SIMD
+# [68295000] Esperando completar procesamiento...
 #   Ciclo 1000: Progreso = 132 píxeles
-# [87195000] Procesamiento completado en 1922 ciclos
+# [87515000] Procesamiento completado en 1922 ciclos
 #   FLOPs ejecutadas: 4096
 #   Lecturas de memoria: 1024
 #   Escrituras de memoria: 1280
@@ -292,9 +292,9 @@
 # ====================================================
 # FIN DE TESTBENCH
 # ====================================================
-# ** Note: $finish    : C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_top_tb.sv(514)
-#    Time: 87195 ns  Iteration: 1  Instance: /dsa_top_tb
+# ** Note: $finish    : C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_top_tb.sv(515)
+#    Time: 87515 ns  Iteration: 1  Instance: /dsa_top_tb
 # 1
-# Break in Module dsa_top_tb at C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_top_tb.sv line 514
-# End time: 00:05:53 on Nov 22,2025, Elapsed time: 0:00:32
+# Break in Module dsa_top_tb at C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_top_tb.sv line 515
+# End time: 12:05:38 on Nov 27,2025, Elapsed time: 0:12:54
 # Errors: 0, Warnings: 0
