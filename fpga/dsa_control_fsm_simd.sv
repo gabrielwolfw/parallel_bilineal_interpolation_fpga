@@ -1,7 +1,7 @@
 //============================================================
 // dsa_control_fsm_simd.sv
 // FSM de control para procesamiento SIMD
-// N píxeles por iteración
+// N píxeles por iteración - VERSIÓN CORREGIDA
 //============================================================
 
 module dsa_control_fsm_simd #(
@@ -23,7 +23,7 @@ module dsa_control_fsm_simd #(
     output logic        dp_start,
     input  logic        dp_done,
     output logic        write_enable,
-    output logic [3:0]  write_index,      // Índice del píxel SIMD a escribir
+    output logic [3:0]  write_index,
     
     // Coordenadas actuales (base del grupo SIMD)
     output logic [15:0] current_x,
@@ -35,17 +35,18 @@ module dsa_control_fsm_simd #(
 );
 
     //========================================================
-    // Estados
+    // Estados - VALORES ÚNICOS
     //========================================================
     typedef enum logic [3:0] {
         ST_IDLE          = 4'd0,
         ST_INIT          = 4'd1,
         ST_REQUEST_FETCH = 4'd2,
         ST_WAIT_FETCH    = 4'd3,
-        ST_INTERPOLATE   = 4'd4,
-        ST_WRITE_SIMD    = 4'd5,  // Escribe N píxeles secuencialmente
-        ST_NEXT_GROUP    = 4'd6,
-        ST_DONE          = 4'd7
+        ST_START_DP      = 4'd4,
+        ST_WAIT_DP       = 4'd5,
+        ST_WRITE_SIMD    = 4'd6,
+        ST_NEXT_GROUP    = 4'd7,
+        ST_DONE          = 4'd8
     } state_t;
     
     state_t state, next_state;
@@ -54,12 +55,12 @@ module dsa_control_fsm_simd #(
     // Registros
     //========================================================
     logic [15:0] x_reg, y_reg;
-    logic [3:0]  write_counter;       // Contador para escrituras SIMD
+    logic [3:0]  write_counter;
     logic [31:0] total_pixels;
     logic [31:0] pixels_processed;
     
     //========================================================
-    // Cálculo
+    // Cálculo de total de píxeles
     //========================================================
     always_comb begin
         total_pixels = img_width_out * img_height_out;
@@ -88,6 +89,11 @@ module dsa_control_fsm_simd #(
                     end
                 end
                 
+                ST_START_DP: begin
+                    // Reset write counter antes de empezar
+                    write_counter <= 4'd0;
+                end
+                
                 ST_WRITE_SIMD: begin
                     // Incrementar contador de escritura
                     if (write_counter < SIMD_WIDTH - 1)
@@ -108,6 +114,8 @@ module dsa_control_fsm_simd #(
                         y_reg <= y_reg + 16'd1;
                     end
                 end
+                
+                default: ;
             endcase
         end
     end
@@ -138,11 +146,15 @@ module dsa_control_fsm_simd #(
             
             ST_WAIT_FETCH: begin
                 if (fetch_done)
-                    next_state = ST_INTERPOLATE;
+                    next_state = ST_START_DP;
             end
             
-            ST_INTERPOLATE: begin
+            ST_START_DP: begin
                 dp_start = 1'b1;
+                next_state = ST_WAIT_DP;
+            end
+            
+            ST_WAIT_DP: begin
                 if (dp_done)
                     next_state = ST_WRITE_SIMD;
             end

@@ -13,8 +13,8 @@ module dsa_top_tb;
     //========================================================
     parameter CLK_PERIOD = 10;
     parameter ADDR_WIDTH = 18;
-    parameter IMG_WIDTH = 512;
-    parameter IMG_HEIGHT = 512;
+    parameter IMG_WIDTH_MAX = 512;
+    parameter IMG_HEIGHT_MAX = 512;
     parameter SIMD_WIDTH = 4;
     parameter MEM_SIZE = 262144;
 
@@ -53,8 +53,8 @@ module dsa_top_tb;
     //========================================================
     dsa_top #(
         .ADDR_WIDTH(ADDR_WIDTH),
-        .IMG_WIDTH(IMG_WIDTH),
-        .IMG_HEIGHT(IMG_HEIGHT),
+        .IMG_WIDTH(IMG_WIDTH_MAX),
+        .IMG_HEIGHT(IMG_HEIGHT_MAX),
         .SIMD_WIDTH(SIMD_WIDTH),
         .MEM_SIZE(MEM_SIZE)
     ) dut (
@@ -86,6 +86,29 @@ module dsa_top_tb;
     integer seq_cycles;
     integer simd_cycles;
     real speedup;
+	 // Agregar al testbench - Monitor de escrituras SIMD
+	always @(posedge clk) begin
+		 if (dut.mode_simd && dut.active_write_enable) begin
+			  $display("[SIMD WRITE] Time=%0t x=%0d y=%0d idx=%0d data=%0d addr=%0d",
+						  $time,
+						  dut.active_x,
+						  dut.active_y, 
+						  dut.active_write_index,
+						  dut.int_mem_data_in,
+						  dut.int_mem_addr);
+		 end
+	end
+
+	// Monitor del datapath SIMD
+	always @(posedge clk) begin
+		 if (dut. dp_simd_done) begin
+			  $display("[SIMD DP DONE] pixel_out[0]=%0d [1]=%0d [2]=%0d [3]=%0d",
+						  dut.dp_simd_pixel_out[0],
+						  dut.dp_simd_pixel_out[1],
+						  dut.dp_simd_pixel_out[2],
+						  dut. dp_simd_pixel_out[3]);
+		 end
+	end
 
     //========================================================
     // Tasks
@@ -179,7 +202,7 @@ module dsa_top_tb;
                 
                 // Mostrar progreso cada 1000 ciclos
                 if (cycle_count % 1000 == 0) begin
-                    $display("  Ciclo %0d: Progreso = %0d píxeles", cycle_count, progress);
+                    $display("  Ciclo %0d: Progreso = %0d pixeles", cycle_count, progress);
                 end
             end
             
@@ -417,7 +440,7 @@ module dsa_top_tb;
     endtask
 
     //========================================================
-    // Test 5: Comparación de rendimiento
+    // Test 5: Comparacion de rendimiento
     //========================================================
     task test_performance_comparison();
         integer test_width, test_height;
@@ -425,7 +448,7 @@ module dsa_top_tb;
             test_num = test_num + 1;
             $display("");
             $display("========================================");
-            $display("TEST %0d: Comparación de Rendimiento 32x32", test_num);
+            $display("TEST %0d: Comparacion de Rendimiento 32x32", test_num);
             $display("========================================");
             
             test_width = 32;
@@ -455,7 +478,7 @@ module dsa_top_tb;
             wait_for_completion();
             simd_cycles = cycle_count;
             
-            // Comparación
+            // Comparacion
             $display("");
             $display("========================================");
             $display("RESULTADOS DE COMPARACION");

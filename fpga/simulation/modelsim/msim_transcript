@@ -12,109 +12,109 @@
 # 
 # vlog -sv -work work +incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_datapath.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 11:52:40 on Nov 27,2025
+# Start time: 14:50:38 on Nov 27,2025
 # vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga" C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_datapath.sv 
 # -- Compiling module dsa_datapath
 # 
 # Top level modules:
 # 	dsa_datapath
-# End time: 11:52:41 on Nov 27,2025, Elapsed time: 0:00:01
+# End time: 14:50:38 on Nov 27,2025, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -sv -work work +incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_datapath_simd.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 11:52:41 on Nov 27,2025
+# Start time: 14:50:38 on Nov 27,2025
 # vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga" C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_datapath_simd.sv 
 # -- Compiling module dsa_datapath_simd
 # 
 # Top level modules:
 # 	dsa_datapath_simd
-# End time: 11:52:41 on Nov 27,2025, Elapsed time: 0:00:00
+# End time: 14:50:38 on Nov 27,2025, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -sv -work work +incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_mem_interface.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 11:52:41 on Nov 27,2025
+# Start time: 14:50:38 on Nov 27,2025
 # vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga" C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_mem_interface.sv 
 # -- Compiling module dsa_mem_interface
 # 
 # Top level modules:
 # 	dsa_mem_interface
-# End time: 11:52:41 on Nov 27,2025, Elapsed time: 0:00:00
-# Errors: 0, Warnings: 0
-# vlog -sv -work work +incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_top.sv}
-# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 11:52:41 on Nov 27,2025
-# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga" C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_top.sv 
-# -- Compiling module dsa_top
-# 
-# Top level modules:
-# 	dsa_top
-# End time: 11:52:41 on Nov 27,2025, Elapsed time: 0:00:00
+# End time: 14:50:38 on Nov 27,2025, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -sv -work work +incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_sequential.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 11:52:41 on Nov 27,2025
+# Start time: 14:50:38 on Nov 27,2025
 # vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga" C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_sequential.sv 
 # -- Compiling module dsa_pixel_fetch_sequential
 # 
 # Top level modules:
 # 	dsa_pixel_fetch_sequential
-# End time: 11:52:41 on Nov 27,2025, Elapsed time: 0:00:00
+# End time: 14:50:39 on Nov 27,2025, Elapsed time: 0:00:01
 # Errors: 0, Warnings: 0
 # vlog -sv -work work +incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_simd.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 11:52:42 on Nov 27,2025
+# Start time: 14:50:39 on Nov 27,2025
 # vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga" C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_simd.sv 
 # -- Compiling module dsa_pixel_fetch_simd
 # 
 # Top level modules:
 # 	dsa_pixel_fetch_simd
-# End time: 11:52:42 on Nov 27,2025, Elapsed time: 0:00:00
+# End time: 14:50:39 on Nov 27,2025, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -sv -work work +incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_unified.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 11:52:42 on Nov 27,2025
+# Start time: 14:50:39 on Nov 27,2025
 # vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga" C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_unified.sv 
 # -- Compiling module dsa_pixel_fetch_unified
 # 
 # Top level modules:
 # 	dsa_pixel_fetch_unified
-# End time: 11:52:42 on Nov 27,2025, Elapsed time: 0:00:00
+# End time: 14:50:39 on Nov 27,2025, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -sv -work work +incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_control_fsm_simd.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 11:52:42 on Nov 27,2025
+# Start time: 14:50:40 on Nov 27,2025
 # vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga" C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_control_fsm_simd.sv 
 # -- Compiling module dsa_control_fsm_simd
 # 
 # Top level modules:
 # 	dsa_control_fsm_simd
-# End time: 11:52:43 on Nov 27,2025, Elapsed time: 0:00:01
+# End time: 14:50:40 on Nov 27,2025, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -sv -work work +incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_control_fsm_sequential.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 11:52:43 on Nov 27,2025
+# Start time: 14:50:40 on Nov 27,2025
 # vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga" C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_control_fsm_sequential.sv 
 # -- Compiling module dsa_control_fsm_sequential
 # 
 # Top level modules:
 # 	dsa_control_fsm_sequential
-# End time: 11:52:43 on Nov 27,2025, Elapsed time: 0:00:00
+# End time: 14:50:40 on Nov 27,2025, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -sv -work work +incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_top.sv}
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 14:50:41 on Nov 27,2025
+# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga" C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_top.sv 
+# -- Compiling module dsa_top
+# 
+# Top level modules:
+# 	dsa_top
+# End time: 14:50:41 on Nov 27,2025, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # 
 # vlog -sv -work work +incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_top_tb.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 11:52:43 on Nov 27,2025
+# Start time: 14:50:41 on Nov 27,2025
 # vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga" C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_top_tb.sv 
 # -- Compiling module dsa_top_tb
 # 
 # Top level modules:
 # 	dsa_top_tb
-# End time: 11:52:43 on Nov 27,2025, Elapsed time: 0:00:00
+# End time: 14:50:41 on Nov 27,2025, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # 
 # vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cyclonev_ver -L cyclonev_hssi_ver -L cyclonev_pcie_hip_ver -L rtl_work -L work -voptargs="+acc"  dsa_top_tb
 # vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cyclonev_ver -L cyclonev_hssi_ver -L cyclonev_pcie_hip_ver -L rtl_work -L work -voptargs=""+acc"" dsa_top_tb 
-# Start time: 11:52:44 on Nov 27,2025
+# Start time: 14:50:41 on Nov 27,2025
 # Loading sv_std.std
 # Loading work.dsa_top_tb
 # Loading work.dsa_top
@@ -149,19 +149,19 @@
 # Dimensiones salida esperadas: 4x4
 # [795000] Iniciando procesamiento en modo SECUENCIAL
 # [815000] Esperando completar procesamiento...
-# [2435000] Procesamiento completado en 162 ciclos
+# [2595000] Procesamiento completado en 178 ciclos
 #   FLOPs ejecutadas: 256
 #   Lecturas de memoria: 64
 #   Escrituras de memoria: 80
-#   Throughput: 1.58 FLOPs/ciclo
+#   Throughput: 1.44 FLOPs/ciclo
 # 
 # ========================================
 # Imagen de salida (4x4)
 # ========================================
-# Fila  0:   x   x   x   x 
-# Fila  1:   x   x   x   x 
-# Fila  2:   x   x   x   x 
-# Fila  3:   x   x   x   x 
+# Fila  0:   0  36  72 109 
+# Fila  1:  36  72 109 145 
+# Fila  2:  72 109 145 182 
+# Fila  3: 109 145 182 218 
 # ========================================
 # 
 # TEST 1 COMPLETADO
@@ -169,27 +169,47 @@
 # ========================================
 # TEST 2: Imagen 8x8 SIMD
 # ========================================
-# [2755000] Reseteando sistema...
-# [2905000] Reset completado
-# [2905000] Cargando imagen de prueba 8x8...
+# [2915000] Reseteando sistema...
+# [3065000] Reset completado
+# [3065000] Cargando imagen de prueba 8x8...
 #   Cargando fila 0/8
-# [3555000] Imagen cargada exitosamente
+# [3715000] Imagen cargada exitosamente
 # Dimensiones salida esperadas: 4x4
-# [3555000] Iniciando procesamiento en modo       SIMD
-# [3575000] Esperando completar procesamiento...
-# [4795000] Procesamiento completado en 122 ciclos
-#   FLOPs ejecutadas: 256
+# [3715000] Iniciando procesamiento en modo       SIMD
+# [3735000] Esperando completar procesamiento...
+# [SIMD DP DONE] pixel_out[0]=218 [1]=36 [2]=72 [3]=109
+# [SIMD WRITE] Time=4015000 x=0 y=0 idx=0 data=218 addr=131072
+# [SIMD WRITE] Time=4025000 x=0 y=0 idx=1 data=36 addr=131073
+# [SIMD WRITE] Time=4035000 x=0 y=0 idx=2 data=72 addr=131074
+# [SIMD WRITE] Time=4045000 x=0 y=0 idx=3 data=109 addr=131075
+# [SIMD DP DONE] pixel_out[0]=145 [1]=72 [2]=109 [3]=145
+# [SIMD WRITE] Time=4325000 x=0 y=1 idx=0 data=145 addr=131076
+# [SIMD WRITE] Time=4335000 x=0 y=1 idx=1 data=72 addr=131077
+# [SIMD WRITE] Time=4345000 x=0 y=1 idx=2 data=109 addr=131078
+# [SIMD WRITE] Time=4355000 x=0 y=1 idx=3 data=145 addr=131079
+# [SIMD DP DONE] pixel_out[0]=182 [1]=109 [2]=145 [3]=182
+# [SIMD WRITE] Time=4635000 x=0 y=2 idx=0 data=182 addr=131080
+# [SIMD WRITE] Time=4645000 x=0 y=2 idx=1 data=109 addr=131081
+# [SIMD WRITE] Time=4655000 x=0 y=2 idx=2 data=145 addr=131082
+# [SIMD WRITE] Time=4665000 x=0 y=2 idx=3 data=182 addr=131083
+# [SIMD DP DONE] pixel_out[0]=218 [1]=145 [2]=182 [3]=218
+# [SIMD WRITE] Time=4945000 x=0 y=3 idx=0 data=218 addr=131084
+# [SIMD WRITE] Time=4955000 x=0 y=3 idx=1 data=145 addr=131085
+# [SIMD WRITE] Time=4965000 x=0 y=3 idx=2 data=182 addr=131086
+# [SIMD WRITE] Time=4975000 x=0 y=3 idx=3 data=218 addr=131087
+# [4995000] Procesamiento completado en 126 ciclos
+#   FLOPs ejecutadas: 128
 #   Lecturas de memoria: 64
 #   Escrituras de memoria: 80
-#   Throughput: 2.10 FLOPs/ciclo
+#   Throughput: 1.02 FLOPs/ciclo
 # 
 # ========================================
 # Imagen de salida (4x4)
 # ========================================
-# Fila  0:   x   x   x   x 
-# Fila  1:   x   x   x   x 
-# Fila  2:   x   x   x   x 
-# Fila  3:   x   x   x   x 
+# Fila  0: 218  36  72 109 
+# Fila  1: 145  72 109 145 
+# Fila  2: 182 109 145 182 
+# Fila  3: 218 145 182 218 
 # ========================================
 # 
 # TEST 2 COMPLETADO
@@ -197,89 +217,489 @@
 # ========================================
 # TEST 3: Imagen 16x16 Secuencial
 # ========================================
-# [5115000] Reseteando sistema...
-# [5265000] Reset completado
-# [5265000] Cargando imagen de prueba 16x16...
+# [5315000] Reseteando sistema...
+# [5465000] Reset completado
+# [5465000] Cargando imagen de prueba 16x16...
 #   Cargando fila 0/16
 #   Cargando fila 8/16
-# [7835000] Imagen cargada exitosamente
+# [8035000] Imagen cargada exitosamente
 # Dimensiones salida esperadas: 8x8
-# [7835000] Iniciando procesamiento en modo SECUENCIAL
-# [7855000] Esperando completar procesamiento...
-# [14275000] Procesamiento completado en 642 ciclos
+# [8035000] Iniciando procesamiento en modo SECUENCIAL
+# [8055000] Esperando completar procesamiento...
+# [15115000] Procesamiento completado en 706 ciclos
 #   FLOPs ejecutadas: 1024
 #   Lecturas de memoria: 256
 #   Escrituras de memoria: 320
-#   Throughput: 1.60 FLOPs/ciclo
+#   Throughput: 1.45 FLOPs/ciclo
 # TEST 3 COMPLETADO
 # 
 # ========================================
 # TEST 4: Imagen 16x16 SIMD
 # ========================================
-# [14275000] Reseteando sistema...
-# [14425000] Reset completado
-# [14425000] Cargando imagen de prueba 16x16...
+# [15115000] Reseteando sistema...
+# [15265000] Reset completado
+# [15265000] Cargando imagen de prueba 16x16...
 #   Cargando fila 0/16
 #   Cargando fila 8/16
-# [16995000] Imagen cargada exitosamente
+# [17835000] Imagen cargada exitosamente
 # Dimensiones salida esperadas: 8x8
-# [16995000] Iniciando procesamiento en modo       SIMD
-# [17015000] Esperando completar procesamiento...
-# [21835000] Procesamiento completado en 482 ciclos
-#   FLOPs ejecutadas: 1024
+# [17835000] Iniciando procesamiento en modo       SIMD
+# [17855000] Esperando completar procesamiento...
+# [SIMD DP DONE] pixel_out[0]=255 [1]=17 [2]=34 [3]=51
+# [SIMD WRITE] Time=18135000 x=0 y=0 idx=0 data=255 addr=131072
+# [SIMD WRITE] Time=18145000 x=0 y=0 idx=1 data=17 addr=131073
+# [SIMD WRITE] Time=18155000 x=0 y=0 idx=2 data=34 addr=131074
+# [SIMD WRITE] Time=18165000 x=0 y=0 idx=3 data=51 addr=131075
+# [SIMD DP DONE] pixel_out[0]=68 [1]=85 [2]=102 [3]=119
+# [SIMD WRITE] Time=18445000 x=4 y=0 idx=0 data=68 addr=131076
+# [SIMD WRITE] Time=18455000 x=4 y=0 idx=1 data=85 addr=131077
+# [SIMD WRITE] Time=18465000 x=4 y=0 idx=2 data=102 addr=131078
+# [SIMD WRITE] Time=18475000 x=4 y=0 idx=3 data=119 addr=131079
+# [SIMD DP DONE] pixel_out[0]=136 [1]=34 [2]=51 [3]=68
+# [SIMD WRITE] Time=18755000 x=0 y=1 idx=0 data=136 addr=131080
+# [SIMD WRITE] Time=18765000 x=0 y=1 idx=1 data=34 addr=131081
+# [SIMD WRITE] Time=18775000 x=0 y=1 idx=2 data=51 addr=131082
+# [SIMD WRITE] Time=18785000 x=0 y=1 idx=3 data=68 addr=131083
+# [SIMD DP DONE] pixel_out[0]=85 [1]=102 [2]=119 [3]=136
+# [SIMD WRITE] Time=19065000 x=4 y=1 idx=0 data=85 addr=131084
+# [SIMD WRITE] Time=19075000 x=4 y=1 idx=1 data=102 addr=131085
+# [SIMD WRITE] Time=19085000 x=4 y=1 idx=2 data=119 addr=131086
+# [SIMD WRITE] Time=19095000 x=4 y=1 idx=3 data=136 addr=131087
+# [SIMD DP DONE] pixel_out[0]=153 [1]=51 [2]=68 [3]=85
+# [SIMD WRITE] Time=19375000 x=0 y=2 idx=0 data=153 addr=131088
+# [SIMD WRITE] Time=19385000 x=0 y=2 idx=1 data=51 addr=131089
+# [SIMD WRITE] Time=19395000 x=0 y=2 idx=2 data=68 addr=131090
+# [SIMD WRITE] Time=19405000 x=0 y=2 idx=3 data=85 addr=131091
+# [SIMD DP DONE] pixel_out[0]=102 [1]=119 [2]=136 [3]=153
+# [SIMD WRITE] Time=19685000 x=4 y=2 idx=0 data=102 addr=131092
+# [SIMD WRITE] Time=19695000 x=4 y=2 idx=1 data=119 addr=131093
+# [SIMD WRITE] Time=19705000 x=4 y=2 idx=2 data=136 addr=131094
+# [SIMD WRITE] Time=19715000 x=4 y=2 idx=3 data=153 addr=131095
+# [SIMD DP DONE] pixel_out[0]=170 [1]=68 [2]=85 [3]=102
+# [SIMD WRITE] Time=19995000 x=0 y=3 idx=0 data=170 addr=131096
+# [SIMD WRITE] Time=20005000 x=0 y=3 idx=1 data=68 addr=131097
+# [SIMD WRITE] Time=20015000 x=0 y=3 idx=2 data=85 addr=131098
+# [SIMD WRITE] Time=20025000 x=0 y=3 idx=3 data=102 addr=131099
+# [SIMD DP DONE] pixel_out[0]=119 [1]=136 [2]=153 [3]=170
+# [SIMD WRITE] Time=20305000 x=4 y=3 idx=0 data=119 addr=131100
+# [SIMD WRITE] Time=20315000 x=4 y=3 idx=1 data=136 addr=131101
+# [SIMD WRITE] Time=20325000 x=4 y=3 idx=2 data=153 addr=131102
+# [SIMD WRITE] Time=20335000 x=4 y=3 idx=3 data=170 addr=131103
+# [SIMD DP DONE] pixel_out[0]=187 [1]=85 [2]=102 [3]=119
+# [SIMD WRITE] Time=20615000 x=0 y=4 idx=0 data=187 addr=131104
+# [SIMD WRITE] Time=20625000 x=0 y=4 idx=1 data=85 addr=131105
+# [SIMD WRITE] Time=20635000 x=0 y=4 idx=2 data=102 addr=131106
+# [SIMD WRITE] Time=20645000 x=0 y=4 idx=3 data=119 addr=131107
+# [SIMD DP DONE] pixel_out[0]=136 [1]=153 [2]=170 [3]=187
+# [SIMD WRITE] Time=20925000 x=4 y=4 idx=0 data=136 addr=131108
+# [SIMD WRITE] Time=20935000 x=4 y=4 idx=1 data=153 addr=131109
+# [SIMD WRITE] Time=20945000 x=4 y=4 idx=2 data=170 addr=131110
+# [SIMD WRITE] Time=20955000 x=4 y=4 idx=3 data=187 addr=131111
+# [SIMD DP DONE] pixel_out[0]=204 [1]=102 [2]=119 [3]=136
+# [SIMD WRITE] Time=21235000 x=0 y=5 idx=0 data=204 addr=131112
+# [SIMD WRITE] Time=21245000 x=0 y=5 idx=1 data=102 addr=131113
+# [SIMD WRITE] Time=21255000 x=0 y=5 idx=2 data=119 addr=131114
+# [SIMD WRITE] Time=21265000 x=0 y=5 idx=3 data=136 addr=131115
+# [SIMD DP DONE] pixel_out[0]=153 [1]=170 [2]=187 [3]=204
+# [SIMD WRITE] Time=21545000 x=4 y=5 idx=0 data=153 addr=131116
+# [SIMD WRITE] Time=21555000 x=4 y=5 idx=1 data=170 addr=131117
+# [SIMD WRITE] Time=21565000 x=4 y=5 idx=2 data=187 addr=131118
+# [SIMD WRITE] Time=21575000 x=4 y=5 idx=3 data=204 addr=131119
+# [SIMD DP DONE] pixel_out[0]=221 [1]=119 [2]=136 [3]=153
+# [SIMD WRITE] Time=21855000 x=0 y=6 idx=0 data=221 addr=131120
+# [SIMD WRITE] Time=21865000 x=0 y=6 idx=1 data=119 addr=131121
+# [SIMD WRITE] Time=21875000 x=0 y=6 idx=2 data=136 addr=131122
+# [SIMD WRITE] Time=21885000 x=0 y=6 idx=3 data=153 addr=131123
+# [SIMD DP DONE] pixel_out[0]=170 [1]=187 [2]=204 [3]=221
+# [SIMD WRITE] Time=22165000 x=4 y=6 idx=0 data=170 addr=131124
+# [SIMD WRITE] Time=22175000 x=4 y=6 idx=1 data=187 addr=131125
+# [SIMD WRITE] Time=22185000 x=4 y=6 idx=2 data=204 addr=131126
+# [SIMD WRITE] Time=22195000 x=4 y=6 idx=3 data=221 addr=131127
+# [SIMD DP DONE] pixel_out[0]=238 [1]=136 [2]=153 [3]=170
+# [SIMD WRITE] Time=22475000 x=0 y=7 idx=0 data=238 addr=131128
+# [SIMD WRITE] Time=22485000 x=0 y=7 idx=1 data=136 addr=131129
+# [SIMD WRITE] Time=22495000 x=0 y=7 idx=2 data=153 addr=131130
+# [SIMD WRITE] Time=22505000 x=0 y=7 idx=3 data=170 addr=131131
+# [SIMD DP DONE] pixel_out[0]=187 [1]=204 [2]=221 [3]=238
+# [SIMD WRITE] Time=22785000 x=4 y=7 idx=0 data=187 addr=131132
+# [SIMD WRITE] Time=22795000 x=4 y=7 idx=1 data=204 addr=131133
+# [SIMD WRITE] Time=22805000 x=4 y=7 idx=2 data=221 addr=131134
+# [SIMD WRITE] Time=22815000 x=4 y=7 idx=3 data=238 addr=131135
+# [22835000] Procesamiento completado en 498 ciclos
+#   FLOPs ejecutadas: 512
 #   Lecturas de memoria: 256
 #   Escrituras de memoria: 320
-#   Throughput: 2.12 FLOPs/ciclo
+#   Throughput: 1.03 FLOPs/ciclo
 # TEST 4 COMPLETADO
 # 
 # ========================================
-# TEST 5: Comparación de Rendimiento 32x32
+# TEST 5: Comparacion de Rendimiento 32x32
 # ========================================
 # 
 # --- MODO SECUENCIAL ---
-# [21835000] Reseteando sistema...
-# [21985000] Reset completado
-# [21985000] Cargando imagen de prueba 32x32...
+# [22835000] Reseteando sistema...
+# [22985000] Reset completado
+# [22985000] Cargando imagen de prueba 32x32...
 #   Cargando fila 0/32
 #   Cargando fila 8/32
 #   Cargando fila 16/32
 #   Cargando fila 24/32
-# [32235000] Imagen cargada exitosamente
-# [32235000] Iniciando procesamiento en modo SECUENCIAL
-# [32255000] Esperando completar procesamiento...
-#   Ciclo 1000: Progreso = 99 píxeles
-#   Ciclo 2000: Progreso = 199 píxeles
-# [57875000] Procesamiento completado en 2562 ciclos
+# [33235000] Imagen cargada exitosamente
+# [33235000] Iniciando procesamiento en modo SECUENCIAL
+# [33255000] Esperando completar procesamiento...
+#   Ciclo 1000: Progreso = 90 pixeles
+#   Ciclo 2000: Progreso = 181 pixeles
+# [61435000] Procesamiento completado en 2818 ciclos
 #   FLOPs ejecutadas: 4096
 #   Lecturas de memoria: 1024
 #   Escrituras de memoria: 1280
-#   Throughput: 1.60 FLOPs/ciclo
+#   Throughput: 1.45 FLOPs/ciclo
 # 
 # --- MODO SIMD ---
-# [57875000] Reseteando sistema...
-# [58025000] Reset completado
-# [58025000] Cargando imagen de prueba 32x32...
+# [61435000] Reseteando sistema...
+# [61585000] Reset completado
+# [61585000] Cargando imagen de prueba 32x32...
 #   Cargando fila 0/32
 #   Cargando fila 8/32
 #   Cargando fila 16/32
 #   Cargando fila 24/32
-# [68275000] Imagen cargada exitosamente
-# [68275000] Iniciando procesamiento en modo       SIMD
-# [68295000] Esperando completar procesamiento...
-#   Ciclo 1000: Progreso = 132 píxeles
-# [87515000] Procesamiento completado en 1922 ciclos
-#   FLOPs ejecutadas: 4096
+# [71835000] Imagen cargada exitosamente
+# [71835000] Iniciando procesamiento en modo       SIMD
+# [71855000] Esperando completar procesamiento...
+# [SIMD DP DONE] pixel_out[0]=255 [1]=8 [2]=16 [3]=24
+# [SIMD WRITE] Time=72135000 x=0 y=0 idx=0 data=255 addr=131072
+# [SIMD WRITE] Time=72145000 x=0 y=0 idx=1 data=8 addr=131073
+# [SIMD WRITE] Time=72155000 x=0 y=0 idx=2 data=16 addr=131074
+# [SIMD WRITE] Time=72165000 x=0 y=0 idx=3 data=24 addr=131075
+# [SIMD DP DONE] pixel_out[0]=32 [1]=41 [2]=49 [3]=57
+# [SIMD WRITE] Time=72445000 x=4 y=0 idx=0 data=32 addr=131076
+# [SIMD WRITE] Time=72455000 x=4 y=0 idx=1 data=41 addr=131077
+# [SIMD WRITE] Time=72465000 x=4 y=0 idx=2 data=49 addr=131078
+# [SIMD WRITE] Time=72475000 x=4 y=0 idx=3 data=57 addr=131079
+# [SIMD DP DONE] pixel_out[0]=65 [1]=74 [2]=82 [3]=90
+# [SIMD WRITE] Time=72755000 x=8 y=0 idx=0 data=65 addr=131080
+# [SIMD WRITE] Time=72765000 x=8 y=0 idx=1 data=74 addr=131081
+# [SIMD WRITE] Time=72775000 x=8 y=0 idx=2 data=82 addr=131082
+# [SIMD WRITE] Time=72785000 x=8 y=0 idx=3 data=90 addr=131083
+# [SIMD DP DONE] pixel_out[0]=98 [1]=106 [2]=115 [3]=123
+# [SIMD WRITE] Time=73065000 x=12 y=0 idx=0 data=98 addr=131084
+# [SIMD WRITE] Time=73075000 x=12 y=0 idx=1 data=106 addr=131085
+# [SIMD WRITE] Time=73085000 x=12 y=0 idx=2 data=115 addr=131086
+# [SIMD WRITE] Time=73095000 x=12 y=0 idx=3 data=123 addr=131087
+# [SIMD DP DONE] pixel_out[0]=131 [1]=16 [2]=24 [3]=32
+# [SIMD WRITE] Time=73375000 x=0 y=1 idx=0 data=131 addr=131088
+# [SIMD WRITE] Time=73385000 x=0 y=1 idx=1 data=16 addr=131089
+# [SIMD WRITE] Time=73395000 x=0 y=1 idx=2 data=24 addr=131090
+# [SIMD WRITE] Time=73405000 x=0 y=1 idx=3 data=32 addr=131091
+# [SIMD DP DONE] pixel_out[0]=41 [1]=49 [2]=57 [3]=65
+# [SIMD WRITE] Time=73685000 x=4 y=1 idx=0 data=41 addr=131092
+# [SIMD WRITE] Time=73695000 x=4 y=1 idx=1 data=49 addr=131093
+# [SIMD WRITE] Time=73705000 x=4 y=1 idx=2 data=57 addr=131094
+# [SIMD WRITE] Time=73715000 x=4 y=1 idx=3 data=65 addr=131095
+# [SIMD DP DONE] pixel_out[0]=74 [1]=82 [2]=90 [3]=98
+# [SIMD WRITE] Time=73995000 x=8 y=1 idx=0 data=74 addr=131096
+# [SIMD WRITE] Time=74005000 x=8 y=1 idx=1 data=82 addr=131097
+# [SIMD WRITE] Time=74015000 x=8 y=1 idx=2 data=90 addr=131098
+# [SIMD WRITE] Time=74025000 x=8 y=1 idx=3 data=98 addr=131099
+# [SIMD DP DONE] pixel_out[0]=106 [1]=115 [2]=123 [3]=131
+# [SIMD WRITE] Time=74305000 x=12 y=1 idx=0 data=106 addr=131100
+# [SIMD WRITE] Time=74315000 x=12 y=1 idx=1 data=115 addr=131101
+# [SIMD WRITE] Time=74325000 x=12 y=1 idx=2 data=123 addr=131102
+# [SIMD WRITE] Time=74335000 x=12 y=1 idx=3 data=131 addr=131103
+# [SIMD DP DONE] pixel_out[0]=139 [1]=24 [2]=32 [3]=41
+# [SIMD WRITE] Time=74615000 x=0 y=2 idx=0 data=139 addr=131104
+# [SIMD WRITE] Time=74625000 x=0 y=2 idx=1 data=24 addr=131105
+# [SIMD WRITE] Time=74635000 x=0 y=2 idx=2 data=32 addr=131106
+# [SIMD WRITE] Time=74645000 x=0 y=2 idx=3 data=41 addr=131107
+# [SIMD DP DONE] pixel_out[0]=49 [1]=57 [2]=65 [3]=74
+# [SIMD WRITE] Time=74925000 x=4 y=2 idx=0 data=49 addr=131108
+# [SIMD WRITE] Time=74935000 x=4 y=2 idx=1 data=57 addr=131109
+# [SIMD WRITE] Time=74945000 x=4 y=2 idx=2 data=65 addr=131110
+# [SIMD WRITE] Time=74955000 x=4 y=2 idx=3 data=74 addr=131111
+# [SIMD DP DONE] pixel_out[0]=82 [1]=90 [2]=98 [3]=106
+# [SIMD WRITE] Time=75235000 x=8 y=2 idx=0 data=82 addr=131112
+# [SIMD WRITE] Time=75245000 x=8 y=2 idx=1 data=90 addr=131113
+# [SIMD WRITE] Time=75255000 x=8 y=2 idx=2 data=98 addr=131114
+# [SIMD WRITE] Time=75265000 x=8 y=2 idx=3 data=106 addr=131115
+# [SIMD DP DONE] pixel_out[0]=115 [1]=123 [2]=131 [3]=139
+# [SIMD WRITE] Time=75545000 x=12 y=2 idx=0 data=115 addr=131116
+# [SIMD WRITE] Time=75555000 x=12 y=2 idx=1 data=123 addr=131117
+# [SIMD WRITE] Time=75565000 x=12 y=2 idx=2 data=131 addr=131118
+# [SIMD WRITE] Time=75575000 x=12 y=2 idx=3 data=139 addr=131119
+# [SIMD DP DONE] pixel_out[0]=148 [1]=32 [2]=41 [3]=49
+# [SIMD WRITE] Time=75855000 x=0 y=3 idx=0 data=148 addr=131120
+# [SIMD WRITE] Time=75865000 x=0 y=3 idx=1 data=32 addr=131121
+# [SIMD WRITE] Time=75875000 x=0 y=3 idx=2 data=41 addr=131122
+# [SIMD WRITE] Time=75885000 x=0 y=3 idx=3 data=49 addr=131123
+# [SIMD DP DONE] pixel_out[0]=57 [1]=65 [2]=74 [3]=82
+# [SIMD WRITE] Time=76165000 x=4 y=3 idx=0 data=57 addr=131124
+# [SIMD WRITE] Time=76175000 x=4 y=3 idx=1 data=65 addr=131125
+# [SIMD WRITE] Time=76185000 x=4 y=3 idx=2 data=74 addr=131126
+# [SIMD WRITE] Time=76195000 x=4 y=3 idx=3 data=82 addr=131127
+# [SIMD DP DONE] pixel_out[0]=90 [1]=98 [2]=106 [3]=115
+# [SIMD WRITE] Time=76475000 x=8 y=3 idx=0 data=90 addr=131128
+# [SIMD WRITE] Time=76485000 x=8 y=3 idx=1 data=98 addr=131129
+# [SIMD WRITE] Time=76495000 x=8 y=3 idx=2 data=106 addr=131130
+# [SIMD WRITE] Time=76505000 x=8 y=3 idx=3 data=115 addr=131131
+# [SIMD DP DONE] pixel_out[0]=123 [1]=131 [2]=139 [3]=148
+# [SIMD WRITE] Time=76785000 x=12 y=3 idx=0 data=123 addr=131132
+# [SIMD WRITE] Time=76795000 x=12 y=3 idx=1 data=131 addr=131133
+# [SIMD WRITE] Time=76805000 x=12 y=3 idx=2 data=139 addr=131134
+# [SIMD WRITE] Time=76815000 x=12 y=3 idx=3 data=148 addr=131135
+# [SIMD DP DONE] pixel_out[0]=156 [1]=41 [2]=49 [3]=57
+# [SIMD WRITE] Time=77095000 x=0 y=4 idx=0 data=156 addr=131136
+# [SIMD WRITE] Time=77105000 x=0 y=4 idx=1 data=41 addr=131137
+# [SIMD WRITE] Time=77115000 x=0 y=4 idx=2 data=49 addr=131138
+# [SIMD WRITE] Time=77125000 x=0 y=4 idx=3 data=57 addr=131139
+# [SIMD DP DONE] pixel_out[0]=65 [1]=74 [2]=82 [3]=90
+# [SIMD WRITE] Time=77405000 x=4 y=4 idx=0 data=65 addr=131140
+# [SIMD WRITE] Time=77415000 x=4 y=4 idx=1 data=74 addr=131141
+# [SIMD WRITE] Time=77425000 x=4 y=4 idx=2 data=82 addr=131142
+# [SIMD WRITE] Time=77435000 x=4 y=4 idx=3 data=90 addr=131143
+# [SIMD DP DONE] pixel_out[0]=98 [1]=106 [2]=115 [3]=123
+# [SIMD WRITE] Time=77715000 x=8 y=4 idx=0 data=98 addr=131144
+# [SIMD WRITE] Time=77725000 x=8 y=4 idx=1 data=106 addr=131145
+# [SIMD WRITE] Time=77735000 x=8 y=4 idx=2 data=115 addr=131146
+# [SIMD WRITE] Time=77745000 x=8 y=4 idx=3 data=123 addr=131147
+# [SIMD DP DONE] pixel_out[0]=131 [1]=139 [2]=148 [3]=156
+# [SIMD WRITE] Time=78025000 x=12 y=4 idx=0 data=131 addr=131148
+# [SIMD WRITE] Time=78035000 x=12 y=4 idx=1 data=139 addr=131149
+# [SIMD WRITE] Time=78045000 x=12 y=4 idx=2 data=148 addr=131150
+# [SIMD WRITE] Time=78055000 x=12 y=4 idx=3 data=156 addr=131151
+# [SIMD DP DONE] pixel_out[0]=164 [1]=49 [2]=57 [3]=65
+# [SIMD WRITE] Time=78335000 x=0 y=5 idx=0 data=164 addr=131152
+# [SIMD WRITE] Time=78345000 x=0 y=5 idx=1 data=49 addr=131153
+# [SIMD WRITE] Time=78355000 x=0 y=5 idx=2 data=57 addr=131154
+# [SIMD WRITE] Time=78365000 x=0 y=5 idx=3 data=65 addr=131155
+# [SIMD DP DONE] pixel_out[0]=74 [1]=82 [2]=90 [3]=98
+# [SIMD WRITE] Time=78645000 x=4 y=5 idx=0 data=74 addr=131156
+# [SIMD WRITE] Time=78655000 x=4 y=5 idx=1 data=82 addr=131157
+# [SIMD WRITE] Time=78665000 x=4 y=5 idx=2 data=90 addr=131158
+# [SIMD WRITE] Time=78675000 x=4 y=5 idx=3 data=98 addr=131159
+# [SIMD DP DONE] pixel_out[0]=106 [1]=115 [2]=123 [3]=131
+# [SIMD WRITE] Time=78955000 x=8 y=5 idx=0 data=106 addr=131160
+# [SIMD WRITE] Time=78965000 x=8 y=5 idx=1 data=115 addr=131161
+# [SIMD WRITE] Time=78975000 x=8 y=5 idx=2 data=123 addr=131162
+# [SIMD WRITE] Time=78985000 x=8 y=5 idx=3 data=131 addr=131163
+# [SIMD DP DONE] pixel_out[0]=139 [1]=148 [2]=156 [3]=164
+# [SIMD WRITE] Time=79265000 x=12 y=5 idx=0 data=139 addr=131164
+# [SIMD WRITE] Time=79275000 x=12 y=5 idx=1 data=148 addr=131165
+# [SIMD WRITE] Time=79285000 x=12 y=5 idx=2 data=156 addr=131166
+# [SIMD WRITE] Time=79295000 x=12 y=5 idx=3 data=164 addr=131167
+# [SIMD DP DONE] pixel_out[0]=172 [1]=57 [2]=65 [3]=74
+# [SIMD WRITE] Time=79575000 x=0 y=6 idx=0 data=172 addr=131168
+# [SIMD WRITE] Time=79585000 x=0 y=6 idx=1 data=57 addr=131169
+# [SIMD WRITE] Time=79595000 x=0 y=6 idx=2 data=65 addr=131170
+# [SIMD WRITE] Time=79605000 x=0 y=6 idx=3 data=74 addr=131171
+# [SIMD DP DONE] pixel_out[0]=82 [1]=90 [2]=98 [3]=106
+# [SIMD WRITE] Time=79885000 x=4 y=6 idx=0 data=82 addr=131172
+# [SIMD WRITE] Time=79895000 x=4 y=6 idx=1 data=90 addr=131173
+# [SIMD WRITE] Time=79905000 x=4 y=6 idx=2 data=98 addr=131174
+# [SIMD WRITE] Time=79915000 x=4 y=6 idx=3 data=106 addr=131175
+# [SIMD DP DONE] pixel_out[0]=115 [1]=123 [2]=131 [3]=139
+# [SIMD WRITE] Time=80195000 x=8 y=6 idx=0 data=115 addr=131176
+# [SIMD WRITE] Time=80205000 x=8 y=6 idx=1 data=123 addr=131177
+# [SIMD WRITE] Time=80215000 x=8 y=6 idx=2 data=131 addr=131178
+# [SIMD WRITE] Time=80225000 x=8 y=6 idx=3 data=139 addr=131179
+# [SIMD DP DONE] pixel_out[0]=148 [1]=156 [2]=164 [3]=172
+# [SIMD WRITE] Time=80505000 x=12 y=6 idx=0 data=148 addr=131180
+# [SIMD WRITE] Time=80515000 x=12 y=6 idx=1 data=156 addr=131181
+# [SIMD WRITE] Time=80525000 x=12 y=6 idx=2 data=164 addr=131182
+# [SIMD WRITE] Time=80535000 x=12 y=6 idx=3 data=172 addr=131183
+# [SIMD DP DONE] pixel_out[0]=180 [1]=65 [2]=74 [3]=82
+# [SIMD WRITE] Time=80815000 x=0 y=7 idx=0 data=180 addr=131184
+# [SIMD WRITE] Time=80825000 x=0 y=7 idx=1 data=65 addr=131185
+# [SIMD WRITE] Time=80835000 x=0 y=7 idx=2 data=74 addr=131186
+# [SIMD WRITE] Time=80845000 x=0 y=7 idx=3 data=82 addr=131187
+# [SIMD DP DONE] pixel_out[0]=90 [1]=98 [2]=106 [3]=115
+# [SIMD WRITE] Time=81125000 x=4 y=7 idx=0 data=90 addr=131188
+# [SIMD WRITE] Time=81135000 x=4 y=7 idx=1 data=98 addr=131189
+# [SIMD WRITE] Time=81145000 x=4 y=7 idx=2 data=106 addr=131190
+# [SIMD WRITE] Time=81155000 x=4 y=7 idx=3 data=115 addr=131191
+# [SIMD DP DONE] pixel_out[0]=123 [1]=131 [2]=139 [3]=148
+# [SIMD WRITE] Time=81435000 x=8 y=7 idx=0 data=123 addr=131192
+# [SIMD WRITE] Time=81445000 x=8 y=7 idx=1 data=131 addr=131193
+# [SIMD WRITE] Time=81455000 x=8 y=7 idx=2 data=139 addr=131194
+# [SIMD WRITE] Time=81465000 x=8 y=7 idx=3 data=148 addr=131195
+# [SIMD DP DONE] pixel_out[0]=156 [1]=164 [2]=172 [3]=180
+# [SIMD WRITE] Time=81745000 x=12 y=7 idx=0 data=156 addr=131196
+# [SIMD WRITE] Time=81755000 x=12 y=7 idx=1 data=164 addr=131197
+# [SIMD WRITE] Time=81765000 x=12 y=7 idx=2 data=172 addr=131198
+# [SIMD WRITE] Time=81775000 x=12 y=7 idx=3 data=180 addr=131199
+#   Ciclo 1000: Progreso = 128 pixeles
+# [SIMD DP DONE] pixel_out[0]=189 [1]=74 [2]=82 [3]=90
+# [SIMD WRITE] Time=82055000 x=0 y=8 idx=0 data=189 addr=131200
+# [SIMD WRITE] Time=82065000 x=0 y=8 idx=1 data=74 addr=131201
+# [SIMD WRITE] Time=82075000 x=0 y=8 idx=2 data=82 addr=131202
+# [SIMD WRITE] Time=82085000 x=0 y=8 idx=3 data=90 addr=131203
+# [SIMD DP DONE] pixel_out[0]=98 [1]=106 [2]=115 [3]=123
+# [SIMD WRITE] Time=82365000 x=4 y=8 idx=0 data=98 addr=131204
+# [SIMD WRITE] Time=82375000 x=4 y=8 idx=1 data=106 addr=131205
+# [SIMD WRITE] Time=82385000 x=4 y=8 idx=2 data=115 addr=131206
+# [SIMD WRITE] Time=82395000 x=4 y=8 idx=3 data=123 addr=131207
+# [SIMD DP DONE] pixel_out[0]=131 [1]=139 [2]=148 [3]=156
+# [SIMD WRITE] Time=82675000 x=8 y=8 idx=0 data=131 addr=131208
+# [SIMD WRITE] Time=82685000 x=8 y=8 idx=1 data=139 addr=131209
+# [SIMD WRITE] Time=82695000 x=8 y=8 idx=2 data=148 addr=131210
+# [SIMD WRITE] Time=82705000 x=8 y=8 idx=3 data=156 addr=131211
+# [SIMD DP DONE] pixel_out[0]=164 [1]=172 [2]=180 [3]=189
+# [SIMD WRITE] Time=82985000 x=12 y=8 idx=0 data=164 addr=131212
+# [SIMD WRITE] Time=82995000 x=12 y=8 idx=1 data=172 addr=131213
+# [SIMD WRITE] Time=83005000 x=12 y=8 idx=2 data=180 addr=131214
+# [SIMD WRITE] Time=83015000 x=12 y=8 idx=3 data=189 addr=131215
+# [SIMD DP DONE] pixel_out[0]=197 [1]=82 [2]=90 [3]=98
+# [SIMD WRITE] Time=83295000 x=0 y=9 idx=0 data=197 addr=131216
+# [SIMD WRITE] Time=83305000 x=0 y=9 idx=1 data=82 addr=131217
+# [SIMD WRITE] Time=83315000 x=0 y=9 idx=2 data=90 addr=131218
+# [SIMD WRITE] Time=83325000 x=0 y=9 idx=3 data=98 addr=131219
+# [SIMD DP DONE] pixel_out[0]=106 [1]=115 [2]=123 [3]=131
+# [SIMD WRITE] Time=83605000 x=4 y=9 idx=0 data=106 addr=131220
+# [SIMD WRITE] Time=83615000 x=4 y=9 idx=1 data=115 addr=131221
+# [SIMD WRITE] Time=83625000 x=4 y=9 idx=2 data=123 addr=131222
+# [SIMD WRITE] Time=83635000 x=4 y=9 idx=3 data=131 addr=131223
+# [SIMD DP DONE] pixel_out[0]=139 [1]=148 [2]=156 [3]=164
+# [SIMD WRITE] Time=83915000 x=8 y=9 idx=0 data=139 addr=131224
+# [SIMD WRITE] Time=83925000 x=8 y=9 idx=1 data=148 addr=131225
+# [SIMD WRITE] Time=83935000 x=8 y=9 idx=2 data=156 addr=131226
+# [SIMD WRITE] Time=83945000 x=8 y=9 idx=3 data=164 addr=131227
+# [SIMD DP DONE] pixel_out[0]=172 [1]=180 [2]=189 [3]=197
+# [SIMD WRITE] Time=84225000 x=12 y=9 idx=0 data=172 addr=131228
+# [SIMD WRITE] Time=84235000 x=12 y=9 idx=1 data=180 addr=131229
+# [SIMD WRITE] Time=84245000 x=12 y=9 idx=2 data=189 addr=131230
+# [SIMD WRITE] Time=84255000 x=12 y=9 idx=3 data=197 addr=131231
+# [SIMD DP DONE] pixel_out[0]=205 [1]=90 [2]=98 [3]=106
+# [SIMD WRITE] Time=84535000 x=0 y=10 idx=0 data=205 addr=131232
+# [SIMD WRITE] Time=84545000 x=0 y=10 idx=1 data=90 addr=131233
+# [SIMD WRITE] Time=84555000 x=0 y=10 idx=2 data=98 addr=131234
+# [SIMD WRITE] Time=84565000 x=0 y=10 idx=3 data=106 addr=131235
+# [SIMD DP DONE] pixel_out[0]=115 [1]=123 [2]=131 [3]=139
+# [SIMD WRITE] Time=84845000 x=4 y=10 idx=0 data=115 addr=131236
+# [SIMD WRITE] Time=84855000 x=4 y=10 idx=1 data=123 addr=131237
+# [SIMD WRITE] Time=84865000 x=4 y=10 idx=2 data=131 addr=131238
+# [SIMD WRITE] Time=84875000 x=4 y=10 idx=3 data=139 addr=131239
+# [SIMD DP DONE] pixel_out[0]=148 [1]=156 [2]=164 [3]=172
+# [SIMD WRITE] Time=85155000 x=8 y=10 idx=0 data=148 addr=131240
+# [SIMD WRITE] Time=85165000 x=8 y=10 idx=1 data=156 addr=131241
+# [SIMD WRITE] Time=85175000 x=8 y=10 idx=2 data=164 addr=131242
+# [SIMD WRITE] Time=85185000 x=8 y=10 idx=3 data=172 addr=131243
+# [SIMD DP DONE] pixel_out[0]=180 [1]=189 [2]=197 [3]=205
+# [SIMD WRITE] Time=85465000 x=12 y=10 idx=0 data=180 addr=131244
+# [SIMD WRITE] Time=85475000 x=12 y=10 idx=1 data=189 addr=131245
+# [SIMD WRITE] Time=85485000 x=12 y=10 idx=2 data=197 addr=131246
+# [SIMD WRITE] Time=85495000 x=12 y=10 idx=3 data=205 addr=131247
+# [SIMD DP DONE] pixel_out[0]=213 [1]=98 [2]=106 [3]=115
+# [SIMD WRITE] Time=85775000 x=0 y=11 idx=0 data=213 addr=131248
+# [SIMD WRITE] Time=85785000 x=0 y=11 idx=1 data=98 addr=131249
+# [SIMD WRITE] Time=85795000 x=0 y=11 idx=2 data=106 addr=131250
+# [SIMD WRITE] Time=85805000 x=0 y=11 idx=3 data=115 addr=131251
+# [SIMD DP DONE] pixel_out[0]=123 [1]=131 [2]=139 [3]=148
+# [SIMD WRITE] Time=86085000 x=4 y=11 idx=0 data=123 addr=131252
+# [SIMD WRITE] Time=86095000 x=4 y=11 idx=1 data=131 addr=131253
+# [SIMD WRITE] Time=86105000 x=4 y=11 idx=2 data=139 addr=131254
+# [SIMD WRITE] Time=86115000 x=4 y=11 idx=3 data=148 addr=131255
+# [SIMD DP DONE] pixel_out[0]=156 [1]=164 [2]=172 [3]=180
+# [SIMD WRITE] Time=86395000 x=8 y=11 idx=0 data=156 addr=131256
+# [SIMD WRITE] Time=86405000 x=8 y=11 idx=1 data=164 addr=131257
+# [SIMD WRITE] Time=86415000 x=8 y=11 idx=2 data=172 addr=131258
+# [SIMD WRITE] Time=86425000 x=8 y=11 idx=3 data=180 addr=131259
+# [SIMD DP DONE] pixel_out[0]=189 [1]=197 [2]=205 [3]=213
+# [SIMD WRITE] Time=86705000 x=12 y=11 idx=0 data=189 addr=131260
+# [SIMD WRITE] Time=86715000 x=12 y=11 idx=1 data=197 addr=131261
+# [SIMD WRITE] Time=86725000 x=12 y=11 idx=2 data=205 addr=131262
+# [SIMD WRITE] Time=86735000 x=12 y=11 idx=3 data=213 addr=131263
+# [SIMD DP DONE] pixel_out[0]=222 [1]=106 [2]=115 [3]=123
+# [SIMD WRITE] Time=87015000 x=0 y=12 idx=0 data=222 addr=131264
+# [SIMD WRITE] Time=87025000 x=0 y=12 idx=1 data=106 addr=131265
+# [SIMD WRITE] Time=87035000 x=0 y=12 idx=2 data=115 addr=131266
+# [SIMD WRITE] Time=87045000 x=0 y=12 idx=3 data=123 addr=131267
+# [SIMD DP DONE] pixel_out[0]=131 [1]=139 [2]=148 [3]=156
+# [SIMD WRITE] Time=87325000 x=4 y=12 idx=0 data=131 addr=131268
+# [SIMD WRITE] Time=87335000 x=4 y=12 idx=1 data=139 addr=131269
+# [SIMD WRITE] Time=87345000 x=4 y=12 idx=2 data=148 addr=131270
+# [SIMD WRITE] Time=87355000 x=4 y=12 idx=3 data=156 addr=131271
+# [SIMD DP DONE] pixel_out[0]=164 [1]=172 [2]=180 [3]=189
+# [SIMD WRITE] Time=87635000 x=8 y=12 idx=0 data=164 addr=131272
+# [SIMD WRITE] Time=87645000 x=8 y=12 idx=1 data=172 addr=131273
+# [SIMD WRITE] Time=87655000 x=8 y=12 idx=2 data=180 addr=131274
+# [SIMD WRITE] Time=87665000 x=8 y=12 idx=3 data=189 addr=131275
+# [SIMD DP DONE] pixel_out[0]=197 [1]=205 [2]=213 [3]=222
+# [SIMD WRITE] Time=87945000 x=12 y=12 idx=0 data=197 addr=131276
+# [SIMD WRITE] Time=87955000 x=12 y=12 idx=1 data=205 addr=131277
+# [SIMD WRITE] Time=87965000 x=12 y=12 idx=2 data=213 addr=131278
+# [SIMD WRITE] Time=87975000 x=12 y=12 idx=3 data=222 addr=131279
+# [SIMD DP DONE] pixel_out[0]=230 [1]=115 [2]=123 [3]=131
+# [SIMD WRITE] Time=88255000 x=0 y=13 idx=0 data=230 addr=131280
+# [SIMD WRITE] Time=88265000 x=0 y=13 idx=1 data=115 addr=131281
+# [SIMD WRITE] Time=88275000 x=0 y=13 idx=2 data=123 addr=131282
+# [SIMD WRITE] Time=88285000 x=0 y=13 idx=3 data=131 addr=131283
+# [SIMD DP DONE] pixel_out[0]=139 [1]=148 [2]=156 [3]=164
+# [SIMD WRITE] Time=88565000 x=4 y=13 idx=0 data=139 addr=131284
+# [SIMD WRITE] Time=88575000 x=4 y=13 idx=1 data=148 addr=131285
+# [SIMD WRITE] Time=88585000 x=4 y=13 idx=2 data=156 addr=131286
+# [SIMD WRITE] Time=88595000 x=4 y=13 idx=3 data=164 addr=131287
+# [SIMD DP DONE] pixel_out[0]=172 [1]=180 [2]=189 [3]=197
+# [SIMD WRITE] Time=88875000 x=8 y=13 idx=0 data=172 addr=131288
+# [SIMD WRITE] Time=88885000 x=8 y=13 idx=1 data=180 addr=131289
+# [SIMD WRITE] Time=88895000 x=8 y=13 idx=2 data=189 addr=131290
+# [SIMD WRITE] Time=88905000 x=8 y=13 idx=3 data=197 addr=131291
+# [SIMD DP DONE] pixel_out[0]=205 [1]=213 [2]=222 [3]=230
+# [SIMD WRITE] Time=89185000 x=12 y=13 idx=0 data=205 addr=131292
+# [SIMD WRITE] Time=89195000 x=12 y=13 idx=1 data=213 addr=131293
+# [SIMD WRITE] Time=89205000 x=12 y=13 idx=2 data=222 addr=131294
+# [SIMD WRITE] Time=89215000 x=12 y=13 idx=3 data=230 addr=131295
+# [SIMD DP DONE] pixel_out[0]=238 [1]=123 [2]=131 [3]=139
+# [SIMD WRITE] Time=89495000 x=0 y=14 idx=0 data=238 addr=131296
+# [SIMD WRITE] Time=89505000 x=0 y=14 idx=1 data=123 addr=131297
+# [SIMD WRITE] Time=89515000 x=0 y=14 idx=2 data=131 addr=131298
+# [SIMD WRITE] Time=89525000 x=0 y=14 idx=3 data=139 addr=131299
+# [SIMD DP DONE] pixel_out[0]=148 [1]=156 [2]=164 [3]=172
+# [SIMD WRITE] Time=89805000 x=4 y=14 idx=0 data=148 addr=131300
+# [SIMD WRITE] Time=89815000 x=4 y=14 idx=1 data=156 addr=131301
+# [SIMD WRITE] Time=89825000 x=4 y=14 idx=2 data=164 addr=131302
+# [SIMD WRITE] Time=89835000 x=4 y=14 idx=3 data=172 addr=131303
+# [SIMD DP DONE] pixel_out[0]=180 [1]=189 [2]=197 [3]=205
+# [SIMD WRITE] Time=90115000 x=8 y=14 idx=0 data=180 addr=131304
+# [SIMD WRITE] Time=90125000 x=8 y=14 idx=1 data=189 addr=131305
+# [SIMD WRITE] Time=90135000 x=8 y=14 idx=2 data=197 addr=131306
+# [SIMD WRITE] Time=90145000 x=8 y=14 idx=3 data=205 addr=131307
+# [SIMD DP DONE] pixel_out[0]=213 [1]=222 [2]=230 [3]=238
+# [SIMD WRITE] Time=90425000 x=12 y=14 idx=0 data=213 addr=131308
+# [SIMD WRITE] Time=90435000 x=12 y=14 idx=1 data=222 addr=131309
+# [SIMD WRITE] Time=90445000 x=12 y=14 idx=2 data=230 addr=131310
+# [SIMD WRITE] Time=90455000 x=12 y=14 idx=3 data=238 addr=131311
+# [SIMD DP DONE] pixel_out[0]=246 [1]=131 [2]=139 [3]=148
+# [SIMD WRITE] Time=90735000 x=0 y=15 idx=0 data=246 addr=131312
+# [SIMD WRITE] Time=90745000 x=0 y=15 idx=1 data=131 addr=131313
+# [SIMD WRITE] Time=90755000 x=0 y=15 idx=2 data=139 addr=131314
+# [SIMD WRITE] Time=90765000 x=0 y=15 idx=3 data=148 addr=131315
+# [SIMD DP DONE] pixel_out[0]=156 [1]=164 [2]=172 [3]=180
+# [SIMD WRITE] Time=91045000 x=4 y=15 idx=0 data=156 addr=131316
+# [SIMD WRITE] Time=91055000 x=4 y=15 idx=1 data=164 addr=131317
+# [SIMD WRITE] Time=91065000 x=4 y=15 idx=2 data=172 addr=131318
+# [SIMD WRITE] Time=91075000 x=4 y=15 idx=3 data=180 addr=131319
+# [SIMD DP DONE] pixel_out[0]=189 [1]=197 [2]=205 [3]=213
+# [SIMD WRITE] Time=91355000 x=8 y=15 idx=0 data=189 addr=131320
+# [SIMD WRITE] Time=91365000 x=8 y=15 idx=1 data=197 addr=131321
+# [SIMD WRITE] Time=91375000 x=8 y=15 idx=2 data=205 addr=131322
+# [SIMD WRITE] Time=91385000 x=8 y=15 idx=3 data=213 addr=131323
+# [SIMD DP DONE] pixel_out[0]=222 [1]=230 [2]=238 [3]=246
+# [SIMD WRITE] Time=91665000 x=12 y=15 idx=0 data=222 addr=131324
+# [SIMD WRITE] Time=91675000 x=12 y=15 idx=1 data=230 addr=131325
+# [SIMD WRITE] Time=91685000 x=12 y=15 idx=2 data=238 addr=131326
+# [SIMD WRITE] Time=91695000 x=12 y=15 idx=3 data=246 addr=131327
+# [91715000] Procesamiento completado en 1986 ciclos
+#   FLOPs ejecutadas: 2048
 #   Lecturas de memoria: 1024
 #   Escrituras de memoria: 1280
-#   Throughput: 2.13 FLOPs/ciclo
+#   Throughput: 1.03 FLOPs/ciclo
 # 
 # ========================================
 # RESULTADOS DE COMPARACION
 # ========================================
-# Ciclos secuencial: 2562
-# Ciclos SIMD:       1922
-# Speedup:           1.33x
-# Eficiencia:        33.3%
+# Ciclos secuencial: 2818
+# Ciclos SIMD:       1986
+# Speedup:           1.42x
+# Eficiencia:        35.5%
 # RESULTADO: MARGINAL (speedup >= 1.0x)
 # ========================================
 # 
@@ -292,9 +712,7 @@
 # ====================================================
 # FIN DE TESTBENCH
 # ====================================================
-# ** Note: $finish    : C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_top_tb.sv(515)
-#    Time: 87515 ns  Iteration: 1  Instance: /dsa_top_tb
+# ** Note: $finish    : C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_top_tb.sv(538)
+#    Time: 91715 ns  Iteration: 1  Instance: /dsa_top_tb
 # 1
-# Break in Module dsa_top_tb at C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_top_tb.sv line 515
-# End time: 12:05:38 on Nov 27,2025, Elapsed time: 0:12:54
-# Errors: 0, Warnings: 0
+# Break in Module dsa_top_tb at C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_top_tb.sv line 538

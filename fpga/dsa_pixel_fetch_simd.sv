@@ -1,13 +1,12 @@
 //============================================================
-// CORRECCIÓN PARA dsa_pixel_fetch_simd.sv
+// dsa_pixel_fetch_simd.sv - VERSIÓN CORREGIDA v2
+// Con lógica de captura simplificada y correcta
 //============================================================
 
 module dsa_pixel_fetch_simd #(
     parameter ADDR_WIDTH = 18,
-    parameter IMG_WIDTH  = 512,
     parameter SIMD_WIDTH = 4
 )(
-    // ... (mismos puertos que el original) ...
     input  logic                    clk,
     input  logic                    rst,
     input  logic                    req_valid,
@@ -15,6 +14,8 @@ module dsa_pixel_fetch_simd #(
     input  logic [15:0]             base_y,
     input  logic [7:0]              scale_factor,
     input  logic [ADDR_WIDTH-1:0]   img_base_addr,
+    input  logic [15:0]             img_width,
+    input  logic [15:0]             img_height,
     output logic                    mem_read_en,
     output logic [ADDR_WIDTH-1:0]   mem_addr,
     input  logic [7:0]              mem_data,
@@ -28,141 +29,228 @@ module dsa_pixel_fetch_simd #(
     output logic                    busy
 );
 
+    //========================================================
     // Estados
+    //========================================================
     typedef enum logic [2:0] {
         ST_IDLE         = 3'd0,
-        ST_CALC         = 3'd1, // Calculamos todo en un estado o pipelineamos
-        ST_FETCH_PIPE   = 3'd2, // Fetch continuo
-        ST_DONE         = 3'd3
+        ST_CALC         = 3'd1,
+        ST_FETCH        = 3'd2,
+        ST_CAPTURE_LAST = 3'd3,
+        ST_DONE         = 3'd4
     } state_t;
     state_t state, next_state;
 
+    //========================================================
     // Contadores y registros
-    logic [4:0] fetch_idx_req;  // Índice para SOLICITAR datos (0 a 15)
-    logic [4:0] fetch_idx_save; // Índice para GUARDAR datos (retardado 1 ciclo)
-    logic [4:0] calc_idx;       // Para el cálculo inicial
-
-    // Arrays internos (reutilizamos la lógica original de registros)
+    //========================================================
+    logic [4:0] fetch_count;      // 0-16: qué fetch estamos haciendo
+    logic [4:0] capture_count;    // 0-16: qué dato estamos capturando
+    logic [2:0] calc_idx;
+    
+    // Registro para saber si hay dato pendiente de captura
+    logic capture_pending;
+    
+    // Registros para coordenadas calculadas
     logic [15:0] src_x_int_r [0:SIMD_WIDTH-1];
     logic [15:0] src_y_int_r [0:SIMD_WIDTH-1];
     logic [15:0] frac_x_r    [0:SIMD_WIDTH-1];
     logic [15:0] frac_y_r    [0:SIMD_WIDTH-1];
+    
+    // Registros de configuración
+    logic [15:0] base_x_r, base_y_r;
+    logic [15:0] img_width_r, img_height_r;
+    logic [ADDR_WIDTH-1:0] img_base_addr_r;
+    logic [7:0]  scale_factor_r;
 
-    logic [25:0] inv_scale_fixed;
-    assign inv_scale_fixed = (scale_factor != 8'd0) ? (26'd65536 / {18'd0, scale_factor}) : 26'd65536;
+    // Cálculo de escala inversa
+    logic [31:0] inv_scale_q8_8;
+    assign inv_scale_q8_8 = (scale_factor_r != 8'd0) ? 
+                            (32'd65536 / {24'd0, scale_factor_r}) : 
+                            32'd256;
 
-    // Lógica de cálculo de dirección actual
-    logic [1:0]  req_pixel_idx;
-    logic [1:0]  req_neighbor_idx;
-    assign req_pixel_idx    = fetch_idx_req[3:2];
-    assign req_neighbor_idx = fetch_idx_req[1:0];
+    // Índices derivados de capture_count
+    logic [1:0] cap_pixel_idx;
+    logic [1:0] cap_neighbor_idx;
+    assign cap_pixel_idx    = capture_count[3:2];
+    assign cap_neighbor_idx = capture_count[1:0];
 
-    logic [1:0]  save_pixel_idx;
-    logic [1:0]  save_neighbor_idx;
-    assign save_pixel_idx    = fetch_idx_save[3:2];
-    assign save_neighbor_idx = fetch_idx_save[1:0];
-	 
-	 logic [25:0] temp_x, temp_y;
+    // Índices para solicitud de memoria (basados en fetch_count)
+    logic [1:0] req_pixel_idx;
+    logic [1:0] req_neighbor_idx;
+    assign req_pixel_idx    = fetch_count[3:2];
+    assign req_neighbor_idx = fetch_count[1:0];
 
+    // Variables para cálculo de direcciones
+    logic [31:0] temp_x, temp_y;
     logic [ADDR_WIDTH-1:0] row_addr;
+    
+    // Registros de salida de memoria
+    logic [ADDR_WIDTH-1:0] mem_addr_r;
+    logic mem_read_en_r;
 
-    // FSM Secuencial
+    //========================================================
+    // FSM Principal
+    //========================================================
     always_ff @(posedge clk or posedge rst) begin
         if (rst) begin
             state <= ST_IDLE;
             calc_idx <= '0;
-            fetch_idx_req <= '0;
-            fetch_idx_save <= '0;
-            // Reset outputs...
+            fetch_count <= '0;
+            capture_count <= '0;
+            capture_pending <= 1'b0;
+            base_x_r <= '0;
+            base_y_r <= '0;
+            img_width_r <= 16'd512;
+            img_height_r <= 16'd512;
+            img_base_addr_r <= '0;
+            scale_factor_r <= 8'h80;
+            mem_read_en_r <= 1'b0;
+            mem_addr_r <= '0;
+            
+            for (int i = 0; i < SIMD_WIDTH; i++) begin
+                src_x_int_r[i] <= '0;
+                src_y_int_r[i] <= '0;
+                frac_x_r[i] <= '0;
+                frac_y_r[i] <= '0;
+                p00[i] <= 8'd0;
+                p01[i] <= 8'd0;
+                p10[i] <= 8'd0;
+                p11[i] <= 8'd0;
+                a[i] <= 16'd0;
+                b[i] <= 16'd0;
+            end
         end else begin
             state <= next_state;
-
-            // LOGICA DE CÁLCULO DE COORDENADAS
-            if (state == ST_CALC) begin
-                // Hacemos el cálculo iterativo para ahorrar hardware o usamos tu lógica combinacional
-                // Aquí uso una versión simplificada de tu lógica original pero serializada para no explotar el área
+            
+            case (state)
+                ST_IDLE: begin
+                    if (req_valid) begin
+                        // Capturar configuración
+                        base_x_r <= base_x;
+                        base_y_r <= base_y;
+                        img_width_r <= img_width;
+                        img_height_r <= img_height;
+                        img_base_addr_r <= img_base_addr;
+                        scale_factor_r <= scale_factor;
+                        calc_idx <= '0;
+                        fetch_count <= '0;
+                        capture_count <= '0;
+                        capture_pending <= 1'b0;
+                        mem_read_en_r <= 1'b0;
+                        
+                        // Limpiar buffers de salida
+                        for (int i = 0; i < SIMD_WIDTH; i++) begin
+                            p00[i] <= 8'd0;
+                            p01[i] <= 8'd0;
+                            p10[i] <= 8'd0;
+                            p11[i] <= 8'd0;
+                        end
+                    end
+                end
                 
-                temp_x = (base_x + calc_idx) * inv_scale_fixed;
-                temp_y = base_y * inv_scale_fixed;
+                ST_CALC: begin
+                    // Calcular coordenadas fuente para cada píxel SIMD
+                    temp_x = (base_x_r + {13'd0, calc_idx}) * inv_scale_q8_8;
+                    temp_y = base_y_r * inv_scale_q8_8;
+                    
+                    src_x_int_r[calc_idx] <= temp_x[23:8];
+                    src_y_int_r[calc_idx] <= temp_y[23:8];
+                    frac_x_r[calc_idx]    <= {temp_x[7:0], 8'd0};
+                    frac_y_r[calc_idx]    <= {temp_y[7:0], 8'd0};
+                    
+                    if (calc_idx < SIMD_WIDTH - 1)
+                        calc_idx <= calc_idx + 1;
+                end
                 
-                src_x_int_r[calc_idx] <= temp_x[25:16];
-                src_y_int_r[calc_idx] <= temp_y[25:16];
-                frac_x_r[calc_idx]    <= temp_x[15:0];
-                frac_y_r[calc_idx]    <= temp_y[15:0];
+                ST_FETCH: begin
+                    // === CAPTURA del dato anterior (si hay pendiente) ===
+                    if (capture_pending && capture_count < 16) begin
+                        case (cap_neighbor_idx)
+                            2'd0: p00[cap_pixel_idx] <= mem_data;
+                            2'd1: p01[cap_pixel_idx] <= mem_data;
+                            2'd2: p10[cap_pixel_idx] <= mem_data;
+                            2'd3: begin
+                                p11[cap_pixel_idx] <= mem_data;
+                                a[cap_pixel_idx] <= {8'd0, frac_x_r[cap_pixel_idx][15:8]};
+                                b[cap_pixel_idx] <= {8'd0, frac_y_r[cap_pixel_idx][15:8]};
+                            end
+                        endcase
+                        capture_count <= capture_count + 1;
+                    end
+                    
+                    // === SOLICITUD de nuevo dato ===
+                    if (fetch_count < 16) begin
+                        mem_read_en_r <= 1'b1;
+                        
+                        // Calcular dirección
+                        if (req_neighbor_idx[1] == 0)
+                            row_addr = img_base_addr_r + (src_y_int_r[req_pixel_idx] * img_width_r);
+                        else
+                            row_addr = img_base_addr_r + ((src_y_int_r[req_pixel_idx] + 16'd1) * img_width_r);
+                        
+                        if (req_neighbor_idx[0] == 0)
+                            mem_addr_r <= row_addr + src_x_int_r[req_pixel_idx];
+                        else
+                            mem_addr_r <= row_addr + src_x_int_r[req_pixel_idx] + 16'd1;
+                        
+                        fetch_count <= fetch_count + 1;
+                        capture_pending <= 1'b1;  // Próximo ciclo habrá dato para capturar
+                    end else begin
+                        mem_read_en_r <= 1'b0;
+                    end
+                end
                 
-                calc_idx <= calc_idx + 1;
-            end else if (state == ST_IDLE) begin
-                calc_idx <= '0;
-            end
-
-            // LOGICA DE FETCH (PIPELINED)
-            if (state == ST_FETCH_PIPE) begin
-                // Incrementamos request counter hasta llegar al final
-                if (fetch_idx_req < 16) 
-                    fetch_idx_req <= fetch_idx_req + 1;
+                ST_CAPTURE_LAST: begin
+                    // Capturar el último dato
+                    mem_read_en_r <= 1'b0;
+                    
+                    if (capture_count < 16) begin
+                        case (cap_neighbor_idx)
+                            2'd0: p00[cap_pixel_idx] <= mem_data;
+                            2'd1: p01[cap_pixel_idx] <= mem_data;
+                            2'd2: p10[cap_pixel_idx] <= mem_data;
+                            2'd3: begin
+                                p11[cap_pixel_idx] <= mem_data;
+                                a[cap_pixel_idx] <= {8'd0, frac_x_r[cap_pixel_idx][15:8]};
+                                b[cap_pixel_idx] <= {8'd0, frac_y_r[cap_pixel_idx][15:8]};
+                            end
+                        endcase
+                        capture_count <= capture_count + 1;
+                    end
+                end
                 
-                // Incrementamos save counter (va 1 ciclo detrás del request)
-                // Cuando req es 0, save es inválido. Cuando req es 1, save captura el 0.
-                if (fetch_idx_req > 0 || (fetch_idx_req == 16 && fetch_idx_save < 16))
-                     fetch_idx_save <= fetch_idx_save + 1;
-            end else begin
-                fetch_idx_req <= '0;
-                fetch_idx_save <= '0;
-            end
+                ST_DONE: begin
+                    capture_pending <= 1'b0;
+                    fetch_count <= '0;
+                    capture_count <= '0;
+                end
+                
+                default: ;
+            endcase
         end
     end
 
+    //========================================================
     // FSM Combinacional
+    //========================================================
     always_comb begin
         next_state = state;
         case (state)
-            ST_IDLE: if (req_valid) next_state = ST_CALC;
-            ST_CALC: if (calc_idx == SIMD_WIDTH-1) next_state = ST_FETCH_PIPE;
-            ST_FETCH_PIPE: begin
-                // Terminamos cuando hemos guardado el último dato (índice 15)
-                if (fetch_idx_save == 15) next_state = ST_DONE;
-            end
-            ST_DONE: next_state = ST_IDLE;
+            ST_IDLE:        if (req_valid) next_state = ST_CALC;
+            ST_CALC:        if (calc_idx >= SIMD_WIDTH - 1) next_state = ST_FETCH;
+            ST_FETCH:       if (fetch_count >= 16) next_state = ST_CAPTURE_LAST;
+            ST_CAPTURE_LAST: if (capture_count >= 16) next_state = ST_DONE;
+            ST_DONE:        next_state = ST_IDLE;
+            default:        next_state = ST_IDLE;
         endcase
     end
 
-    // Lógica de Memoria y Guardado
-    always_ff @(posedge clk) begin
-        mem_read_en <= 1'b0;
-        
-        // 1. REQUEST PHASE
-        if (state == ST_FETCH_PIPE && fetch_idx_req < 16) begin
-            mem_read_en <= 1'b1;
-            // Seleccionar base row
-            if (req_neighbor_idx[1] == 0) // Vecinos 0 y 1 (fila superior)
-                row_addr = img_base_addr + (src_y_int_r[req_pixel_idx] * IMG_WIDTH);
-            else // Vecinos 2 y 3 (fila inferior)
-                row_addr = img_base_addr + ((src_y_int_r[req_pixel_idx] + 16'd1) * IMG_WIDTH);
-            
-            // Seleccionar offset X
-            if (req_neighbor_idx[0] == 0) // Vecinos 0 y 2 (izq)
-                mem_addr <= row_addr + src_x_int_r[req_pixel_idx];
-            else // Vecinos 1 y 3 (der)
-                mem_addr <= row_addr + src_x_int_r[req_pixel_idx] + 16'd1;
-        end
-
-        // 2. SAVE PHASE (Data available from previous cycle)
-        // Usamos un retardo implícito: si pedimos en ciclo T, data llega en T+1
-        if (state == ST_FETCH_PIPE && (fetch_idx_req > 0 || fetch_idx_save < 16)) begin
-             // Usamos fetch_idx_save para saber qué dato está llegando
-             case (save_neighbor_idx)
-                2'd0: p00[save_pixel_idx] <= mem_data;
-                2'd1: p01[save_pixel_idx] <= mem_data;
-                2'd2: p10[save_pixel_idx] <= mem_data;
-                2'd3: begin
-                    p11[save_pixel_idx] <= mem_data;
-                    a[save_pixel_idx]   <= {8'd0, frac_x_r[save_pixel_idx][15:8]};
-                    b[save_pixel_idx]   <= {8'd0, frac_y_r[save_pixel_idx][15:8]};
-                end
-             endcase
-        end
-    end
-
+    //========================================================
+    // Salidas
+    //========================================================
+    assign mem_addr = mem_addr_r;
+    assign mem_read_en = mem_read_en_r;
     assign fetch_valid = (state == ST_DONE);
     assign busy = (state != ST_IDLE);
 
