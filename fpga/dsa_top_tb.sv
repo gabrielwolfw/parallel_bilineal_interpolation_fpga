@@ -283,6 +283,7 @@ module dsa_top_tb;
             img_width_in = test_width;
             img_height_in = test_height;
             scale_factor = 8'h80;  // 0.5
+				
             
             width_out = (test_width * 8'h80) >> 8;
             height_out = (test_height * 8'h80) >> 8;
@@ -437,7 +438,7 @@ module dsa_top_tb;
             load_test_image(test_width, test_height);
             img_width_in = test_width;
             img_height_in = test_height;
-            scale_factor = 8'h80;
+            scale_factor = 8'hB3; // 0.7 -> 0.5 8'h80
             start_processing(0);
             wait_for_completion();
             seq_cycles = cycle_count;
@@ -449,7 +450,7 @@ module dsa_top_tb;
             load_test_image(test_width, test_height);
             img_width_in = test_width;
             img_height_in = test_height;
-            scale_factor = 8'h80;
+            scale_factor = 8'hB3; // 0.7
             start_processing(1);
             wait_for_completion();
             simd_cycles = cycle_count;
