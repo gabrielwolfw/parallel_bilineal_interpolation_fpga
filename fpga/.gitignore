@@ -1,5 +1,4 @@
 fpga/db/parallel_fpga.quiproj.2872.rdr.flock
-url=
 # Quartus
 *.qws
 *.bak
@@ -28,9 +27,3 @@ transcript
 *~
 *.swp
 .DS_Store
-/fpga/simulation/modelsim
-/fpga/simulation/modelsim
-*.rpt
-*.rpt
-/fpga/output_files
-/fpga/output_files

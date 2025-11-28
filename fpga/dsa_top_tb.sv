@@ -13,8 +13,8 @@ module dsa_top_tb;
     //========================================================
     parameter CLK_PERIOD = 10;
     parameter ADDR_WIDTH = 18;
-    parameter IMG_WIDTH_MAX = 512;
-    parameter IMG_HEIGHT_MAX = 512;
+    parameter IMG_WIDTH_MAX = 1024;
+    parameter IMG_HEIGHT_MAX = 1024;
     parameter SIMD_WIDTH = 4;
     parameter MEM_SIZE = 262144;
 
@@ -271,11 +271,11 @@ module dsa_top_tb;
             test_num = test_num + 1;
             $display("");
             $display("========================================");
-            $display("TEST %0d: Imagen 8x8 Secuencial", test_num);
+            $display("TEST %0d: Imagen 16x16 Secuencial", test_num);
             $display("========================================");
             
-            test_width = 32;
-            test_height = 32;
+            test_width = 16;
+            test_height = 16;
             
             reset_system();
             load_test_image(test_width, test_height);
@@ -311,11 +311,11 @@ module dsa_top_tb;
             test_num = test_num + 1;
             $display("");
             $display("========================================");
-            $display("TEST %0d: Imagen 8x8 SIMD", test_num);
+            $display("TEST %0d: Imagen 16x16 SIMD", test_num);
             $display("========================================");
             
-            test_width = 32;
-            test_height = 32;
+            test_width = 16;
+            test_height = 16;
             
             reset_system();
             load_test_image(test_width, test_height);
@@ -354,8 +354,8 @@ module dsa_top_tb;
             $display("TEST %0d: Imagen 16x16 Secuencial", test_num);
             $display("========================================");
             
-            test_width = 32;
-            test_height = 32;
+            test_width = 16;
+            test_height = 16;
             
             reset_system();
             load_test_image(test_width, test_height);
@@ -391,8 +391,8 @@ module dsa_top_tb;
             $display("TEST %0d: Imagen 16x16 SIMD", test_num);
             $display("========================================");
             
-            test_width = 32;
-            test_height = 32;
+            test_width = 16;
+            test_height = 16;
             
             reset_system();
             load_test_image(test_width, test_height);
@@ -424,11 +424,11 @@ module dsa_top_tb;
             test_num = test_num + 1;
             $display("");
             $display("========================================");
-            $display("TEST %0d: Comparacion de Rendimiento 32x32", test_num);
+            $display("TEST %0d: Comparacion de Rendimiento 16x16", test_num);
             $display("========================================");
             
-            test_width = 32;
-            test_height = 32;
+            test_width = 16;
+            test_height = 16;
             
             // Secuencial
             $display("");

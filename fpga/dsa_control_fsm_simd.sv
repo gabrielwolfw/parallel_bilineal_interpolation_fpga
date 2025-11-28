@@ -63,7 +63,7 @@ module dsa_control_fsm_simd #(
     // Cálculo de total de píxeles
     //========================================================
     always_comb begin
-        total_pixels = img_width_out * img_height_out;
+        total_pixels = {16'd0, img_width_out} * {16'd0, img_height_out};
     end
     
     //========================================================

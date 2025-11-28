@@ -35,8 +35,8 @@ module dsa_top #(
     logic [15:0] img_width_out;
     logic [15:0] img_height_out;
     
-    assign img_width_out = (img_width_in * scale_factor) >> 8;
-    assign img_height_out = (img_height_in * scale_factor) >> 8;
+    assign img_width_out = (({16'd0, img_width_in} * {24'd0, scale_factor}) >> 8);
+    assign img_height_out = (({16'd0, img_height_in} * {24'd0, scale_factor}) >> 8);
     
     //========================================================
     // Señales de control FSM secuencial
@@ -227,11 +227,16 @@ module dsa_top #(
     logic [ADDR_WIDTH-1:0]  int_mem_addr;
     logic [7:0]             int_mem_data_in;
     logic [7:0]             mem_data_out;
-    
+	 
+	 
+    logic [31:0] write_base_addr_full;  // 32 bits para el cálculo
     logic [ADDR_WIDTH-1:0] write_base_addr;
     
-    assign write_base_addr = (MEM_SIZE/2) + (active_y * img_width_out + active_x);
-    assign int_mem_write_en = active_write_enable;
+	 
+	 assign write_base_addr_full = (MEM_SIZE/2) + ({16'd0, active_y} * {16'd0, img_width_out}) + {16'd0, active_x};
+	 assign write_base_addr = write_base_addr_full[ADDR_WIDTH-1:0];
+	 
+	 assign int_mem_write_en = active_write_enable;
     assign int_mem_addr = write_base_addr + (mode_simd ? {14'd0, active_write_index} : 18'd0);
     
     // Usar datos latcheados para SIMD
@@ -266,10 +271,14 @@ module dsa_top #(
 	 //========================================================
     // Señales de estado
     //========================================================
+	 logic [31:0] progress_full;
+	 
+	 assign busy = mode_simd ? simd_busy : seq_busy;
+	 assign ready = mode_simd ?  simd_ready : seq_ready;
     
-    assign busy = mode_simd ? simd_busy : seq_busy;
-    assign ready = mode_simd ? simd_ready : seq_ready;
-    assign progress = active_y * img_width_out + active_x;
+	 
+    assign progress_full = ({16'd0, active_y} * {16'd0, img_width_out}) + {16'd0, active_x};
+    assign progress = progress_full[15:0];  // Truncar a 16 bits para la salida
     
     //========================================================
     // MULTIPLEXOR DE MEMORIA
