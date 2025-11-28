@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
 
-module testbench_simd;
+module dsa_simd_tb;
 
     parameter N = 4; // Cantidad de lanes
 

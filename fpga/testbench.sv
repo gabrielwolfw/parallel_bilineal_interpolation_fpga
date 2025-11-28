@@ -5,7 +5,7 @@
 
 `timescale 1ns/1ps
 
-module testbench;
+module dsa_interpolation_tb;
 
     // Señales de prueba
     logic clk;
