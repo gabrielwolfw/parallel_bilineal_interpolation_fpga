@@ -1,0 +1,186 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dC:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/simulation/modelsim
+valtera_reset_controller
+Z1 !s110 1764365661
+!i10b 1
+!s100 z[H_hRO9gO=:^2E3_jWH03
+IE<6PDDi6YOd13`BLmkBEc0
+Z2 VDg1SIo80bB@j0V0VzS_@n1
+R0
+Z3 w1764361503
+8C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_jtag_system/synthesis/submodules/altera_reset_controller.v
+FC:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_jtag_system/synthesis/submodules/altera_reset_controller.v
+L0 42
+Z4 OV;L;10.5b;63
+r1
+!s85 0
+31
+Z5 !s108 1764365661.000000
+!s107 C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_jtag_system/synthesis/submodules/altera_reset_controller.v|
+!s90 -reportprogress|300|-vlog01compat|-work|dsa_jtag_system|+incdir+C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_jtag_system/synthesis/submodules|C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_jtag_system/synthesis/submodules/altera_reset_controller.v|
+!i113 1
+Z6 o-vlog01compat -work dsa_jtag_system
+Z7 !s92 -vlog01compat -work dsa_jtag_system +incdir+C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_jtag_system/synthesis/submodules
+Z8 tCvgOpt 0
+valtera_reset_synchronizer
+R1
+!i10b 1
+!s100 oWLYmSO[EOX[G0PgQhZ2=0
+IcC`9UP66F^GJWPDY@@lg20
+R2
+R0
+R3
+8C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_jtag_system/synthesis/submodules/altera_reset_synchronizer.v
+FC:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_jtag_system/synthesis/submodules/altera_reset_synchronizer.v
+L0 24
+R4
+r1
+!s85 0
+31
+R5
+!s107 C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_jtag_system/synthesis/submodules/altera_reset_synchronizer.v|
+!s90 -reportprogress|300|-vlog01compat|-work|dsa_jtag_system|+incdir+C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_jtag_system/synthesis/submodules|C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_jtag_system/synthesis/submodules/altera_reset_synchronizer.v|
+!i113 1
+R6
+R7
+R8
+vdsa_jtag_system
+R1
+!i10b 1
+!s100 Z:TJJBh=5SQjFRF>ISYcc2
+IhQz1n2CidF0H<B9h_=ohM2
+R2
+R0
+R3
+8C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_jtag_system/synthesis/dsa_jtag_system.v
+FC:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_jtag_system/synthesis/dsa_jtag_system.v
+L0 6
+R4
+r1
+!s85 0
+31
+R5
+!s107 C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_jtag_system/synthesis/dsa_jtag_system.v|
+!s90 -reportprogress|300|-vlog01compat|-work|dsa_jtag_system|+incdir+C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_jtag_system/synthesis|C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_jtag_system/synthesis/dsa_jtag_system.v|
+!i113 1
+R6
+!s92 -vlog01compat -work dsa_jtag_system +incdir+C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_jtag_system/synthesis
+R8
+vdsa_jtag_system_jtag_uart
+Z9 !s110 1764372714
+!i10b 1
+!s100 H?U?FWMWCDEm7cdHbE3K63
+I:`DBgcZ2Zeoh4C93ReTdc2
+R2
+R0
+Z10 w1764361504
+Z11 8C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_jtag_system/synthesis/submodules/dsa_jtag_system_jtag_uart.v
+Z12 FC:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_jtag_system/synthesis/submodules/dsa_jtag_system_jtag_uart.v
+L0 331
+R4
+r1
+!s85 0
+31
+Z13 !s108 1764372714.000000
+Z14 !s107 C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_jtag_system/synthesis/submodules/dsa_jtag_system_jtag_uart.v|
+Z15 !s90 -reportprogress|300|-vlog01compat|-work|dsa_jtag_system|+incdir+C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_jtag_system/synthesis/submodules|C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_jtag_system/synthesis/submodules/dsa_jtag_system_jtag_uart.v|
+!i113 1
+R6
+R7
+R8
+vdsa_jtag_system_jtag_uart_scfifo_r
+R9
+!i10b 1
+!s100 cj<MMSgf?7V8mSVY_IhS02
+IB^bSSOPo2iEmFYiEnfS7Z2
+R2
+R0
+R10
+R11
+R12
+L0 243
+R4
+r1
+!s85 0
+31
+R13
+R14
+R15
+!i113 1
+R6
+R7
+R8
+vdsa_jtag_system_jtag_uart_scfifo_w
+R9
+!i10b 1
+!s100 fmf9DSSMi`RXczk9CB]VR2
+IjD_j8`eSk>HVJG@EBmAe]3
+R2
+R0
+R10
+R11
+R12
+L0 78
+R4
+r1
+!s85 0
+31
+R13
+R14
+R15
+!i113 1
+R6
+R7
+R8
+vdsa_jtag_system_jtag_uart_sim_scfifo_r
+R9
+!i10b 1
+!s100 MinOUjc`@Nm3zXZ81YSJD0
+IaVo`4;Kh`:h3Ve9H;^d]H0
+R2
+R0
+R10
+R11
+R12
+L0 164
+R4
+r1
+!s85 0
+31
+R13
+R14
+R15
+!i113 1
+R6
+R7
+R8
+vdsa_jtag_system_jtag_uart_sim_scfifo_w
+R9
+!i10b 1
+!s100 W98;dekO61PCQASmTSKeF1
+IZ0V>1Zm3WCTHd4_[B98<13
+R2
+R0
+R10
+R11
+R12
+L0 21
+R4
+r1
+!s85 0
+31
+R13
+R14
+R15
+!i113 1
+R6
+R7
+R8

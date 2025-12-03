@@ -1,5 +1,5 @@
-# Reading C:/intelFPGA_lite/18.1/modelsim_ase/tcl/vsim/pref.tcl
-# do parallel_fpga_run_msim_rtl_verilog.do
+# Reading C:/intelFPGA_lite/18.0/modelsim_ase/tcl/vsim/pref.tcl
+# do parallel_fpga_run_msim_rtl_systemverilog.do
 # if {[file exists rtl_work]} {
 # 	vdel -lib rtl_work -all
 # }
@@ -7,114 +7,134 @@
 # vmap work rtl_work
 # Model Technology ModelSim - Intel FPGA Edition vmap 10.5b Lib Mapping Utility 2016.10 Oct  5 2016
 # vmap work rtl_work 
-# Copying C:/intelFPGA_lite/18.1/modelsim_ase/win32aloem/../modelsim.ini to modelsim.ini
+# Copying C:/intelFPGA_lite/18.0/modelsim_ase/win32aloem/../modelsim.ini to modelsim.ini
 # Modifying modelsim.ini
 # 
-# vlog -sv -work work +incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_datapath.sv}
+# vlib dsa_jtag_system
+# ** Warning: (vlib-34) Library already exists at "dsa_jtag_system".
+# vmap dsa_jtag_system dsa_jtag_system
+# Model Technology ModelSim - Intel FPGA Edition vmap 10.5b Lib Mapping Utility 2016.10 Oct  5 2016
+# vmap dsa_jtag_system dsa_jtag_system 
+# Modifying modelsim.ini
+# vlog -vlog01compat -work dsa_jtag_system +incdir+C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_jtag_system/synthesis/submodules {C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_jtag_system/synthesis/submodules/dsa_jtag_system_jtag_uart.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 20:43:58 on Nov 27,2025
-# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga" C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_datapath.sv 
+# Start time: 17:31:54 on Nov 28,2025
+# vlog -reportprogress 300 -vlog01compat -work dsa_jtag_system "+incdir+C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_jtag_system/synthesis/submodules" C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_jtag_system/synthesis/submodules/dsa_jtag_system_jtag_uart.v 
+# -- Compiling module dsa_jtag_system_jtag_uart_sim_scfifo_w
+# -- Compiling module dsa_jtag_system_jtag_uart_scfifo_w
+# -- Compiling module dsa_jtag_system_jtag_uart_sim_scfifo_r
+# -- Compiling module dsa_jtag_system_jtag_uart_scfifo_r
+# -- Compiling module dsa_jtag_system_jtag_uart
+# 
+# Top level modules:
+# 	dsa_jtag_system_jtag_uart
+# End time: 17:31:54 on Nov 28,2025, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -sv -work work +incdir+C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga {C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_datapath.sv}
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 17:31:54 on Nov 28,2025
+# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga" C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_datapath.sv 
 # -- Compiling module dsa_datapath
 # 
 # Top level modules:
 # 	dsa_datapath
-# End time: 20:43:58 on Nov 27,2025, Elapsed time: 0:00:00
+# End time: 17:31:54 on Nov 28,2025, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
-# vlog -sv -work work +incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_datapath_simd.sv}
+# vlog -sv -work work +incdir+C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga {C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_datapath_simd.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 20:43:58 on Nov 27,2025
-# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga" C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_datapath_simd.sv 
+# Start time: 17:31:54 on Nov 28,2025
+# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga" C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_datapath_simd.sv 
 # -- Compiling module dsa_datapath_simd
 # 
 # Top level modules:
 # 	dsa_datapath_simd
-# End time: 20:43:59 on Nov 27,2025, Elapsed time: 0:00:01
+# End time: 17:31:54 on Nov 28,2025, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
-# vlog -sv -work work +incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_sequential.sv}
+# vlog -sv -work work +incdir+C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga {C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_sequential.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 20:43:59 on Nov 27,2025
-# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga" C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_sequential.sv 
+# Start time: 17:31:54 on Nov 28,2025
+# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga" C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_sequential.sv 
 # -- Compiling module dsa_pixel_fetch_sequential
 # 
 # Top level modules:
 # 	dsa_pixel_fetch_sequential
-# End time: 20:43:59 on Nov 27,2025, Elapsed time: 0:00:00
+# End time: 17:31:55 on Nov 28,2025, Elapsed time: 0:00:01
 # Errors: 0, Warnings: 0
-# vlog -sv -work work +incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_simd.sv}
+# vlog -sv -work work +incdir+C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga {C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_simd.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 20:43:59 on Nov 27,2025
-# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga" C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_simd.sv 
+# Start time: 17:31:55 on Nov 28,2025
+# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga" C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_simd.sv 
 # -- Compiling module dsa_pixel_fetch_simd
 # 
 # Top level modules:
 # 	dsa_pixel_fetch_simd
-# End time: 20:43:59 on Nov 27,2025, Elapsed time: 0:00:00
+# End time: 17:31:55 on Nov 28,2025, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
-# vlog -sv -work work +incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_unified.sv}
+# vlog -sv -work work +incdir+C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga {C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_unified.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 20:43:59 on Nov 27,2025
-# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga" C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_unified.sv 
+# Start time: 17:31:55 on Nov 28,2025
+# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga" C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_unified.sv 
 # -- Compiling module dsa_pixel_fetch_unified
 # 
 # Top level modules:
 # 	dsa_pixel_fetch_unified
-# End time: 20:43:59 on Nov 27,2025, Elapsed time: 0:00:00
+# End time: 17:31:55 on Nov 28,2025, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
-# vlog -sv -work work +incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_control_fsm_simd.sv}
+# vlog -sv -work work +incdir+C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga {C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_control_fsm_simd.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 20:43:59 on Nov 27,2025
-# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga" C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_control_fsm_simd.sv 
+# Start time: 17:31:55 on Nov 28,2025
+# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga" C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_control_fsm_simd.sv 
 # -- Compiling module dsa_control_fsm_simd
 # 
 # Top level modules:
 # 	dsa_control_fsm_simd
-# End time: 20:43:59 on Nov 27,2025, Elapsed time: 0:00:00
+# End time: 17:31:55 on Nov 28,2025, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
-# vlog -sv -work work +incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_control_fsm_sequential.sv}
+# vlog -sv -work work +incdir+C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga {C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_control_fsm_sequential.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 20:43:59 on Nov 27,2025
-# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga" C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_control_fsm_sequential.sv 
+# Start time: 17:31:55 on Nov 28,2025
+# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga" C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_control_fsm_sequential.sv 
 # -- Compiling module dsa_control_fsm_sequential
 # 
 # Top level modules:
 # 	dsa_control_fsm_sequential
-# End time: 20:43:59 on Nov 27,2025, Elapsed time: 0:00:00
+# End time: 17:31:55 on Nov 28,2025, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
-# vlog -sv -work work +incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_mem_banked.sv}
+# vlog -sv -work work +incdir+C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga {C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_mem_banked.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 20:43:59 on Nov 27,2025
-# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga" C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_mem_banked.sv 
+# Start time: 17:31:55 on Nov 28,2025
+# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga" C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_mem_banked.sv 
 # -- Compiling module dsa_mem_banked
 # 
 # Top level modules:
 # 	dsa_mem_banked
-# End time: 20:43:59 on Nov 27,2025, Elapsed time: 0:00:00
+# End time: 17:31:55 on Nov 28,2025, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
-# vlog -sv -work work +incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_top.sv}
+# vlog -sv -work work +incdir+C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga {C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_top.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 20:44:00 on Nov 27,2025
-# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga" C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_top.sv 
+# Start time: 17:31:55 on Nov 28,2025
+# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga" C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_top.sv 
 # -- Compiling module dsa_top
 # 
 # Top level modules:
 # 	dsa_top
-# End time: 20:44:00 on Nov 27,2025, Elapsed time: 0:00:00
+# End time: 17:31:56 on Nov 28,2025, Elapsed time: 0:00:01
 # Errors: 0, Warnings: 0
 # 
-# vlog -sv -work work +incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_top_tb.sv}
+# vlog -sv -work work +incdir+C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga {C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_top_tb.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 20:44:00 on Nov 27,2025
-# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga" C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_top_tb.sv 
+# Start time: 17:31:56 on Nov 28,2025
+# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga" C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_top_tb.sv 
 # -- Compiling module dsa_top_tb
 # 
 # Top level modules:
 # 	dsa_top_tb
-# End time: 20:44:00 on Nov 27,2025, Elapsed time: 0:00:00
+# End time: 17:31:56 on Nov 28,2025, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # 
-# vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cyclonev_ver -L cyclonev_hssi_ver -L cyclonev_pcie_hip_ver -L rtl_work -L work -voptargs="+acc"  dsa_top_tb
-# vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cyclonev_ver -L cyclonev_hssi_ver -L cyclonev_pcie_hip_ver -L rtl_work -L work -voptargs=""+acc"" dsa_top_tb 
-# Start time: 20:44:01 on Nov 27,2025
+# vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cyclonev_ver -L cyclonev_hssi_ver -L cyclonev_pcie_hip_ver -L rtl_work -L work -L dsa_jtag_system -voptargs="+acc"  dsa_top_tb
+# vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cyclonev_ver -L cyclonev_hssi_ver -L cyclonev_pcie_hip_ver -L rtl_work -L work -L dsa_jtag_system -voptargs=""+acc"" dsa_top_tb 
+# Start time: 17:31:56 on Nov 28,2025
 # Loading sv_std.std
 # Loading work.dsa_top_tb
 # Loading work.dsa_top
@@ -255,35 +275,34 @@
 # [39035000] Imagen cargada exitosamente
 # [39035000] Iniciando procesamiento en modo SECUENCIAL
 # [39055000] Esperando completar procesamiento...
-#   Ciclo 1000: Progreso = 90 pixeles
-# [52385000] Procesamiento completado en 1333 ciclos
-#   FLOPs ejecutadas: 968
-#   Lecturas de memoria: 484
-#   Escrituras de memoria: 377
+# [46115000] Procesamiento completado en 706 ciclos
+#   FLOPs ejecutadas: 512
+#   Lecturas de memoria: 256
+#   Escrituras de memoria: 320
 #   Throughput: 0.73 FLOPs/ciclo
 # 
 # --- MODO SIMD ---
-# [52385000] Reseteando sistema...
-# [52535000] Reset completado
-# [52535000] Cargando imagen de prueba 16x16...
+# [46115000] Reseteando sistema...
+# [46265000] Reset completado
+# [46265000] Cargando imagen de prueba 16x16...
 #   Cargando fila 0/16
 #   Cargando fila 8/16
-# [55105000] Imagen cargada exitosamente
-# [55105000] Iniciando procesamiento en modo       SIMD
-# [55125000] Esperando completar procesamiento...
-# [63515000] Procesamiento completado en 839 ciclos
-#   FLOPs ejecutadas: 992
-#   Lecturas de memoria: 496
-#   Escrituras de memoria: 380
+# [48835000] Imagen cargada exitosamente
+# [48835000] Iniciando procesamiento en modo       SIMD
+# [48855000] Esperando completar procesamiento...
+# [53195000] Procesamiento completado en 434 ciclos
+#   FLOPs ejecutadas: 512
+#   Lecturas de memoria: 256
+#   Escrituras de memoria: 320
 #   Throughput: 1.18 FLOPs/ciclo
 # 
 # ========================================
 # RESULTADOS DE COMPARACION
 # ========================================
-# Ciclos secuencial: 1333
-# Ciclos SIMD:       839
-# Speedup:           1.59x
-# Eficiencia:        39.7%
+# Ciclos secuencial: 706
+# Ciclos SIMD:       434
+# Speedup:           1.63x
+# Eficiencia:        40.7%
 # RESULTADO: PASS (speedup >= 1.5x)
 # ========================================
 # 
@@ -296,9 +315,9 @@
 # ====================================================
 # FIN DE TESTBENCH
 # ====================================================
-# ** Note: $finish    : C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_top_tb.sv(515)
-#    Time: 63515 ns  Iteration: 1  Instance: /dsa_top_tb
+# ** Note: $finish    : C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_top_tb.sv(515)
+#    Time: 53195 ns  Iteration: 1  Instance: /dsa_top_tb
 # 1
-# Break in Module dsa_top_tb at C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_top_tb.sv line 515
-# End time: 20:45:31 on Nov 27,2025, Elapsed time: 0:01:30
+# Break in Module dsa_top_tb at C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_top_tb.sv line 515
+# End time: 19:06:40 on Nov 28,2025, Elapsed time: 1:34:44
 # Errors: 0, Warnings: 0

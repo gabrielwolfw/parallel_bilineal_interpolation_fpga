@@ -7,254 +7,254 @@ z2
 !i10e 25
 !i10f 100
 cModel Technology
-Z0 dC:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/simulation/modelsim
+Z0 dC:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/simulation/modelsim
 vdsa_control_fsm_sequential
 Z1 DXx6 sv_std 3 std 0 22 AD7iAPLo6nTIKk<N0eo=D3
-Z2 !s110 1764297839
+Z2 !s110 1764372715
 !i10b 1
 !s100 ?jOl8mGiP;CVmzNdg1C=P0
-IS0nSkD7oi6SHY;cnZ]I<:3
+IOC9?J][9[iF:I9<aKYP:c1
 Z3 VDg1SIo80bB@j0V0VzS_@n1
 !s105 dsa_control_fsm_sequential_sv_unit
 S1
 R0
-w1764283718
-8C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_control_fsm_sequential.sv
-FC:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_control_fsm_sequential.sv
+Z4 w1764361503
+8C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_control_fsm_sequential.sv
+FC:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_control_fsm_sequential.sv
 L0 7
-Z4 OV;L;10.5b;63
+Z5 OV;L;10.5b;63
 r1
 !s85 0
 31
-Z5 !s108 1764297839.000000
-!s107 C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_control_fsm_sequential.sv|
-!s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga|C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_control_fsm_sequential.sv|
+Z6 !s108 1764372715.000000
+!s107 C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_control_fsm_sequential.sv|
+!s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga|C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_control_fsm_sequential.sv|
 !i113 1
-Z6 o-sv -work work
-Z7 !s92 -sv -work work +incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga
-Z8 tCvgOpt 0
+Z7 o-sv -work work
+Z8 !s92 -sv -work work +incdir+C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga
+Z9 tCvgOpt 0
 vdsa_control_fsm_simd
 R1
 R2
 !i10b 1
 !s100 d334lgU@E]<J`<LA84RCU2
-IhEEWeB[Yak1LRG`CP2[Nc2
+IhLBSRRe8N6Q?MoF8P^^OR0
 R3
 !s105 dsa_control_fsm_simd_sv_unit
 S1
 R0
-w1764297005
-8C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_control_fsm_simd.sv
-FC:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_control_fsm_simd.sv
-L0 6
 R4
+8C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_control_fsm_simd.sv
+FC:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_control_fsm_simd.sv
+L0 6
+R5
 r1
 !s85 0
 31
-R5
-!s107 C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_control_fsm_simd.sv|
-!s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga|C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_control_fsm_simd.sv|
-!i113 1
 R6
+!s107 C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_control_fsm_simd.sv|
+!s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga|C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_control_fsm_simd.sv|
+!i113 1
 R7
 R8
+R9
 vdsa_datapath
 R1
-!s110 1764297838
+Z10 !s110 1764372714
 !i10b 1
 !s100 ^JddLm7B1X4`gFkVF^om]0
-IG>FUA6OET^dP<8>d3^WWk1
+IE1FVF@>_Hdi4D^K:D0a?12
 R3
 !s105 dsa_datapath_sv_unit
 S1
 R0
-w1763786009
-8C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_datapath.sv
-FC:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_datapath.sv
-L0 8
 R4
+8C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_datapath.sv
+FC:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_datapath.sv
+L0 8
+R5
 r1
 !s85 0
 31
-Z9 !s108 1764297838.000000
-!s107 C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_datapath.sv|
-!s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga|C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_datapath.sv|
+Z11 !s108 1764372714.000000
+!s107 C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_datapath.sv|
+!s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga|C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_datapath.sv|
 !i113 1
-R6
 R7
 R8
+R9
 vdsa_datapath_simd
 R1
-R2
+R10
 !i10b 1
 !s100 68S8>mB^fZ_KC[TV78K_b1
-IGY>@>W?KzkXmW9OhL`iXH0
+Ic5BhWl94n=lM7gD[JBa^C1
 R3
 !s105 dsa_datapath_simd_sv_unit
 S1
 R0
-w1763744967
-8C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_datapath_simd.sv
-FC:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_datapath_simd.sv
-L0 7
 R4
+8C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_datapath_simd.sv
+FC:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_datapath_simd.sv
+L0 7
+R5
 r1
 !s85 0
 31
-R9
-!s107 C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_datapath_simd.sv|
-!s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga|C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_datapath_simd.sv|
+R11
+!s107 C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_datapath_simd.sv|
+!s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga|C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_datapath_simd.sv|
 !i113 1
-R6
 R7
 R8
+R9
 vdsa_mem_banked
 R1
 R2
 !i10b 1
-!s100 4<jhBVb1j`4NK?13<4SS^0
-IPb@zVl[1;3OhhH4VKgZii2
+!s100 ]VW:6JOQelUY@4Y2aCMX60
+I6]bT_FEmzTf3B4W3]=GAl1
 R3
 !s105 dsa_mem_banked_sv_unit
 S1
 R0
-w1764297808
-8C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_mem_banked.sv
-FC:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_mem_banked.sv
+Z12 w1764361504
+8C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_mem_banked.sv
+FC:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_mem_banked.sv
 L0 7
-R4
+R5
 r1
 !s85 0
 31
-R5
-!s107 C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_mem_banked.sv|
-!s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga|C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_mem_banked.sv|
-!i113 1
 R6
+!s107 C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_mem_banked.sv|
+!s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga|C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_mem_banked.sv|
+!i113 1
 R7
 R8
+R9
 vdsa_pixel_fetch_sequential
 R1
 R2
 !i10b 1
 !s100 Kz=SSSVR]@4giRCBFZ>_Z1
-I1K1<7eUQ5EXco4hnM94zn2
+I_zRQUkHJH4oRjEGPHh=nX1
 R3
 !s105 dsa_pixel_fetch_sequential_sv_unit
 S1
 R0
-w1764271991
-8C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_sequential.sv
-FC:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_sequential.sv
+R12
+8C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_sequential.sv
+FC:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_sequential.sv
 L0 6
-R4
+R5
 r1
 !s85 0
 31
-R5
-!s107 C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_sequential.sv|
-!s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga|C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_sequential.sv|
+R11
+!s107 C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_sequential.sv|
+!s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga|C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_sequential.sv|
 !i113 1
-R6
 R7
 R8
+R9
 vdsa_pixel_fetch_simd
 R1
 R2
 !i10b 1
 !s100 GWo;zzognkHL651eN4Q2P1
-I_=S3^h5FK<P=[`z4X6bfM1
+Iog^8i@3g;>n^nP4=h3ACK3
 R3
 !s105 dsa_pixel_fetch_simd_sv_unit
 S1
 R0
-w1764296896
-8C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_simd.sv
-FC:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_simd.sv
+R12
+8C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_simd.sv
+FC:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_simd.sv
 L0 6
-R4
+R5
 r1
 !s85 0
 31
-R5
-!s107 C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_simd.sv|
-!s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga|C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_simd.sv|
-!i113 1
 R6
+!s107 C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_simd.sv|
+!s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga|C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_simd.sv|
+!i113 1
 R7
 R8
+R9
 vdsa_pixel_fetch_unified
 R1
 R2
 !i10b 1
 !s100 P[46:9oNj;[Jjh7h9z6ok0
-IZj93[1c09RVmiORLC=4eR3
+IOhl7::L9^U5C9ZmIP_MhI0
 R3
 !s105 dsa_pixel_fetch_unified_sv_unit
 S1
 R0
-w1764272011
-8C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_unified.sv
-FC:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_unified.sv
+R12
+8C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_unified.sv
+FC:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_unified.sv
 L0 6
-R4
+R5
 r1
 !s85 0
 31
-R5
-!s107 C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_unified.sv|
-!s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga|C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_unified.sv|
-!i113 1
 R6
+!s107 C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_unified.sv|
+!s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga|C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_unified.sv|
+!i113 1
 R7
 R8
+R9
 vdsa_top
 R1
-Z10 !s110 1764297840
+Z13 !s110 1764372716
 !i10b 1
 !s100 8T<zdW9nT?i__zh8gX86?1
-I?SVCMaTDKb5`ZNK4V?VP]2
+IgU<9nCi7E=iV4:PDeFaf?1
 R3
 !s105 dsa_top_sv_unit
 S1
 R0
-w1764297566
-8C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_top.sv
-FC:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_top.sv
+R12
+8C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_top.sv
+FC:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_top.sv
 L0 5
-R4
+R5
 r1
 !s85 0
 31
-Z11 !s108 1764297840.000000
-!s107 C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_top.sv|
-!s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga|C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_top.sv|
-!i113 1
 R6
+!s107 C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_top.sv|
+!s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga|C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_top.sv|
+!i113 1
 R7
 R8
+R9
 vdsa_top_tb
 R1
-R10
+R13
 !i10b 1
-!s100 PebH:kLD6S6g0zOMCI_;22
-I453aW;`QQ2z0<:oDFJA7P1
+!s100 fE?a[=U7@hbc`PSDmgiAG1
+I1z4gGocX6QAEeZ;<6:oPA2
 R3
 !s105 dsa_top_tb_sv_unit
 S1
 R0
-w1764296498
-8C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_top_tb.sv
-FC:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_top_tb.sv
+R12
+8C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_top_tb.sv
+FC:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_top_tb.sv
 L0 9
-R4
+R5
 r1
 !s85 0
 31
-R11
-!s107 C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_top_tb.sv|
-!s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga|C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_top_tb.sv|
+!s108 1764372716.000000
+!s107 C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_top_tb.sv|
+!s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga|C:/Users/ederv/Documents/TEC/Arqui2/p21/parallel_bilineal_interpolation_fpga/fpga/dsa_top_tb.sv|
 !i113 1
-R6
 R7
 R8
+R9
