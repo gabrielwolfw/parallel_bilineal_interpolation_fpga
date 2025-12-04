@@ -1,39 +1,109 @@
-# Quartus Project files that should NOT be committed
-db/
-incremental_db/
-output_files/
-*.rpt
-*.sld
-*.summary
-*.qws
-*.qdf
-*.qpp
-*.qpf#
-*.bak
-*.swp
-*.tlog
-*.wlf
-*.jdi
-*.pof
-*.sof
-*.hex
+# ============================================================
+# .gitignore - Parallel Bilinear Interpolation FPGA Project
+# Incluir: Solo código fuente (.sv, .v, .py, .tcl, .ps1) y README
+# Excluir: Carpetas de compilación, temporales, binarios
+# ============================================================
+
+# ====================
+# Quartus II/Prime - Archivos de Compilación
+# ====================
+*.qws                      # Workspace settings
+*.bak                      # Backups automáticos
+*.backup                   # Backups manuales
+*.rpt                      # Reportes de compilación
+*.summary                  # Resúmenes
+*.done                     # Flags de completado
+*.jdi                      # JTAG debug info
+*.pin                      # Pin assignments generados
+*.sof                      # SRAM Object Files (binarios)
+*.pof                      # Programmer Object Files (Flash)
+*.smsg                     # Status messages
+*.cdf                      # Chain Description File
+
+# Carpetas de compilación Quartus
+db/                        # Database de compilación
+incremental_db/            # Database incremental
+output_files/              # Archivos de salida (binarios, reportes)
+greybox_tmp/               # Archivos temporales de megafunctions
+.qsys_edit/               # Editor temporal de Qsys
+
+# ====================
+# IP Cores y System Files
+# ====================
+*.sopcinfo                 # SOPC Builder info (generado)
+*_generation.rpt           # Reportes de generación IP
+*_inst.v                   # Archivos de instanciación generados
+*_bb.v                     # Black box files generados
+
+# Carpetas generadas por IP
+*/synthesis/               # Síntesis de IPs
+*/simulation/              # Simulación de IPs (scripts generados)
+vjtag_dsa/                 # IP Virtual JTAG generado
+dsa_jtag_system/           # Sistema JTAG generado
+ram/                       # IP RAM generado
+
+# ====================
+# ModelSim/Questa - Simulación
+# ====================
+work/                      # Biblioteca de trabajo compilada
+*.wlf                      # Waveform log files
+*.vstf                     # VST format
+transcript                 # Transcript de comandos
+*.vcd                      # Value Change Dump
+modelsim.ini              # Configuración local
+vsim.wlf                  # Waveform específico
+
+# Carpetas de simulación
+simulation/modelsim/       # Simulación Modelsim
+simulation/*/             # Otras herramientas
+
+# ====================
+# Python
+# ====================
+__pycache__/              # Cache compilado Python
+*.pyc                     # Bytecode compilado
+*.pyo                     # Optimized bytecode
+*.pyd                     # Python DLL
+.Python                   # Python virtual env
+*.egg-info/              # Package info
+dist/                    # Distribution builds
+build/                   # Build artifacts
+
+# Virtual environments
+venv/
+env/
+ENV/
+
+# ====================
+# Temporales y Sistema
+# ====================
+*.tmp                     # Archivos temporales
+*.temp                    # Archivos temporales
+*~                        # Backups de editores
+*.swp                     # Vim swap files
+*.swo                     # Vim swap files
+.DS_Store                 # macOS metadata
+Thumbs.db                 # Windows thumbnails
+desktop.ini               # Windows folder settings
+
+# Logs generales
 *.log
-*.smsg
-*.vcd
-*.pin
+
+# ====================
+# Quartus - Archivos Específicos de DB
+# ====================
+*.cnf.cdb                 # Configuration database
+*.cnf.hdb                 # Hierarchy database
+*.slddb                   # SignalTap database
+*.tdf                     # Technology Database File
+*.qmsg                    # Quartus messages
+*.qtl                     # Quartus timing library
 *.vqm
-*.cmp
 *.jic
 *.fs
 *.map
 *.qdz
 *.rbb
-*.sld
-*.done
-*.pdb
-*.pro
-*.pdr
-*.ps
 *.isd
 *.vgr
 *.vt
@@ -42,38 +112,30 @@ output_files/
 *.sv~
 /*.qdb
 /*.sim
-*.log
 *.dat
 *.vho
 *.bdf
 ~$*
 
-# Qsys and IP generation artifacts
-.qsys_edit/
-greybox_tmp/
+# Qsys and IP generation artifacts (additional)
 ip/
 
-# Simulation files
-simulation/
-*.wlf
+# Simulation files (additional)
 *.lst
 
-# Temporary and cache files
-__pycache__/
+# Temporary and cache files (additional)
 tmp/
 temp/
-*.tmp
 
 # Text dumps
 c5_pin_model_dump.txt
 
 # Quartus user workspace/IDE settings
 *.qdf
-*.qws
 
-# OS specific
-.DS_Store
-Thumbs.db
+# Lock files
+*.flock
+*.flock.lck
 
 # Recursive patterns for subdirectories
 **/db/
@@ -83,6 +145,7 @@ Thumbs.db
 
 # Prerequisites
 *.d
+*.bak 
 
 # Compiled Object files
 *.slo
@@ -123,3 +186,33 @@ Thumbs.db
 # Debug information files
 *.dwo
 
+# ====================
+# Archivos de Proyecto Específicos
+# ====================
+# Preservar .qsf y .qpf (settings y project files)
+# pero excluir duplicados con extensiones
+parallel_fpga.*.cnf.cdb
+parallel_fpga.*.cnf.hdb
+
+# ====================
+# CONSERVAR (NO ignorar)
+# ====================
+# Todo lo demás se ignora por defecto con este enfoque
+# Archivos a conservar explícitamente:
+# - *.sv (SystemVerilog)
+# - *.v (Verilog)
+# - *.py (Python)
+# - *.tcl (TCL scripts)
+# - *.ps1 (PowerShell)
+# - *.md (Markdown docs)
+# - *.qsf (Quartus Settings)
+# - *.qpf (Quartus Project)
+# - *.qsys (Qsys system files fuente)
+# - scripts/ (carpeta de scripts)
+# - docs/ (documentación)
+
+# ====================
+# Memoria/Test Files
+# ====================
+mem/*.mif.bak             # Backups de archivos MIF
+mem/*.hex.bak             # Backups de archivos HEX
