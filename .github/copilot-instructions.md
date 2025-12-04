@@ -395,22 +395,29 @@ python vjtag_pc\jtag_fpga.py -v  # verbose mode
   - HEX display multiplexing
   - LED debug indicators
   - Complete DE1-SoC pin assignments
+- **Reference Model** (`reference_model/`):
+  - C++ implementation of bilinear interpolation with Q8.8 fixed-point arithmetic
+  - PGM image format support (no external dependencies)
+  - Performance counters and cycle-accurate simulation
+  - Windows/Linux/macOS compatible
+  - Compiles and runs successfully
 
 **Pending** ⚠️:
 - **CRITICAL**: Recompilation required after `vjtag_interface.sv` redesign
 - **CRITICAL**: FPGA reprogramming with updated .sof file
 - JTAG communication verification (should work after reprogramming)
-- Bilinear interpolation datapath (`dsa_datapath.sv`)
+- Bilinear interpolation datapath (`dsa_datapath.sv`) - implement from reference model
 - Image processing control FSM
-- Fixed-point arithmetic units (Q8.8)
+- Fixed-point arithmetic units (Q8.8) in hardware
 - Performance counters and optimization
+- Bit-accurate validation: C++ model vs FPGA hardware
 
 **Ready for**:
 - Recompilation and reprogramming with fixed VJTAG design
 - Physical FPGA testing after update
 - PC-to-FPGA communication verification via JTAG
 - Manual memory browsing with KEY buttons
-- Next phase: Implement image processing pipeline (after JTAG verified)
+- Next phase: Implement image processing pipeline from validated C++ model
 
 ## Quick Reference
 

@@ -11,11 +11,12 @@ Proyecto 02: Diseño e Implementación de una Arquitectura de Dominio Específic
 - Displays HEX para visualización de direcciones y datos
 - Testbenches completos para simulación (ModelSim)
 - Sincronización de dominios de reloj (JTAG TCK ↔ System Clock)
+- **Modelo de referencia C++** con interpolación bilineal Q8.8 (formato PGM)
 
 **En desarrollo** ⚠️:
-- Datapath de interpolación bilineal
+- Datapath de interpolación bilineal en hardware FPGA
 - FSM de control de procesamiento de imágenes
-- Unidades de punto fijo Q8.8
+- Integración del algoritmo Q8.8 en hardware
 
 ## Estructura del Repositorio
 
@@ -62,6 +63,26 @@ output_files/
  └── project_dsa.sof           # FPGA bitstream para programación
 ```
 
+### Reference Model (C++)
+```
+reference_model/
+ ├── src/                      # Código fuente C++
+ │   ├── main.cpp              # Programa principal
+ │   ├── Image.cpp             # Manejo de imágenes PGM
+ │   └── BilinearInterpolator.cpp  # Algoritmo Q8.8
+ ├── includes/                 # Headers
+ │   ├── FixedPoint.h          # Aritmética de punto fijo Q8.8
+ │   ├── Image.h               # Clase para imágenes PGM
+ │   ├── BilinearInterpolator.h    # Interface del interpolador
+ │   ├── MemoryBank.h          # Simulación de memoria FPGA
+ │   └── Registers.h           # Registros de control/estado
+ ├── images/                   # Imágenes de prueba (PGM format)
+ ├── scripts/                  # Generación de imágenes
+ ├── build.ps1                 # Script de compilación para Windows
+ ├── Makefile.win              # Makefile para Windows/MinGW
+ └── README.md                 # Documentación del modelo
+```
+
 ## Componentes Principales
 
 ### Hardware (SystemVerilog)
@@ -103,6 +124,18 @@ output_files/
 - **control_gui.py**: GUI Tkinter para operaciones bulk:
   - Escritura/lectura de bloques de memoria
   - Visualización en tiempo real
+
+### Reference Model (C++)
+
+- **Modelo de referencia** para validación bit a bit del hardware:
+  - Interpolación bilineal con aritmética Q8.8 (8 bits entero, 8 bits fracción)
+  - Procesamiento de imágenes PGM (Portable GrayMap) en escala de grises
+  - Sin dependencias externas (no requiere libpng)
+  - Performance counters: ciclos, FLOPs, lecturas/escrituras de memoria
+  - Factores de escala: 0.5 a 1.0 en pasos de 0.05
+  - Compilación en Windows: `.\build.ps1 all` (PowerShell) o `mingw32-make -f Makefile.win`
+  - Ejecución: `.\bin\bilinear_interpolator.exe <imagen> <factor>`
+  - Ver `reference_model/README.md` para más detalles
 
 ## Consideraciones Críticas de Diseño
 
@@ -227,13 +260,17 @@ cd testbench
 - **Quartus Prime**: 18.1.0 Lite Edition
 - **Device**: Cyclone V 5CSEMA5F31C6 (DE1-SoC Board)
 - **Simulator**: ModelSim-Altera (Verilog/SystemVerilog)
-- **Python**: 3.x (tkinter, socket)
+- **Python**: 3.x (tkinter, socket, numpy, Pillow)
 - **TCL**: Quartus-embedded shell
+- **C++ Compiler**: g++ (MinGW/MSYS2) con soporte C++17
+- **Formato de imágenes**: PGM (Portable GrayMap) - sin dependencias externas
 
 ## Próximos Pasos
 
-- [ ] Implementar datapath de interpolación bilineal (Q8.8 fixed-point)
+- [ ] Implementar datapath de interpolación bilineal en hardware (Q8.8 fixed-point)
 - [ ] Diseñar FSM de control para procesamiento de imágenes
+- [ ] Integrar algoritmo del modelo de referencia en RTL
+- [ ] Validación bit a bit: modelo C++ vs hardware FPGA
 - [ ] Agregar performance counters y optimización
 - [ ] Timing constraints (.sdc) para análisis de timing
-- [ ] Integración con modelo de referencia C/C++ para validación
+- [ ] Documentación completa del flujo de validación
