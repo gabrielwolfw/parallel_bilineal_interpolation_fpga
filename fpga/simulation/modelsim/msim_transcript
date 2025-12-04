@@ -12,134 +12,145 @@
 # 
 # vlog -sv -work work +incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_datapath.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:20:11 on Dec 04,2025
+# Start time: 13:03:10 on Dec 04,2025
 # vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga" C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_datapath.sv 
 # -- Compiling module dsa_datapath
 # 
 # Top level modules:
 # 	dsa_datapath
-# End time: 12:20:11 on Dec 04,2025, Elapsed time: 0:00:00
+# End time: 13:03:10 on Dec 04,2025, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -sv -work work +incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_datapath_simd.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:20:11 on Dec 04,2025
+# Start time: 13:03:10 on Dec 04,2025
 # vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga" C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_datapath_simd.sv 
 # -- Compiling module dsa_datapath_simd
 # 
 # Top level modules:
 # 	dsa_datapath_simd
-# End time: 12:20:11 on Dec 04,2025, Elapsed time: 0:00:00
+# End time: 13:03:10 on Dec 04,2025, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -sv -work work +incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_simd_registers.sv}
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 13:03:10 on Dec 04,2025
+# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga" C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_simd_registers.sv 
+# -- Compiling module dsa_simd_registers
+# 
+# Top level modules:
+# 	dsa_simd_registers
+# End time: 13:03:10 on Dec 04,2025, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -sv -work work +incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_sequential.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:20:11 on Dec 04,2025
+# Start time: 13:03:10 on Dec 04,2025
 # vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga" C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_sequential.sv 
 # -- Compiling module dsa_pixel_fetch_sequential
 # 
 # Top level modules:
 # 	dsa_pixel_fetch_sequential
-# End time: 12:20:11 on Dec 04,2025, Elapsed time: 0:00:00
+# End time: 13:03:10 on Dec 04,2025, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -sv -work work +incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_simd.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:20:11 on Dec 04,2025
+# Start time: 13:03:11 on Dec 04,2025
 # vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga" C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_simd.sv 
 # -- Compiling module dsa_pixel_fetch_simd
 # 
 # Top level modules:
 # 	dsa_pixel_fetch_simd
-# End time: 12:20:12 on Dec 04,2025, Elapsed time: 0:00:01
+# End time: 13:03:11 on Dec 04,2025, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -sv -work work +incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_unified.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:20:12 on Dec 04,2025
+# Start time: 13:03:11 on Dec 04,2025
 # vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga" C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_unified.sv 
 # -- Compiling module dsa_pixel_fetch_unified
 # 
 # Top level modules:
 # 	dsa_pixel_fetch_unified
-# End time: 12:20:12 on Dec 04,2025, Elapsed time: 0:00:00
+# End time: 13:03:11 on Dec 04,2025, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -sv -work work +incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_control_fsm_simd.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:20:12 on Dec 04,2025
+# Start time: 13:03:11 on Dec 04,2025
 # vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga" C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_control_fsm_simd.sv 
 # -- Compiling module dsa_control_fsm_simd
 # 
 # Top level modules:
 # 	dsa_control_fsm_simd
-# End time: 12:20:12 on Dec 04,2025, Elapsed time: 0:00:00
+# End time: 13:03:11 on Dec 04,2025, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -sv -work work +incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_control_fsm_sequential.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:20:12 on Dec 04,2025
+# Start time: 13:03:11 on Dec 04,2025
 # vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga" C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_control_fsm_sequential.sv 
 # -- Compiling module dsa_control_fsm_sequential
 # 
 # Top level modules:
 # 	dsa_control_fsm_sequential
-# End time: 12:20:12 on Dec 04,2025, Elapsed time: 0:00:00
+# End time: 13:03:11 on Dec 04,2025, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -sv -work work +incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_mem_banked.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:20:12 on Dec 04,2025
+# Start time: 13:03:11 on Dec 04,2025
 # vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga" C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_mem_banked.sv 
 # -- Compiling module dsa_mem_banked
 # 
 # Top level modules:
 # 	dsa_mem_banked
-# End time: 12:20:12 on Dec 04,2025, Elapsed time: 0:00:00
+# End time: 13:03:11 on Dec 04,2025, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -sv -work work +incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_step_controller.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:20:12 on Dec 04,2025
+# Start time: 13:03:11 on Dec 04,2025
 # vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga" C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_step_controller.sv 
 # -- Compiling module dsa_step_controller
 # 
 # Top level modules:
 # 	dsa_step_controller
-# End time: 12:20:12 on Dec 04,2025, Elapsed time: 0:00:00
+# End time: 13:03:11 on Dec 04,2025, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -sv -work work +incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_debug_registers.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:20:12 on Dec 04,2025
+# Start time: 13:03:11 on Dec 04,2025
 # vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga" C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_debug_registers.sv 
 # -- Compiling module dsa_debug_registers
 # 
 # Top level modules:
 # 	dsa_debug_registers
-# End time: 12:20:12 on Dec 04,2025, Elapsed time: 0:00:00
+# End time: 13:03:11 on Dec 04,2025, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -sv -work work +incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_top.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:20:13 on Dec 04,2025
+# Start time: 13:03:12 on Dec 04,2025
 # vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga" C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_top.sv 
 # -- Compiling module dsa_top
 # 
 # Top level modules:
 # 	dsa_top
-# End time: 12:20:13 on Dec 04,2025, Elapsed time: 0:00:00
+# End time: 13:03:12 on Dec 04,2025, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # 
 # vlog -sv -work work +incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_top_tb.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:20:13 on Dec 04,2025
+# Start time: 13:03:12 on Dec 04,2025
 # vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga" C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_top_tb.sv 
 # -- Compiling module dsa_top_tb
 # 
 # Top level modules:
 # 	dsa_top_tb
-# End time: 12:20:13 on Dec 04,2025, Elapsed time: 0:00:00
+# End time: 13:03:12 on Dec 04,2025, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # 
 # vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cyclonev_ver -L cyclonev_hssi_ver -L cyclonev_pcie_hip_ver -L rtl_work -L work -voptargs="+acc"  dsa_top_tb
 # vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cyclonev_ver -L cyclonev_hssi_ver -L cyclonev_pcie_hip_ver -L rtl_work -L work -voptargs=""+acc"" dsa_top_tb 
-# Start time: 12:20:13 on Dec 04,2025
+# Start time: 13:03:12 on Dec 04,2025
 # Loading sv_std.std
 # Loading work.dsa_top_tb
 # Loading work.dsa_top
 # Loading work.dsa_step_controller
 # Loading work.dsa_debug_registers
+# Loading work.dsa_simd_registers
 # Loading work.dsa_control_fsm_sequential
 # Loading work.dsa_control_fsm_simd
 # Loading work.dsa_pixel_fetch_unified
@@ -215,14 +226,14 @@
 # ========================================
 # Imagen de salida (8x8)
 # ========================================
-# Fila  0:   0  17  34  51  68  85 102 119 
-# Fila  1:  17  34  51  68  85 102 119 136 
-# Fila  2:  34  51  68  85 102 119 136 153 
-# Fila  3:  51  68  85 102 119 136 153 170 
-# Fila  4:  68  85 102 119 136 153 170 187 
-# Fila  5:  85 102 119 136 153 170 187 204 
-# Fila  6: 102 119 136 153 170 187 204 221 
-# Fila  7: 119 136 153 170 187 204 221 238 
+# Fila  0:   0   0   0   0   0  17  34  51 
+# Fila  1:  68  85 102 119  17  34  51  68 
+# Fila  2:  85 102 119 136  34  51  68  85 
+# Fila  3: 102 119 136 153  51  68  85 102 
+# Fila  4: 119 136 153 170  68  85 102 119 
+# Fila  5: 136 153 170 187  85 102 119 136 
+# Fila  6: 153 170 187 204 102 119 136 153 
+# Fila  7: 170 187 204 221 119 136 153 170 
 # ========================================
 # 
 # TEST 2 COMPLETADO
@@ -496,7 +507,7 @@
 # | FSM State: WAIT_FETCH   (3)    Mode: SIMD                |
 # | Position:  (   0,    1)                                      |
 # +-------------------------------------------------------------+
-# | Neighbors: p00=  0  p01=  0  p10=  0  p11=  0              |
+# | Neighbors: p00=  0  p01= 18  p10= 18  p11= 36              |
 # | Coefficients: a=0x0000 (0.0000)  b=0x0000 (0.0000)            |
 # +-------------------------------------------------------------+
 # | Output Pixel:   0                                           |
@@ -511,10 +522,10 @@
 # | FSM State: WAIT_FETCH   (3)    Mode: SIMD                |
 # | Position:  (   0,    2)                                      |
 # +-------------------------------------------------------------+
-# | Neighbors: p00=  0  p01=  0  p10=  0  p11=  0              |
+# | Neighbors: p00= 36  p01= 54  p10= 54  p11= 72              |
 # | Coefficients: a=0x0000 (0.0000)  b=0x0000 (0.0000)            |
 # +-------------------------------------------------------------+
-# | Output Pixel:   0                                           |
+# | Output Pixel:  36                                           |
 # | SIMD Outputs: [ 36,  72, 109, 145]                          |
 # +-------------------------------------------------------------+
 # | Memory: Addr=0x00000  Data=182  RD=0  WR=0                 |
@@ -526,10 +537,10 @@
 # | FSM State: WAIT_FETCH   (3)    Mode: SIMD                |
 # | Position:  (   0,    3)                                      |
 # +-------------------------------------------------------------+
-# | Neighbors: p00=  0  p01=  0  p10=  0  p11=  0              |
+# | Neighbors: p00= 72  p01= 91  p10= 91  p11=109              |
 # | Coefficients: a=0x0000 (0.0000)  b=0x0000 (0.0000)            |
 # +-------------------------------------------------------------+
-# | Output Pixel:   0                                           |
+# | Output Pixel:  72                                           |
 # | SIMD Outputs: [ 72, 109, 145, 182]                          |
 # +-------------------------------------------------------------+
 # | Memory: Addr=0x00000  Data=218  RD=0  WR=0                 |

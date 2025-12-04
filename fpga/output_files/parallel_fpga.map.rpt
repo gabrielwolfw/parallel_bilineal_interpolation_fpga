@@ -1,5 +1,5 @@
 Analysis & Elaboration report for parallel_fpga
-Thu Dec 04 12:19:36 2025
+Thu Dec 04 13:00:52 2025
 Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 
 
@@ -11,17 +11,19 @@ Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
   3. Parallel Compilation
   4. Parameter Settings for User Entity Instance: Top-level Entity: |dsa_top
   5. Parameter Settings for User Entity Instance: dsa_debug_registers:debug_regs
-  6. Parameter Settings for User Entity Instance: dsa_control_fsm_sequential:fsm_seq
-  7. Parameter Settings for User Entity Instance: dsa_control_fsm_simd:fsm_simd
-  8. Parameter Settings for User Entity Instance: dsa_pixel_fetch_unified:fetch_unit
-  9. Parameter Settings for User Entity Instance: dsa_pixel_fetch_unified:fetch_unit|dsa_pixel_fetch_sequential:seq_fetch
- 10. Parameter Settings for User Entity Instance: dsa_pixel_fetch_unified:fetch_unit|dsa_pixel_fetch_simd:simd_fetch
- 11. Parameter Settings for User Entity Instance: dsa_mem_banked:mem_inst
- 12. Parameter Settings for User Entity Instance: dsa_datapath_simd:dp_simd_inst
- 13. Analysis & Elaboration Settings
- 14. Port Connectivity Checks: "dsa_pixel_fetch_unified:fetch_unit"
- 15. Analysis & Elaboration Messages
- 16. Analysis & Elaboration Suppressed Messages
+  6. Parameter Settings for User Entity Instance: dsa_simd_registers:simd_regs
+  7. Parameter Settings for User Entity Instance: dsa_control_fsm_sequential:fsm_seq
+  8. Parameter Settings for User Entity Instance: dsa_control_fsm_simd:fsm_simd
+  9. Parameter Settings for User Entity Instance: dsa_pixel_fetch_unified:fetch_unit
+ 10. Parameter Settings for User Entity Instance: dsa_pixel_fetch_unified:fetch_unit|dsa_pixel_fetch_sequential:seq_fetch
+ 11. Parameter Settings for User Entity Instance: dsa_pixel_fetch_unified:fetch_unit|dsa_pixel_fetch_simd:simd_fetch
+ 12. Parameter Settings for User Entity Instance: dsa_mem_banked:mem_inst
+ 13. Parameter Settings for User Entity Instance: dsa_datapath_simd:dp_simd_inst
+ 14. Analysis & Elaboration Settings
+ 15. Port Connectivity Checks: "dsa_pixel_fetch_unified:fetch_unit"
+ 16. Port Connectivity Checks: "dsa_simd_registers:simd_regs"
+ 17. Analysis & Elaboration Messages
+ 18. Analysis & Elaboration Suppressed Messages
 
 
 
@@ -47,7 +49,7 @@ refer to the applicable agreement for further details.
 +-----------------------------------------------------------------------------+
 ; Analysis & Elaboration Summary                                              ;
 +-------------------------------+---------------------------------------------+
-; Analysis & Elaboration Status ; Successful - Thu Dec 04 12:19:36 2025       ;
+; Analysis & Elaboration Status ; Successful - Thu Dec 04 13:00:52 2025       ;
 ; Quartus Prime Version         ; 18.1.0 Build 625 09/12/2018 SJ Lite Edition ;
 ; Revision Name                 ; parallel_fpga                               ;
 ; Top-level Entity Name         ; dsa_top                                     ;
@@ -100,6 +102,16 @@ Note: In order to hide this table in the UI and the text report file, please set
 ; ADDR_WIDTH     ; 18    ; Signed Integer                                     ;
 ; SIMD_WIDTH     ; 4     ; Signed Integer                                     ;
 +----------------+-------+----------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++---------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: dsa_simd_registers:simd_regs ;
++----------------+-------+--------------------------------------------------+
+; Parameter Name ; Value ; Type                                             ;
++----------------+-------+--------------------------------------------------+
+; N              ; 4     ; Signed Integer                                   ;
++----------------+-------+--------------------------------------------------+
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
 
@@ -280,13 +292,33 @@ Note: In order to hide this table in the UI and the text report file, please set
 +------------------+--------+----------+-------------------------------------------------------------------------------------+
 
 
++---------------------------------------------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "dsa_simd_registers:simd_regs"                                                                  ;
++-----------------+--------+----------+-------------------------------------------------------------------------------------+
+; Port            ; Type   ; Severity ; Details                                                                             ;
++-----------------+--------+----------+-------------------------------------------------------------------------------------+
+; in_weighted_00  ; Input  ; Info     ; Stuck at GND                                                                        ;
+; in_weighted_01  ; Input  ; Info     ; Stuck at GND                                                                        ;
+; in_weighted_10  ; Input  ; Info     ; Stuck at GND                                                                        ;
+; in_weighted_11  ; Input  ; Info     ; Stuck at GND                                                                        ;
+; out_weighted_00 ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
+; out_weighted_01 ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
+; out_weighted_10 ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
+; out_weighted_11 ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
+; pixels_valid    ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
+; coef_valid      ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
+; weights_valid   ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
+; output_valid    ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
++-----------------+--------+----------+-------------------------------------------------------------------------------------+
+
+
 +---------------------------------+
 ; Analysis & Elaboration Messages ;
 +---------------------------------+
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Elaboration
     Info: Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
-    Info: Processing started: Thu Dec 04 12:19:25 2025
+    Info: Processing started: Thu Dec 04 13:00:38 2025
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off parallel_fpga -c parallel_fpga --analysis_and_elaboration
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (20030): Parallel compilation is enabled and will use 16 of the 16 processors detected
@@ -298,7 +330,7 @@ Info (12021): Found 1 design units, including 1 entities, in source file dsa_dat
 Info (12021): Found 1 design units, including 1 entities, in source file dsa_mem_interface.sv
     Info (12023): Found entity 1: dsa_mem_interface File: C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_mem_interface.sv Line: 6
 Info (12021): Found 1 design units, including 1 entities, in source file dsa_simd_registers.sv
-    Info (12023): Found entity 1: dsa_simd_registers File: C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_simd_registers.sv Line: 6
+    Info (12023): Found entity 1: dsa_simd_registers File: C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_simd_registers.sv Line: 7
 Info (12021): Found 1 design units, including 1 entities, in source file testbench.sv
     Info (12023): Found entity 1: testbench File: C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/testbench.sv Line: 8
 Info (12021): Found 1 design units, including 1 entities, in source file testbench_simd.sv
@@ -325,25 +357,30 @@ Info (12021): Found 1 design units, including 1 entities, in source file dsa_deb
     Info (12023): Found entity 1: dsa_debug_registers File: C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_debug_registers.sv Line: 7
 Info (12127): Elaborating entity "dsa_top" for the top level hierarchy
 Warning (10036): Verilog HDL or VHDL warning at dsa_top.sv(115): object "active_write_enable" assigned a value but never read File: C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_top.sv Line: 115
+Warning (10036): Verilog HDL or VHDL warning at dsa_top.sv(217): object "reg_weighted_00" assigned a value but never read File: C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_top.sv Line: 217
+Warning (10036): Verilog HDL or VHDL warning at dsa_top.sv(218): object "reg_weighted_01" assigned a value but never read File: C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_top.sv Line: 218
+Warning (10036): Verilog HDL or VHDL warning at dsa_top.sv(219): object "reg_weighted_10" assigned a value but never read File: C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_top.sv Line: 219
+Warning (10036): Verilog HDL or VHDL warning at dsa_top.sv(220): object "reg_weighted_11" assigned a value but never read File: C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_top.sv Line: 220
 Warning (10230): Verilog HDL assignment warning at dsa_top.sv(70): truncated value with size 32 to match size of target (16) File: C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_top.sv Line: 70
 Warning (10230): Verilog HDL assignment warning at dsa_top.sv(71): truncated value with size 32 to match size of target (16) File: C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_top.sv Line: 71
-Warning (10240): Verilog HDL Always Construct warning at dsa_top.sv(287): inferring latch(es) for variable "flops_count", which holds its previous value in one or more paths through the always construct File: C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_top.sv Line: 287
-Info (10041): Inferred latch for "flops_count[0]" at dsa_top.sv(287) File: C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_top.sv Line: 287
-Info (10041): Inferred latch for "flops_count[1]" at dsa_top.sv(287) File: C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_top.sv Line: 287
-Info (10041): Inferred latch for "flops_count[2]" at dsa_top.sv(287) File: C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_top.sv Line: 287
-Info (12128): Elaborating entity "dsa_step_controller" for hierarchy "dsa_step_controller:step_ctrl" File: C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_top.sv Line: 373
+Warning (10240): Verilog HDL Always Construct warning at dsa_top.sv(340): inferring latch(es) for variable "flops_count", which holds its previous value in one or more paths through the always construct File: C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_top.sv Line: 340
+Info (10041): Inferred latch for "flops_count[0]" at dsa_top.sv(340) File: C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_top.sv Line: 340
+Info (10041): Inferred latch for "flops_count[1]" at dsa_top.sv(340) File: C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_top.sv Line: 340
+Info (10041): Inferred latch for "flops_count[2]" at dsa_top.sv(340) File: C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_top.sv Line: 340
+Info (12128): Elaborating entity "dsa_step_controller" for hierarchy "dsa_step_controller:step_ctrl" File: C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_top.sv Line: 426
 Warning (10036): Verilog HDL or VHDL warning at dsa_step_controller.sv(71): object "fsm_just_started" assigned a value but never read File: C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_step_controller.sv Line: 71
-Info (12128): Elaborating entity "dsa_debug_registers" for hierarchy "dsa_debug_registers:debug_regs" File: C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_top.sv Line: 411
-Warning (10036): Verilog HDL or VHDL warning at dsa_debug_registers.sv(66): object "cap_fsm_state" assigned a value but never read File: C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_debug_registers.sv Line: 66
-Warning (10036): Verilog HDL or VHDL warning at dsa_debug_registers.sv(67): object "cap_mode_simd" assigned a value but never read File: C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_debug_registers.sv Line: 67
-Warning (10036): Verilog HDL or VHDL warning at dsa_debug_registers.sv(68): object "cap_x" assigned a value but never read File: C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_debug_registers.sv Line: 68
-Warning (10036): Verilog HDL or VHDL warning at dsa_debug_registers.sv(68): object "cap_y" assigned a value but never read File: C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_debug_registers.sv Line: 68
-Info (12128): Elaborating entity "dsa_control_fsm_sequential" for hierarchy "dsa_control_fsm_sequential:fsm_seq" File: C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_top.sv Line: 436
+Info (12128): Elaborating entity "dsa_debug_registers" for hierarchy "dsa_debug_registers:debug_regs" File: C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_top.sv Line: 476
+Warning (10036): Verilog HDL or VHDL warning at dsa_debug_registers.sv(101): object "cap_fsm_state" assigned a value but never read File: C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_debug_registers.sv Line: 101
+Warning (10036): Verilog HDL or VHDL warning at dsa_debug_registers.sv(102): object "cap_mode_simd" assigned a value but never read File: C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_debug_registers.sv Line: 102
+Warning (10036): Verilog HDL or VHDL warning at dsa_debug_registers.sv(103): object "cap_x" assigned a value but never read File: C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_debug_registers.sv Line: 103
+Warning (10036): Verilog HDL or VHDL warning at dsa_debug_registers.sv(103): object "cap_y" assigned a value but never read File: C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_debug_registers.sv Line: 103
+Info (12128): Elaborating entity "dsa_simd_registers" for hierarchy "dsa_simd_registers:simd_regs" File: C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_top.sv Line: 525
+Info (12128): Elaborating entity "dsa_control_fsm_sequential" for hierarchy "dsa_control_fsm_sequential:fsm_seq" File: C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_top.sv Line: 550
 Info (10264): Verilog HDL Case Statement information at dsa_control_fsm_sequential.sv(79): all case item expressions in this case statement are onehot File: C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_control_fsm_sequential.sv Line: 79
-Info (12128): Elaborating entity "dsa_control_fsm_simd" for hierarchy "dsa_control_fsm_simd:fsm_simd" File: C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_top.sv Line: 462
+Info (12128): Elaborating entity "dsa_control_fsm_simd" for hierarchy "dsa_control_fsm_simd:fsm_simd" File: C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_top.sv Line: 576
 Warning (10230): Verilog HDL assignment warning at dsa_control_fsm_simd.sv(81): truncated value with size 32 to match size of target (16) File: C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_control_fsm_simd.sv Line: 81
 Info (10264): Verilog HDL Case Statement information at dsa_control_fsm_simd.sv(68): all case item expressions in this case statement are onehot File: C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_control_fsm_simd.sv Line: 68
-Info (12128): Elaborating entity "dsa_pixel_fetch_unified" for hierarchy "dsa_pixel_fetch_unified:fetch_unit" File: C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_top.sv Line: 522
+Info (12128): Elaborating entity "dsa_pixel_fetch_unified" for hierarchy "dsa_pixel_fetch_unified:fetch_unit" File: C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_top.sv Line: 636
 Info (12128): Elaborating entity "dsa_pixel_fetch_sequential" for hierarchy "dsa_pixel_fetch_unified:fetch_unit|dsa_pixel_fetch_sequential:seq_fetch" File: C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_unified.sv Line: 124
 Warning (10036): Verilog HDL or VHDL warning at dsa_pixel_fetch_sequential.sv(49): object "img_height_r" assigned a value but never read File: C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_sequential.sv Line: 49
 Warning (10230): Verilog HDL assignment warning at dsa_pixel_fetch_sequential.sv(99): truncated value with size 32 to match size of target (18) File: C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_sequential.sv Line: 99
@@ -357,15 +394,15 @@ Warning (10230): Verilog HDL assignment warning at dsa_pixel_fetch_simd.sv(224):
 Warning (10230): Verilog HDL assignment warning at dsa_pixel_fetch_simd.sv(226): truncated value with size 32 to match size of target (18) File: C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_simd.sv Line: 226
 Warning (10230): Verilog HDL assignment warning at dsa_pixel_fetch_simd.sv(231): truncated value with size 32 to match size of target (18) File: C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_simd.sv Line: 231
 Warning (10230): Verilog HDL assignment warning at dsa_pixel_fetch_simd.sv(234): truncated value with size 32 to match size of target (5) File: C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_simd.sv Line: 234
-Info (12128): Elaborating entity "dsa_mem_banked" for hierarchy "dsa_mem_banked:mem_inst" File: C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_top.sv Line: 544
-Info (12128): Elaborating entity "dsa_datapath" for hierarchy "dsa_datapath:dp_seq_inst" File: C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_top.sv Line: 563
-Info (12128): Elaborating entity "dsa_datapath_simd" for hierarchy "dsa_datapath_simd:dp_simd_inst" File: C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_top.sv Line: 582
+Info (12128): Elaborating entity "dsa_mem_banked" for hierarchy "dsa_mem_banked:mem_inst" File: C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_top.sv Line: 658
+Info (12128): Elaborating entity "dsa_datapath" for hierarchy "dsa_datapath:dp_seq_inst" File: C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_top.sv Line: 677
+Info (12128): Elaborating entity "dsa_datapath_simd" for hierarchy "dsa_datapath_simd:dp_simd_inst" File: C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_top.sv Line: 698
 Info (144001): Generated suppressed messages file C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/output_files/parallel_fpga.map.smsg
-Info: Quartus Prime Analysis & Elaboration was successful. 0 errors, 21 warnings
-    Info: Peak virtual memory: 4789 megabytes
-    Info: Processing ended: Thu Dec 04 12:19:36 2025
-    Info: Elapsed time: 00:00:11
-    Info: Total CPU time (on all processors): 00:00:27
+Info: Quartus Prime Analysis & Elaboration was successful. 0 errors, 25 warnings
+    Info: Peak virtual memory: 4795 megabytes
+    Info: Processing ended: Thu Dec 04 13:00:52 2025
+    Info: Elapsed time: 00:00:14
+    Info: Total CPU time (on all processors): 00:00:32
 
 
 +--------------------------------------------+
