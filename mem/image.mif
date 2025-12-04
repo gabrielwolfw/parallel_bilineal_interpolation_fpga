@@ -1,0 +1,31 @@
+-- Memory Initialization File (.mif)
+-- Generated from matrix_test.txt
+
+DEPTH = 65536;       -- The size of memory in words
+WIDTH = 8;           -- The size of data in bits
+ADDRESS_RADIX = HEX; -- The radix for address values
+DATA_RADIX = HEX;    -- The radix for data values
+
+CONTENT
+BEGIN
+
+0000 : 00;
+0001 : 05;
+0002 : 00;
+0003 : 08;
+0004 : 00;
+0005 : 07;
+0006 : 00;
+0007 : 42;
+0008 : 00;
+0009 : 22;
+000A : 00;
+000B : 02;
+000C : 00;
+000D : 37;
+000E : 00;
+000F : 0C;
+
+[0010..FFFF] : 00;  -- Fill rest with zeros
+
+END;

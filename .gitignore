@@ -47,13 +47,25 @@ output_files/
 *.vho
 *.bdf
 ~$*
-# lib generation artifacts
+
+# Qsys and IP generation artifacts
+.qsys_edit/
+greybox_tmp/
 ip/
+
+# Simulation files
+simulation/
+*.wlf
+*.lst
+
+# Temporary and cache files
 __pycache__/
 tmp/
 temp/
-*.log
 *.tmp
+
+# Text dumps
+c5_pin_model_dump.txt
 
 # Quartus user workspace/IDE settings
 *.qdf
@@ -63,18 +75,11 @@ temp/
 .DS_Store
 Thumbs.db
 
-# Optional: Ignore compiled projects in subdirectories
+# Recursive patterns for subdirectories
 **/db/
 **/incremental_db/
 **/output_files/
 **/*.rpt
-
-# Optional: Ignore Quartus generated PSL files
-*.psl
-
-# Ignore simulation outputs
-*.wlf
-*.lst
 
 # Prerequisites
 *.d
@@ -115,8 +120,6 @@ Thumbs.db
 *.out
 *.app
 
-
-
-
-# debug information files
+# Debug information files
 *.dwo
+
