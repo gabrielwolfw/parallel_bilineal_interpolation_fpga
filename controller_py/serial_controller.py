@@ -192,12 +192,17 @@ class SerialController:
         Returns:
             Valor 16-bit (0x0000-0xFFFF)
         """
-        self.set_address(address)
-        lsb = self.read_byte()
-        self.set_address(address + 1)
-        msb = self.read_byte()
+        # Leer LSB (byte bajo)
+        lsb = self.read_byte_from_address(address)
+        # Leer MSB (byte alto)
+        msb = self.read_byte_from_address(address + 1)
         
-        return (msb << 8) | lsb
+        value = (msb << 8) | lsb
+        
+        if self.verbose:
+            print(f"[JTAG] READ_WORD16 [0x{address:04X}] = 0x{value:04X} (LSB=0x{lsb:02X}, MSB=0x{msb:02X})")
+        
+        return value
     
     def write_word32(self, address, value):
         """
@@ -496,7 +501,7 @@ class SerialController:
         """
         return self.read_byte_from_address(direccion)
     
-    def procesar_imagen_fpga(self, ruta_imagen, ruta_out_gris=None, ruta_out_txt=None):
+    def procesar_imagen_fpga(self, ruta_imagen, ruta_out_gris=None, ruta_out_txt=None, scale_factor=None, mode=None):
         """
         Procesa imagen completa en FPGA (workflow completo).
         
@@ -504,6 +509,8 @@ class SerialController:
             ruta_imagen: Ruta a imagen de entrada
             ruta_out_gris: (Opcional) Guardar imagen en grises
             ruta_out_txt: (Opcional) Guardar valores de píxeles
+            scale_factor: (Opcional) Factor de escala (override config.json)
+            mode: (Opcional) Modo de procesamiento (override config.json)
         
         Returns:
             Lista de píxeles procesados
@@ -517,10 +524,13 @@ class SerialController:
             if not self.connect():
                 raise Exception("Failed to connect to JTAG server")
         
-        # 3. Configurar DSA
-        scale_factor = self.config.get('image', {}).get('scale_factor', 0.5)
+        # 3. Configurar DSA (usar parámetros o config.json)
+        if scale_factor is None:
+            scale_factor = self.config.get('image', {}).get('scale_factor', 0.5)
         scale_q8_8 = int(scale_factor * 256)  # Convert to Q8.8
-        mode = MODE_SCALAR  # Default mode
+        
+        if mode is None:
+            mode = MODE_SCALAR  # Default mode
         
         self.configure_dsa(ancho, alto, scale_q8_8, mode)
         

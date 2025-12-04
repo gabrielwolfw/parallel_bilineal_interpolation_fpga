@@ -1,5 +1,9 @@
 import tkinter as tk
 from tkinter import filedialog, messagebox, scrolledtext
+import subprocess
+import os
+import numpy as np
+from PIL import Image
 
 from serial_controller import SerialController
 from constantes import *
@@ -14,6 +18,8 @@ class InterfazSerial:
         self.controlador = SerialController(config_file="config.json")
         self.imagen_actual = None
         self.jtag_connected = False
+        self.ultimo_resultado_fpga = None
+        self.escala_actual = 0.5
 
         # --- Frame de Conexión JTAG ---
         frame_conexion = tk.Frame(root)
@@ -63,7 +69,8 @@ class InterfazSerial:
         tk.Button(frame_botones, text="Seleccionar imagen", command=self.seleccionar_imagen, width=18).grid(row=0, column=0, padx=5)
         tk.Button(frame_botones, text="Procesar imagen", command=self.procesar_imagen, width=18).grid(row=0, column=1, padx=5)
         tk.Button(frame_botones, text="Ver registros DSA", command=self.ver_registros, width=18).grid(row=0, column=2, padx=5)
-        tk.Button(frame_botones, text="Limpiar logs", command=self.limpiar_logs, width=18).grid(row=0, column=3, padx=5)
+        tk.Button(frame_botones, text="Validar vs Referencia", command=self.validar_pixel_a_pixel, width=18, bg="lightyellow").grid(row=1, column=0, padx=5, pady=5)
+        tk.Button(frame_botones, text="Limpiar logs", command=self.limpiar_logs, width=18).grid(row=1, column=1, padx=5, pady=5)
 
         # --- Área para interactuar con direcciones y datos ---
         frame_memoria = tk.LabelFrame(root, text="Acceso Manual a Memoria", padx=10, pady=10)
@@ -171,15 +178,51 @@ class InterfazSerial:
         try:
             self.log(f"[IMG] Procesando imagen: {self.imagen_actual}")
             
+            # Obtener parámetros de configuración
+            width = int(self.entry_width.get())
+            height = int(self.entry_height.get())
+            self.escala_actual = float(self.entry_scale.get())
+            
+            # Mapear modo string a constante
+            mode_map = {
+                "SCALAR": MODE_SCALAR,
+                "SIMD2": MODE_SIMD2,
+                "SIMD4": MODE_SIMD4,
+                "SIMD8": MODE_SIMD8
+            }
+            mode = mode_map[self.mode_var.get()]
+            
+            # Calcular dimensiones de salida
+            output_width = int(width * self.escala_actual)
+            output_height = int(height * self.escala_actual)
+            self.log(f"[IMG] Dimensiones entrada: {width}x{height}")
+            self.log(f"[IMG] Dimensiones salida: {output_width}x{output_height}")
+            self.log(f"[IMG] Scale: {self.escala_actual}, Modo: {self.mode_var.get()}")
+            
             ruta_out_gris = "interfaz_grises.png"
             ruta_out_txt = "interfaz_pixeles.txt"
             resultado = self.controlador.procesar_imagen_fpga(
                 self.imagen_actual, 
                 ruta_out_gris, 
-                ruta_out_txt
+                ruta_out_txt,
+                scale_factor=self.escala_actual,  # Pasar escala de GUI
+                mode=mode  # Pasar modo de GUI
             )
             
+            # Guardar resultado para validación
+            self.ultimo_resultado_fpga = resultado
+            
             self.log(f"[SUCCESS] Procesamiento completado. Píxeles de salida: {len(resultado)}")
+            
+            # Generar imagen PGM del resultado FPGA
+            if len(resultado) == output_width * output_height:
+                output_pgm_path = "images/99_fpga_output.pgm"
+                if self.guardar_resultado_fpga_como_pgm(resultado, output_width, output_height, output_pgm_path):
+                    self.log(f"[IMG] Resultado FPGA guardado en: {output_pgm_path}")
+                else:
+                    self.log(f"[WARNING] No se pudo guardar imagen PGM del resultado FPGA")
+            else:
+                self.log(f"[WARNING] Cantidad de píxeles no coincide: esperado {output_width*output_height}, obtenido {len(resultado)}")
             
             # Mostrar performance
             perf = self.controlador.get_performance()
@@ -302,6 +345,222 @@ class InterfazSerial:
         except Exception as e:
             self.log(f"[ERROR] Error escribiendo memoria: {e}")
             messagebox.showerror("Error", f"Error al escribir: {e}")
+
+    def convertir_a_pgm(self, imagen_path, destino_path):
+        """Convierte cualquier imagen a PGM 8-bit gris usando Pillow."""
+        try:
+            img = Image.open(imagen_path).convert('L')
+            np_img = np.array(img, dtype=np.uint8)
+            with open(destino_path, 'wb') as f:
+                # Header PGM P5 (binary grayscale)
+                f.write(f"P5\n{np_img.shape[1]} {np_img.shape[0]}\n255\n".encode())
+                f.write(np_img.tobytes())
+            self.log(f"[PGM] Imagen convertida a: {destino_path}")
+            return True
+        except Exception as e:
+            self.log(f"[ERROR] Error convirtiendo a PGM: {e}")
+            return False
+
+    def guardar_resultado_fpga_como_pgm(self, pixel_data, width, height, output_path):
+        """
+        Guarda resultado de FPGA como imagen PGM.
+        
+        Args:
+            pixel_data: Lista de píxeles (bytes 0-255)
+            width: Ancho de imagen
+            height: Alto de imagen
+            output_path: Ruta donde guardar PGM
+        
+        Returns:
+            True si se guardó correctamente, False en caso contrario
+        """
+        try:
+            # Crear directorio images si no existe
+            os.makedirs(os.path.dirname(output_path), exist_ok=True)
+            
+            # Convertir lista a numpy array
+            np_img = np.array(pixel_data, dtype=np.uint8)
+            
+            # Verificar dimensiones
+            if len(np_img) != width * height:
+                self.log(f"[ERROR] Dimensiones inconsistentes: {len(np_img)} píxeles != {width}x{height}")
+                return False
+            
+            # Reshape a matriz 2D
+            np_img = np_img.reshape((height, width))
+            
+            # Escribir archivo PGM P5 (formato binario)
+            with open(output_path, 'wb') as f:
+                # Header: magic number, dimensiones, max value
+                f.write(f"P5\n{width} {height}\n255\n".encode())
+                # Datos binarios
+                f.write(np_img.tobytes())
+            
+            self.log(f"[PGM] Resultado FPGA guardado: {output_path} ({width}x{height})")
+            return True
+            
+        except Exception as e:
+            self.log(f"[ERROR] Error guardando PGM del resultado FPGA: {e}")
+            return False
+
+    def correr_modelo_referencia(self, escala):
+        """
+        Ejecuta el binario de referencia sobre la imagen seleccionada y lee el resultado.
+        
+        Args:
+            escala: Factor de escala (float, ej: 0.5, 0.75)
+        
+        Returns:
+            Lista de píxeles de la imagen escalada o lista vacía si falla
+        """
+        # Crear directorio images si no existe
+        if not os.path.exists("images"):
+            os.makedirs("images")
+
+        # Usar número arbitrario para la imagen (99)
+        input_pgm_path = "images/99.pgm"
+
+        # Convertir/copiar la imagen seleccionada a formato PGM
+        if self.imagen_actual.lower().endswith('.pgm'):
+            # Copia directa
+            import shutil
+            shutil.copy2(self.imagen_actual, input_pgm_path)
+            self.log(f"[REF] Copiada imagen PGM: {input_pgm_path}")
+        else:
+            # Convertir a PGM
+            if not self.convertir_a_pgm(self.imagen_actual, input_pgm_path):
+                return []
+
+        # Calcular nombre de archivo de salida (sin padding, igual que C++)
+        escala_int = int(escala * 100)
+        salida_pgm_path = f"images/99_output_{escala_int}.pgm"
+
+        # Ruta al binario del modelo de referencia
+        bin_path = os.path.join("..", "reference_model", "bin", "bilinear_interpolator.exe")
+        
+        if not os.path.exists(bin_path):
+            self.log(f"[ERROR] No se encontró el binario: {bin_path}")
+            self.log(f"[HINT] Compilar modelo de referencia: cd reference_model; .\\build.ps1 all")
+            return []
+
+        # Ejecutar modelo C++ bin/bilinear_interpolator.exe 99 <escala>
+        cmd = [bin_path, "99", str(escala)]
+        self.log(f"[REF] Ejecutando: {' '.join(cmd)}")
+        
+        try:
+            result = subprocess.run(cmd, capture_output=True, text=True, check=True, cwd=".")
+            self.log("[REF] Modelo de referencia ejecutado correctamente.")
+            
+            # Verificar que se generó el archivo de salida
+            if not os.path.exists(salida_pgm_path):
+                self.log(f"[ERROR] No se encontró resultado: {salida_pgm_path}")
+                return []
+            
+            # Leer archivo PGM de salida
+            with open(salida_pgm_path, "rb") as f:
+                # Leer header PGM
+                magic = f.readline().strip()
+                if magic != b'P5':
+                    self.log(f"[ERROR] Formato PGM inválido en {salida_pgm_path} (magic={magic})")
+                    return []
+                
+                # Leer dimensiones (ignorar comentarios)
+                dim_line = b''
+                while True:
+                    dim_line = f.readline()
+                    if not dim_line.startswith(b'#'):
+                        break
+                
+                width, height = [int(x) for x in dim_line.strip().split()]
+                maxval = int(f.readline().strip())
+                
+                # Leer datos binarios de píxeles
+                raw = f.read()
+                pixel_data = np.frombuffer(raw, dtype=np.uint8)
+                
+                if len(pixel_data) != width * height:
+                    self.log(f"[ERROR] Cantidad de datos no coincide: esperado {width*height}, obtenido {len(pixel_data)}")
+                    return []
+                
+                self.log(f"[REF] Salida leída correctamente: {salida_pgm_path} ({width}x{height})")
+                return pixel_data.tolist()
+                
+        except subprocess.CalledProcessError as e:
+            self.log(f"[ERROR] Error ejecutando modelo de referencia: {e}")
+            self.log(f"[ERROR] Stdout: {e.stdout}")
+            self.log(f"[ERROR] Stderr: {e.stderr}")
+            return []
+        except Exception as e:
+            self.log(f"[ERROR] Error procesando modelo de referencia: {e}")
+            return []
+
+    def validar_pixel_a_pixel(self):
+        """Valida resultado de FPGA contra modelo de referencia C++."""
+        if not self.imagen_actual:
+            messagebox.showwarning("Advertencia", "Primero selecciona una imagen.")
+            return
+        
+        if not self.ultimo_resultado_fpga:
+            messagebox.showwarning("Advertencia", "Primero procesa la imagen en FPGA.")
+            return
+
+        self.log("\n" + "="*60)
+        self.log("[VALIDACIÓN] Comparando FPGA vs Modelo de Referencia C++")
+        self.log("="*60)
+        
+        # Ejecutar modelo de referencia
+        escala = self.escala_actual
+        self.log(f"[VALIDACIÓN] Escala: {escala}")
+        resultado_ref = self.correr_modelo_referencia(escala)
+        resultado_fpga = self.ultimo_resultado_fpga
+
+        if not resultado_ref:
+            self.log("[ERROR] No se obtuvo resultado del modelo de referencia.")
+            messagebox.showerror("Error", "No se pudo ejecutar el modelo de referencia")
+            return
+
+        # Comparar longitudes
+        self.log(f"[VALIDACIÓN] Píxeles FPGA: {len(resultado_fpga)}")
+        self.log(f"[VALIDACIÓN] Píxeles Referencia: {len(resultado_ref)}")
+        
+        if len(resultado_fpga) != len(resultado_ref):
+            self.log(f"[WARNING] Cantidad de píxeles diferente: FPGA={len(resultado_fpga)}, REF={len(resultado_ref)}")
+        
+        min_len = min(len(resultado_ref), len(resultado_fpga))
+        errores = 0
+        detalles_error = []
+        max_diff = 0
+
+        # Comparar pixel a pixel
+        for i in range(min_len):
+            diff = abs(resultado_ref[i] - resultado_fpga[i])
+            if diff > 0:
+                errores += 1
+                max_diff = max(max_diff, diff)
+                if errores <= 10:
+                    detalles_error.append(
+                        f"Pixel {i}: REF={resultado_ref[i]}, FPGA={resultado_fpga[i]}, DIFF={diff}"
+                    )
+
+        # Mostrar resultados
+        self.log(f"\n[VALIDACIÓN] Resultados:")
+        self.log(f"  Píxeles comparados: {min_len}")
+        self.log(f"  Píxeles correctos: {min_len - errores}")
+        self.log(f"  Píxeles con error: {errores}")
+        
+        if errores > 0:
+            self.log(f"  Diferencia máxima: {max_diff}")
+            self.log(f"  Tasa de error: {(errores/min_len)*100:.2f}%")
+            self.log(f"\n[VALIDACIÓN] Primeros errores:")
+            for detalle in detalles_error:
+                self.log(f"  {detalle}")
+            if errores > 10:
+                self.log(f"  ... y {errores - 10} errores más.")
+        else:
+            self.log(f"  ✅ ¡Todos los píxeles coinciden correctamente!")
+            messagebox.showinfo("Éxito", "Validación completa: Todos los píxeles coinciden")
+        
+        self.log("="*60 + "\n")
 
 
 if __name__ == "__main__":

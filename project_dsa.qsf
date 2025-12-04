@@ -38,7 +38,7 @@
 
 set_global_assignment -name FAMILY "Cyclone V"
 set_global_assignment -name DEVICE 5CSEMA5F31C6
-set_global_assignment -name TOP_LEVEL_ENTITY dsa_top_integrated
+set_global_assignment -name TOP_LEVEL_ENTITY dsa_top_with_registers
 set_global_assignment -name ORIGINAL_QUARTUS_VERSION 18.1.0
 set_global_assignment -name PROJECT_CREATION_TIME_DATE "09:07:07  DECEMBER 03, 2025"
 set_global_assignment -name LAST_QUARTUS_VERSION "18.1.0 Lite Edition"
@@ -163,20 +163,21 @@ set_global_assignment -name EDA_TEST_BENCH_FILE testbench/tb_vjtag_interface.sv 
 set_global_assignment -name EDA_TEST_BENCH_FILE testbench/tb_vjtag_ram_integrated.sv -section_id tb_vjtag_ram_integrated
 set_global_assignment -name EDA_TEST_BENCH_FILE testbench/tb_dsa_top.sv -section_id tb_dsa_top
 # DSA Top Level - Integrated version
-set_global_assignment -name SYSTEMVERILOG_FILE dsa_top_integrated.sv
 
 # DSA Modules
-set_global_assignment -name SYSTEMVERILOG_FILE fpga/dsa_control_fsm_sequential.sv
-set_global_assignment -name SYSTEMVERILOG_FILE fpga/dsa_pixel_fetch_sequential.sv
-set_global_assignment -name SYSTEMVERILOG_FILE fpga/dsa_datapath.sv
 
 # Old dsa_top (backup - commented out to avoid hex7seg duplication)
 # set_global_assignment -name SYSTEMVERILOG_FILE dsa_top.sv
 
 # VJTAG Interface
-set_global_assignment -name SYSTEMVERILOG_FILE vjtag/vjtag_interface.sv
 
 # IP Cores (QIP files include necessary .v files and .qsys)
+set_global_assignment -name SYSTEMVERILOG_FILE dsa_top_with_registers.sv
+set_global_assignment -name SYSTEMVERILOG_FILE dsa_register_bank.sv
+set_global_assignment -name SYSTEMVERILOG_FILE fpga/dsa_control_fsm_sequential.sv
+set_global_assignment -name SYSTEMVERILOG_FILE fpga/dsa_pixel_fetch_sequential.sv
+set_global_assignment -name SYSTEMVERILOG_FILE fpga/dsa_datapath.sv
+set_global_assignment -name SYSTEMVERILOG_FILE vjtag/vjtag_interface.sv
 set_global_assignment -name QIP_FILE vjtag/vjtag/synthesis/vjtag.qip
 set_global_assignment -name QIP_FILE ram/ram.qip
 set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
