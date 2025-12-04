@@ -98,10 +98,93 @@ desktop.ini               # Windows folder settings
 *.tdf                     # Technology Database File
 *.qmsg                    # Quartus messages
 *.qtl                     # Quartus timing library
+*.vqm
+*.jic
+*.fs
+*.map
+*.qdz
+*.rbb
+*.isd
+*.vgr
+*.vt
+*.vhd~
+*.v~
+*.sv~
+/*.qdb
+/*.sim
+*.dat
+*.vho
+*.bdf
+~$*
+
+# Qsys and IP generation artifacts (additional)
+ip/
+
+# Simulation files (additional)
+*.lst
+
+# Temporary and cache files (additional)
+tmp/
+temp/
+
+# Text dumps
+c5_pin_model_dump.txt
+
+# Quartus user workspace/IDE settings
+*.qdf
 
 # Lock files
 *.flock
 *.flock.lck
+
+# Recursive patterns for subdirectories
+**/db/
+**/incremental_db/
+**/output_files/
+**/*.rpt
+
+# Prerequisites
+*.d
+*.bak 
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Linker files
+*.ilk
+
+# Debugger Files
+*.pdb
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+# Debug information files
+*.dwo
 
 # ====================
 # Archivos de Proyecto Específicos

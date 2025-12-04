@@ -1,0 +1,261 @@
+# Reading C:/intelFPGA_lite/18.0/modelsim_ase/tcl/vsim/pref.tcl
+# do project_dsa_run_msim_rtl_verilog.do
+# if {[file exists rtl_work]} {
+# 	vdel -lib rtl_work -all
+# }
+# vlib rtl_work
+# vmap work rtl_work
+# Model Technology ModelSim - Intel FPGA Edition vmap 10.5b Lib Mapping Utility 2016.10 Oct  5 2016
+# vmap work rtl_work 
+# Copying C:/intelFPGA_lite/18.0/modelsim_ase/win32aloem/../modelsim.ini to modelsim.ini
+# Modifying modelsim.ini
+# 
+# vlog -vlog01compat -work work +incdir+C:/Users/ederv/Documents/TEC/Arqui2/p22/parallel_bilineal_interpolation_fpga/ram {C:/Users/ederv/Documents/TEC/Arqui2/p22/parallel_bilineal_interpolation_fpga/ram/ram.v}
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 16:10:10 on Dec 03,2025
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+C:/Users/ederv/Documents/TEC/Arqui2/p22/parallel_bilineal_interpolation_fpga/ram" C:/Users/ederv/Documents/TEC/Arqui2/p22/parallel_bilineal_interpolation_fpga/ram/ram.v 
+# -- Compiling module ram
+# 
+# Top level modules:
+# 	ram
+# End time: 16:10:10 on Dec 03,2025, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -sv -work work +incdir+C:/Users/ederv/Documents/TEC/Arqui2/p22/parallel_bilineal_interpolation_fpga {C:/Users/ederv/Documents/TEC/Arqui2/p22/parallel_bilineal_interpolation_fpga/dsa_top.sv}
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 16:10:10 on Dec 03,2025
+# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/ederv/Documents/TEC/Arqui2/p22/parallel_bilineal_interpolation_fpga" C:/Users/ederv/Documents/TEC/Arqui2/p22/parallel_bilineal_interpolation_fpga/dsa_top.sv 
+# -- Compiling module dsa_top
+# -- Compiling module hex7seg
+# 
+# Top level modules:
+# 	dsa_top
+# End time: 16:10:10 on Dec 03,2025, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -sv -work work +incdir+C:/Users/ederv/Documents/TEC/Arqui2/p22/parallel_bilineal_interpolation_fpga/vjtag {C:/Users/ederv/Documents/TEC/Arqui2/p22/parallel_bilineal_interpolation_fpga/vjtag/vjtag_interface.sv}
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 16:10:10 on Dec 03,2025
+# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/ederv/Documents/TEC/Arqui2/p22/parallel_bilineal_interpolation_fpga/vjtag" C:/Users/ederv/Documents/TEC/Arqui2/p22/parallel_bilineal_interpolation_fpga/vjtag/vjtag_interface.sv 
+# -- Compiling module vjtag_interface
+# 
+# Top level modules:
+# 	vjtag_interface
+# End time: 16:10:10 on Dec 03,2025, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# 
+# vlog -sv -work work +incdir+C:/Users/ederv/Documents/TEC/Arqui2/p22/parallel_bilineal_interpolation_fpga/testbench {C:/Users/ederv/Documents/TEC/Arqui2/p22/parallel_bilineal_interpolation_fpga/testbench/tb_dsa_top.sv}
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 16:10:10 on Dec 03,2025
+# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/ederv/Documents/TEC/Arqui2/p22/parallel_bilineal_interpolation_fpga/testbench" C:/Users/ederv/Documents/TEC/Arqui2/p22/parallel_bilineal_interpolation_fpga/testbench/tb_dsa_top.sv 
+# -- Compiling module tb_dsa_top
+# 
+# Top level modules:
+# 	tb_dsa_top
+# End time: 16:10:10 on Dec 03,2025, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# 
+# vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cyclonev_ver -L cyclonev_hssi_ver -L cyclonev_pcie_hip_ver -L rtl_work -L work -voptargs="+acc"  tb_dsa_top
+# vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cyclonev_ver -L cyclonev_hssi_ver -L cyclonev_pcie_hip_ver -L rtl_work -L work -voptargs=""+acc"" tb_dsa_top 
+# Start time: 16:10:10 on Dec 03,2025
+# Loading sv_std.std
+# Loading work.tb_dsa_top
+# Loading work.dsa_top
+# Loading work.vjtag_interface
+# Loading work.ram
+# Loading altera_mf_ver.altsyncram
+# Loading work.hex7seg
+# Loading altera_mf_ver.altsyncram_body
+# Loading altera_mf_ver.ALTERA_DEVICE_FAMILIES
+# Loading altera_mf_ver.ALTERA_MF_MEMORY_INITIALIZATION
+# ** Warning: (vsim-3017) C:/Users/ederv/Documents/TEC/Arqui2/p22/parallel_bilineal_interpolation_fpga/dsa_top.sv(81): [TFMPC] - Too few port connections. Expected 13, found 7.
+#    Time: 0 ps  Iteration: 0  Instance: /tb_dsa_top/dut/vjtag_inst File: C:/Users/ederv/Documents/TEC/Arqui2/p22/parallel_bilineal_interpolation_fpga/vjtag/vjtag_interface.sv
+# ** Warning: (vsim-3722) C:/Users/ederv/Documents/TEC/Arqui2/p22/parallel_bilineal_interpolation_fpga/dsa_top.sv(81): [TFMPC] - Missing connection for port 'tdi'.
+# ** Warning: (vsim-3722) C:/Users/ederv/Documents/TEC/Arqui2/p22/parallel_bilineal_interpolation_fpga/dsa_top.sv(81): [TFMPC] - Missing connection for port 'ir_in'.
+# ** Warning: (vsim-3722) C:/Users/ederv/Documents/TEC/Arqui2/p22/parallel_bilineal_interpolation_fpga/dsa_top.sv(81): [TFMPC] - Missing connection for port 'v_cdr'.
+# ** Warning: (vsim-3722) C:/Users/ederv/Documents/TEC/Arqui2/p22/parallel_bilineal_interpolation_fpga/dsa_top.sv(81): [TFMPC] - Missing connection for port 'v_sdr'.
+# ** Warning: (vsim-3722) C:/Users/ederv/Documents/TEC/Arqui2/p22/parallel_bilineal_interpolation_fpga/dsa_top.sv(81): [TFMPC] - Missing connection for port 'udr'.
+# ** Warning: (vsim-3722) C:/Users/ederv/Documents/TEC/Arqui2/p22/parallel_bilineal_interpolation_fpga/dsa_top.sv(81): [TFMPC] - Missing connection for port 'tdo'.
+# 
+# add wave *
+# view structure
+# .main_pane.structure.interior.cs.body.struct
+# view signals
+# .main_pane.objects.interior.cs.body.tree
+# run -all
+# ** Warning: (vsim-3534) [FOFIR] - Failed to open file "./mem/matrix.hex" for reading.
+# No such file or directory. (errno = ENOENT)    : /build/swbuild/SJ/nightly/18.0std/614/l64/work/modelsim/eda/sim_lib/altera_mf.v(870)
+#    Time: 0 ps  Iteration: 0  Instance: /tb_dsa_top/dut/ram_inst/altsyncram_component/m_default/altsyncram_inst
+# ERROR: cannot read ./mem/matrix.hex.
+# ** Warning: (vsim-7) Failed to open readmem file "./mem/matrix.ver" in read mode.
+# No such file or directory. (errno = ENOENT)    : /build/swbuild/SJ/nightly/18.0std/614/l64/work/modelsim/eda/sim_lib/altera_mf.v(48962)
+#    Time: 0 ps  Iteration: 0  Instance: /tb_dsa_top/dut/ram_inst/altsyncram_component/m_default/altsyncram_inst
+# ================================================================================
+#   Testbench: dsa_top - Integración Completa
+# ================================================================================
+# Parámetros: DATA_WIDTH=8, ADDR_WIDTH=20
+# Tiempo: 0
+# 
+# TEST 0: Operación BYPASS
+# --------------------------------------------------------------------------------
+#     [JTAG] BYPASS test
+# 
+# TEST 1: Escritura y lectura JTAG básica
+# --------------------------------------------------------------------------------
+#     [JTAG] SET_ADDR: 0x00100
+#     [JTAG] WRITE: 0xab
+#     [JTAG] SET_ADDR: 0x00100
+#     [JTAG] READ: 0xxx
+# [FAIL] JTAG READ 0x00100: Expected=0xab, Got=0xxx
+# [PASS] LEDR[0] = Modo JTAG: Expected=0x00, Got=0x00
+# 
+# TEST 2: Secuencia de escrituras JTAG
+# --------------------------------------------------------------------------------
+#     [JTAG] SET_ADDR: 0x00200
+#     [JTAG] WRITE: 0x11
+#     [JTAG] SET_ADDR: 0x00201
+#     [JTAG] WRITE: 0x22
+#     [JTAG] SET_ADDR: 0x00202
+#     [JTAG] WRITE: 0x33
+#     [JTAG] SET_ADDR: 0x00200
+#     [JTAG] READ: 0xxx
+# [FAIL] READ 0x00200: Expected=0x11, Got=0xxx
+#     [JTAG] SET_ADDR: 0x00201
+#     [JTAG] READ: 0xxx
+# [FAIL] READ 0x00201: Expected=0x22, Got=0xxx
+#     [JTAG] SET_ADDR: 0x00202
+#     [JTAG] READ: 0xxx
+# [FAIL] READ 0x00202: Expected=0x33, Got=0xxx
+# 
+# TEST 3: Control manual de dirección con KEYs
+# --------------------------------------------------------------------------------
+#     [JTAG] SET_ADDR: 0x00000
+#     [JTAG] WRITE: 0xaa
+#     [JTAG] SET_ADDR: 0x00001
+#     [JTAG] WRITE: 0xbb
+#     [JTAG] SET_ADDR: 0x00002
+#     [JTAG] WRITE: 0xcc
+#     [JTAG] SET_ADDR: 0x00003
+#     [JTAG] WRITE: 0xdd
+# [PASS] LEDR[0] = Modo Manual: Expected=0x01, Got=0x01
+# Incrementando dirección manual...
+#   manual_addr inicial = 0x00000
+#     [DEBUG] Presionando KEY[0]...
+#     [DEBUG] KEY[0] liberado
+#   manual_addr después de KEY[0] = 0x00001 (esperado 0x00001)
+# [PASS] manual_addr después de KEY[0]: Expected=0x00001, Got=0x00001
+#     [DEBUG] Presionando KEY[0]...
+#     [DEBUG] KEY[0] liberado
+#   manual_addr después de 2x KEY[0] = 0x00002 (esperado 0x00002)
+# [PASS] manual_addr después de 2x KEY[0]: Expected=0x00002, Got=0x00002
+# Decrementando dirección manual...
+#     [DEBUG] Presionando KEY[1]...
+#     [DEBUG] KEY[1] liberado
+#   manual_addr después de KEY[1] = 0x00001 (esperado 0x00001)
+# [PASS] manual_addr después de KEY[1]: Expected=0x00001, Got=0x00001
+# 
+# TEST 4: Verificación de displays HEX en modo JTAG
+# --------------------------------------------------------------------------------
+#     [JTAG] SET_ADDR: 0x0abcd
+#     [JTAG] WRITE: 0x5e
+# HEX Displays: [x][x][x][x] [x][x]
+# [FAIL] HEX0 = dato[3:0]: Expected=0x0e, Got=0x0x
+# [FAIL] HEX1 = dato[7:4]: Expected=0x05, Got=0x0x
+# [FAIL] HEX2 = addr[3:0]: Expected=0x0d, Got=0x0x
+# [FAIL] HEX3 = addr[7:4]: Expected=0x0c, Got=0x0x
+# [FAIL] HEX4 = addr[11:8]: Expected=0x0b, Got=0x0x
+# [FAIL] HEX5 = addr[15:12]: Expected=0x0a, Got=0x0x
+# 
+# TEST 5: Verificación de displays HEX en modo Manual
+# --------------------------------------------------------------------------------
+# Configurando manual_addr = 0x01234...
+# HEX Displays (Manual): [1][2][3][4] [0][0]
+# [PASS] HEX2 = manual_addr[3:0]: Expected=0x04, Got=0x04
+# [PASS] HEX3 = manual_addr[7:4]: Expected=0x03, Got=0x03
+# [PASS] HEX4 = manual_addr[11:8]: Expected=0x02, Got=0x02
+# [PASS] HEX5 = manual_addr[15:12]: Expected=0x01, Got=0x01
+# 
+# TEST 6: Verificación de LEDs de debug
+# --------------------------------------------------------------------------------
+# Escribiendo a través de JTAG...
+#     [JTAG] SET_ADDR: 0x00500
+#     [JTAG] WRITE: 0xf0
+# LEDR[2] (WRITE strobe) = x
+# LEDR[3] (RAM wren) = x
+# Verificando indicadores de KEYs...
+# [PASS] LEDR[4] cuando KEY[0] presionado: Expected=0x01, Got=0x01
+# [PASS] LEDR[4] cuando KEY[0] liberado: Expected=0x00, Got=0x00
+# [PASS] LEDR[5] cuando KEY[1] presionado: Expected=0x01, Got=0x01
+# [PASS] LEDR[5] cuando KEY[1] liberado: Expected=0x00, Got=0x00
+# 
+# TEST 7: Direcciones límite
+# --------------------------------------------------------------------------------
+#     [JTAG] SET_ADDR: 0xfffff
+#     [JTAG] WRITE: 0xff
+#     [JTAG] SET_ADDR: 0xfffff
+#     [JTAG] READ: 0xxx
+# [FAIL] READ MAX addr 0xFFFFF: Expected=0xff, Got=0xxx
+#     [JTAG] SET_ADDR: 0x00000
+#     [JTAG] WRITE: 0x00
+#     [JTAG] SET_ADDR: 0x00000
+#     [JTAG] READ: 0xxx
+# [FAIL] READ MIN addr 0x00000: Expected=0x00, Got=0xxx
+# 
+# TEST 8: Múltiples escrituras consecutivas
+# --------------------------------------------------------------------------------
+#     [JTAG] SET_ADDR: 0x00300
+#     [JTAG] WRITE: 0x00
+#     [JTAG] SET_ADDR: 0x00301
+#     [JTAG] WRITE: 0x11
+#     [JTAG] SET_ADDR: 0x00302
+#     [JTAG] WRITE: 0x22
+#     [JTAG] SET_ADDR: 0x00303
+#     [JTAG] WRITE: 0x33
+#     [JTAG] SET_ADDR: 0x00304
+#     [JTAG] WRITE: 0x44
+#     [JTAG] SET_ADDR: 0x00305
+#     [JTAG] WRITE: 0x55
+#     [JTAG] SET_ADDR: 0x00306
+#     [JTAG] WRITE: 0x66
+#     [JTAG] SET_ADDR: 0x00307
+#     [JTAG] WRITE: 0x77
+#     [JTAG] SET_ADDR: 0x00300
+#     [JTAG] READ: 0xxx
+# [FAIL] WRITE seq[0]: Expected=0x00, Got=0xxx
+#     [JTAG] SET_ADDR: 0x00301
+#     [JTAG] READ: 0xxx
+# [FAIL] WRITE seq[1]: Expected=0x11, Got=0xxx
+#     [JTAG] SET_ADDR: 0x00302
+#     [JTAG] READ: 0xxx
+# [FAIL] WRITE seq[2]: Expected=0x22, Got=0xxx
+#     [JTAG] SET_ADDR: 0x00303
+#     [JTAG] READ: 0xxx
+# [FAIL] WRITE seq[3]: Expected=0x33, Got=0xxx
+#     [JTAG] SET_ADDR: 0x00304
+#     [JTAG] READ: 0xxx
+# [FAIL] WRITE seq[4]: Expected=0x44, Got=0xxx
+#     [JTAG] SET_ADDR: 0x00305
+#     [JTAG] READ: 0xxx
+# [FAIL] WRITE seq[5]: Expected=0x55, Got=0xxx
+#     [JTAG] SET_ADDR: 0x00306
+#     [JTAG] READ: 0xxx
+# [FAIL] WRITE seq[6]: Expected=0x66, Got=0xxx
+#     [JTAG] SET_ADDR: 0x00307
+#     [JTAG] READ: 0xxx
+# [FAIL] WRITE seq[7]: Expected=0x77, Got=0xxx
+# 
+# ================================================================================
+#   RESUMEN DE PRUEBAS - dsa_top Testbench
+# ================================================================================
+# Total de pruebas: 33
+# Pruebas exitosas: 13
+# Pruebas fallidas: 20
+# Tasa de éxito:    39.4%
+# ================================================================================
+# *** ALGUNAS PRUEBAS FALLARON ***
+# ================================================================================
+# 
+# Simulación completada en tiempo: 32910000
+# ** Note: $stop    : C:/Users/ederv/Documents/TEC/Arqui2/p22/parallel_bilineal_interpolation_fpga/testbench/tb_dsa_top.sv(667)
+#    Time: 33910 ns  Iteration: 0  Instance: /tb_dsa_top
+# Break in Module tb_dsa_top at C:/Users/ederv/Documents/TEC/Arqui2/p22/parallel_bilineal_interpolation_fpga/testbench/tb_dsa_top.sv line 667
+# End time: 16:17:29 on Dec 03,2025, Elapsed time: 0:07:19
+# Errors: 0, Warnings: 9
