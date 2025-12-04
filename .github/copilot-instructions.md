@@ -225,35 +225,50 @@ SET_ADDR = 2'b11  // Shift address into DR_ADDR, update addr_out on UDR
 - **Port Names**: `.wraddress`, `.rdaddress`, `.data`, `.wren`, `.q`, `.clock`
 - **Resource Usage**: ~128 M10K blocks (fits in Cyclone V's 397 available blocks)
 
-#### DSA Top Module (`dsa_top.sv`) - IMPLEMENTED ✅
+#### DSA Top Module (`dsa_top_integrated.sv`) - IMPLEMENTED ✅
 
-**Architecture**: Complete system integration with dual control modes
+**Architecture**: Complete system integration with VJTAG, DSA processing, and dual control modes
 
 **Features**:
 - VJTAG interface for PC-controlled memory access
-- Manual address control via KEY buttons (increment/decrement)
-- Dual-mode operation: JTAG mode (SW[0]=0) vs Manual mode (SW[0]=1)
+- DSA (Domain-Specific Architecture) for bilinear interpolation
+- Manual address control via KEY[0]/KEY[1] (increment/decrement)
+- Dual-mode visualization: JTAG mode (SW[0]=0) vs Manual mode (SW[0]=1)
+- DSA control: SW[1] enables processing, KEY[2] resets DSA
 - HEX display multiplexing showing address+data per mode
-- LED debug indicators for operations and KEY states
+- LED debug indicators for DSA state, operations, and KEY states
+- Scale factor configuration via SW[9:2] (Q8.8 format)
 
 **Pin Mapping** (DE1-SoC):
 - `clk`: AF14 (50 MHz system clock)
-- `KEY[3]`: Y16 - Used as reset_n (active low)
-- `KEY[0]`: AA14 - Increment manual address
-- `KEY[1]`: AA15 - Decrement manual address
-- `SW[0]`: AB12 - Mode selector (0=JTAG, 1=Manual)
-- `LEDR[9:0]`: Debug LEDs
+- `KEY[3]`: Y16 - Reset general (active low)
+- `KEY[2]`: W15 - Reset DSA (active low)
+- `KEY[1]`: AA15 - Decrement manual address (active low)
+- `KEY[0]`: AA14 - Increment manual address (active low)
+- `SW[0]`: AB12 - Display mode (0=JTAG, 1=Manual)
+- `SW[1]`: AC12 - DSA enable (1=active)
+- `SW[9:2]`: Scale factor (0-255, Q8.8 format)
+- `LEDR[9:0]`: Debug LEDs (mode, DSA state, KEYs)
 - `HEX[5:0]`: 7-segment displays (address + data)
 
 **Control Logic**:
-- Simple edge detection for KEY presses (no complex debounce)
-- `key_prev[1:0]` register tracks KEY state for falling edge detection
-- Manual address increments/decrements on KEY press
+- Edge detection for KEY presses with simple anti-bounce
+- `key_prev[2:0]` register tracks KEY[2:0] state for falling edge detection
+- Manual address increments/decrements on KEY[0]/KEY[1] press
+- DSA reset pulse generated on KEY[2] press
+- DSA enabled when SW[1]=1
+- Scale factor from SW[9:2] (8 bits, 0-255)
 
 **LED Indicators**:
-- `LEDR[0]`: Current mode (0=JTAG, 1=Manual)
-- `LEDR[4]`: KEY[0] state (increment)
-- `LEDR[5]`: KEY[1] state (decrement)
+- `LEDR[0]`: Display mode (0=JTAG, 1=Manual)
+- `LEDR[1]`: DSA enable (SW[1])
+- `LEDR[2]`: DSA ready (processing complete)
+- `LEDR[3]`: DSA busy (processing)
+- `LEDR[4]`: KEY[0] pressed (increment)
+- `LEDR[5]`: KEY[1] pressed (decrement)
+- `LEDR[6]`: Write enable (memory write active)
+- `LEDR[7]`: Fetch busy (reading pixels)
+- `LEDR[9:8]`: Processing state
 
 ## Development Conventions
 
@@ -384,40 +399,58 @@ python vjtag_pc\jtag_fpga.py -v  # verbose mode
 - JTAG communication infrastructure:
   - `vjtag_interface.sv` - **REDESIGNED** to instantiate Virtual JTAG IP internally (self-contained module)
   - `jtag_server.tcl` - TCP bridge to JTAG hardware
-- Python client tools (`jtag_fpga.py`, `control_gui.py`)
+- Python client tools (`jtag_fpga.py`, `control_gui.py`, **`dsa_config.py`**)
 - Software test suite (`test_memory_debug.py`, `write_sequence.py`)
 - Hardware testbenches (`tb_ram.sv`, `tb_vjtag_interface.sv`, `tb_vjtag_ram_integrated.sv`, `tb_dsa_top.sv`)
 - IP cores (Virtual JTAG, RAM - 64KB dual-port)
-- **Top-level system** (`dsa_top.sv`):
+- **Top-level system** (`dsa_top_integrated.sv`):
   - VJTAG + RAM integration
+  - DSA modules (FSM, pixel fetch, datapath)
   - Manual address control with KEY buttons
   - Dual-mode operation (JTAG/Manual)
   - HEX display multiplexing
   - LED debug indicators
   - Complete DE1-SoC pin assignments
+- **Memory-Mapped Registers** (`dsa_register_bank.sv`):
+  - 64 bytes optimized (0x00-0x3F)
+  - Configuration: WIDTH, HEIGHT, SCALE, MODE, SIMD_N
+  - Status: idle/busy/done/error, progress, FSM state
+  - Performance counters: FLOPS, MEM_RD, MEM_WR
+  - Advanced: IMG_IN_BASE, IMG_OUT_BASE, CRC, stepping
+- **Python API** (`dsa_config.py`):
+  - High-level DSA configuration
+  - Status monitoring and performance reading
+  - CRC verification, stepping mode
 - **Reference Model** (`reference_model/`):
   - C++ implementation of bilinear interpolation with Q8.8 fixed-point arithmetic
   - PGM image format support (no external dependencies)
   - Performance counters and cycle-accurate simulation
   - Windows/Linux/macOS compatible
   - Compiles and runs successfully
+- **Controller Python** (`controller_py/`):
+  - Batch I/O optimizado (100-500x más rápido que individual)
+  - GUI completa con conexión JTAG, configuración DSA y lectura de registros
+  - Socket sin timeout para operaciones grandes
+  - Configuración JSON para parámetros DSA
+  - `serial_controller.py`: Controlador JTAG con batch writes/reads
+  - `interface_serial.py`: GUI Tkinter completa
+  - `constantes.py`: Definiciones centralizadas de registros
+  - `config.json`: Configuración de imagen, procesamiento y JTAG
 
 **Pending** ⚠️:
-- **CRITICAL**: Recompilation required after `vjtag_interface.sv` redesign
-- **CRITICAL**: FPGA reprogramming with updated .sof file
-- JTAG communication verification (should work after reprogramming)
-- Bilinear interpolation datapath (`dsa_datapath.sv`) - implement from reference model
-- Image processing control FSM
-- Fixed-point arithmetic units (Q8.8) in hardware
-- Performance counters and optimization
+- **CRITICAL**: Integrate `dsa_register_bank` into `dsa_top_integrated.sv`
+- **CRITICAL**: Implement performance counters in DSA modules
+- Recompilation required after register bank integration
+- FPGA reprogramming with updated .sof file
+- Physical JTAG communication verification
 - Bit-accurate validation: C++ model vs FPGA hardware
 
 **Ready for**:
-- Recompilation and reprogramming with fixed VJTAG design
-- Physical FPGA testing after update
-- PC-to-FPGA communication verification via JTAG
-- Manual memory browsing with KEY buttons
-- Next phase: Implement image processing pipeline from validated C++ model
+- Register bank integration and address decoder
+- Performance counter implementation
+- Recompilation and FPGA programming
+- Full system testing with dynamic configuration
+- Next phase: Validate image processing pipeline with Python API
 
 ## Quick Reference
 
@@ -428,6 +461,7 @@ python vjtag_pc\jtag_fpga.py -v  # verbose mode
 | Simulate VJTAG+RAM integration | `vsim work.tb_vjtag_ram_integrated` |
 | Start JTAG server | `quartus_stp -t vjtag_pc\jtag_server.tcl` |
 | Interactive console | `python vjtag_pc\jtag_fpga.py` |
+| DSA GUI optimizada | `python controller_py\interface_serial.py` |
 | Run software tests | `python vjtag_pc\test_memory_debug.py` |
 | Open Quartus project | Open `project_dsa.qpf` in Quartus Prime 18.1 |
 | Compile hardware | `quartus_sh --flow compile project_dsa` |

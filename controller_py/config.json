@@ -1,0 +1,66 @@
+{
+  "_comment": [
+    "========================================================================",
+    "CONFIG.JSON - Configuración de FPGA para DSA Bilinear Interpolation",
+    "========================================================================",
+    "Archivo de configuración JSON para control del DSA desde Python",
+    "Todos los valores pueden ser sobrescritos en tiempo de ejecución",
+    "========================================================================"
+  ],
+  
+  "jtag": {
+    "host": "localhost",
+    "port": 2540,
+    "timeout": 10,
+    "description": "Configuración del servidor JTAG TCL (jtag_server.tcl)"
+  },
+
+  "image": {
+    "input_width": 256,
+    "input_height": 256,
+    "scale_factor": 0.5,
+    "description": "Dimensiones de entrada y factor de escala (0.0 - 2.0)",
+    "note": "scale_factor se convertirá a Q8.8 (ej: 0.5 = 0x0080)"
+  },
+
+  "memory": {
+    "input_base_address": "0x0080",
+    "output_base_address": "0x8000",
+    "description": "Direcciones base para imagen de entrada/salida en RAM de FPGA",
+    "note": "Valores en hexadecimal (strings). Default: input=0x0080, output=0x8000"
+  },
+
+  "processing": {
+    "mode": "SIMD4",
+    "timeout": 30,
+    "enable_crc": false,
+    "stepping_mode": false,
+    "description": "Configuración de procesamiento DSA",
+    "mode_options": ["SCALAR", "SIMD2", "SIMD4", "SIMD8"],
+    "note": "timeout en segundos, CRC para verificación de integridad"
+  },
+
+  "performance": {
+    "enable_counters": true,
+    "report_interval": 1.0,
+    "description": "Monitoreo de performance (FLOPS, lecturas/escrituras de memoria)",
+    "note": "report_interval en segundos (intervalo de polling de contadores)"
+  },
+
+  "debug": {
+    "verbose": false,
+    "log_file": "logs/dsa_debug.log",
+    "hex_dump": false,
+    "description": "Opciones de depuración y logging",
+    "note": "hex_dump muestra volcados hexadecimales de memoria"
+  },
+
+  "advanced": {
+    "input_crc": "0x0000",
+    "output_crc": "0x0000",
+    "max_retries": 3,
+    "retry_delay": 0.5,
+    "description": "Configuración avanzada para verificación y reintento",
+    "note": "CRC values en hexadecimal (16-bit), retry_delay en segundos"
+  }
+}

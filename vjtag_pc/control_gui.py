@@ -8,7 +8,7 @@ PORT = 2540
 SOCKET_TIMEOUT = 10.0
 DATA_WIDTH = 8
 ADDR_WIDTH = 16
-MAX_VAL = (1 << DATA_WIDTH) - 1
+MAX_VAL = (1 << DATA_WIDTH) - 1 
 MAX_ADDR = (1 << ADDR_WIDTH) - 1
 
 def open_connection():
