@@ -129,15 +129,19 @@ module dsa_top #(
         if (rst) begin
             seq_enable <= 1'b0;
             simd_enable <= 1'b0;
-        end else if (fsm_hold) begin
-            // Cuando está en hold, mantener estado actual
-            // No hacer nada - mantener enables
-        end else if (start) begin
-            seq_enable <= ~mode_simd;
-            simd_enable <= mode_simd;
-        end else if (seq_ready || simd_ready) begin
-            seq_enable <= 1'b0;
-            simd_enable <= 1'b0;
+        end else begin
+            // El start siempre puede activar los enables
+            // (independiente de fsm_hold)
+            if (start) begin
+                seq_enable <= ~mode_simd;
+                simd_enable <= mode_simd;
+            end 
+            // Solo desactivar enables cuando ready Y no hay hold
+            else if ((seq_ready || simd_ready) && !fsm_hold) begin
+                seq_enable <= 1'b0;
+                simd_enable <= 1'b0;
+            end
+            // Cuando hay hold, mantener el estado actual de enables
         end
     end
     

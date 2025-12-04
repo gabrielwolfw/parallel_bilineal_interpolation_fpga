@@ -10,7 +10,7 @@ cModel Technology
 Z0 dC:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/simulation/modelsim
 vdsa_control_fsm_sequential
 Z1 DXx6 sv_std 3 std 0 22 AD7iAPLo6nTIKk<N0eo=D3
-Z2 !s110 1764871984
+Z2 !s110 1764872412
 !i10b 1
 !s100 o_8@8FkNCj117@j2h3HaK1
 Ie`TXS_;03CUfiTPf_^lBQ0
@@ -26,7 +26,7 @@ Z4 OV;L;10.5b;63
 r1
 !s85 0
 31
-Z5 !s108 1764871984.000000
+Z5 !s108 1764872412.000000
 !s107 C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_control_fsm_sequential.sv|
 !s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga|C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_control_fsm_sequential.sv|
 !i113 1
@@ -60,7 +60,7 @@ R7
 R8
 vdsa_datapath
 R1
-R2
+Z9 !s110 1764872411
 !i10b 1
 !s100 ^JddLm7B1X4`gFkVF^om]0
 I?]KnGYQABzFA=0cdEgaz63
@@ -68,7 +68,7 @@ R3
 !s105 dsa_datapath_sv_unit
 S1
 R0
-Z9 w1764864828
+Z10 w1764864828
 8C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_datapath.sv
 FC:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_datapath.sv
 L0 8
@@ -76,7 +76,7 @@ R4
 r1
 !s85 0
 31
-R5
+Z11 !s108 1764872411.000000
 !s107 C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_datapath.sv|
 !s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga|C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_datapath.sv|
 !i113 1
@@ -85,7 +85,7 @@ R7
 R8
 vdsa_datapath_simd
 R1
-R2
+R9
 !i10b 1
 !s100 68S8>mB^fZ_KC[TV78K_b1
 Ij6JbfYYkB9<QbO=5KXEJJ2
@@ -93,7 +93,7 @@ R3
 !s105 dsa_datapath_simd_sv_unit
 S1
 R0
-R9
+R10
 8C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_datapath_simd.sv
 FC:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_datapath_simd.sv
 L0 7
@@ -101,7 +101,7 @@ R4
 r1
 !s85 0
 31
-R5
+R11
 !s107 C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_datapath_simd.sv|
 !s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga|C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_datapath_simd.sv|
 !i113 1
@@ -110,7 +110,7 @@ R7
 R8
 vdsa_debug_registers
 R1
-Z10 !s110 1764871985
+R2
 !i10b 1
 !s100 0NF0OG`=Pj[bkN?^U7Sb00
 IhJRDdh4>e9I:^CCfj?]4U0
@@ -126,7 +126,7 @@ R4
 r1
 !s85 0
 31
-Z11 !s108 1764871985.000000
+R5
 !s107 C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_debug_registers.sv|
 !s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga|C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_debug_registers.sv|
 !i113 1
@@ -135,7 +135,7 @@ R7
 R8
 vdsa_mem_banked
 R1
-R10
+R2
 !i10b 1
 !s100 4<jhBVb1j`4NK?13<4SS^0
 IH4m@MP?fSD<zlCaPIa75Y2
@@ -151,7 +151,7 @@ R4
 r1
 !s85 0
 31
-R11
+R5
 !s107 C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_mem_banked.sv|
 !s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga|C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_mem_banked.sv|
 !i113 1
@@ -160,7 +160,7 @@ R7
 R8
 vdsa_pixel_fetch_sequential
 R1
-R2
+R9
 !i10b 1
 !s100 Kz=SSSVR]@4giRCBFZ>_Z1
 IfZMBhMBS`el;1o6`4lJ[T3
@@ -168,7 +168,7 @@ R3
 !s105 dsa_pixel_fetch_sequential_sv_unit
 S1
 R0
-R9
+R10
 8C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_sequential.sv
 FC:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_sequential.sv
 L0 6
@@ -176,7 +176,7 @@ R4
 r1
 !s85 0
 31
-R5
+R11
 !s107 C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_sequential.sv|
 !s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga|C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_sequential.sv|
 !i113 1
@@ -193,7 +193,7 @@ R3
 !s105 dsa_pixel_fetch_simd_sv_unit
 S1
 R0
-R9
+R10
 8C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_simd.sv
 FC:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_simd.sv
 L0 6
@@ -201,7 +201,7 @@ R4
 r1
 !s85 0
 31
-R5
+R11
 !s107 C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_simd.sv|
 !s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga|C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_simd.sv|
 !i113 1
@@ -218,7 +218,7 @@ R3
 !s105 dsa_pixel_fetch_unified_sv_unit
 S1
 R0
-R9
+R10
 8C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_unified.sv
 FC:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_unified.sv
 L0 6
@@ -235,15 +235,15 @@ R7
 R8
 vdsa_step_controller
 R1
-R10
+R2
 !i10b 1
-!s100 [hSN7UKi5JnjJ79IE@P0^1
-I6Pn56NURN=eb6JkPl^Z[l3
+!s100 9L4zBBIf5MSNedHb>7Ubk3
+Ifl=;l>eM_6:ZRBN3cf0=@2
 R3
 !s105 dsa_step_controller_sv_unit
 S1
 R0
-w1764871264
+w1764872363
 8C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_step_controller.sv
 FC:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_step_controller.sv
 L0 7
@@ -251,7 +251,7 @@ R4
 r1
 !s85 0
 31
-R11
+R5
 !s107 C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_step_controller.sv|
 !s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga|C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_step_controller.sv|
 !i113 1
@@ -260,15 +260,15 @@ R7
 R8
 vdsa_top
 R1
-R10
+Z12 !s110 1764872413
 !i10b 1
-!s100 8ZNLZFm9o>@1I3cIOQAl03
-IL;X7YlT<Na9`F@4LKgH003
+!s100 MM_h7>D>0g1KGjSR0iCiH1
+Icoo2ze9CE?9E1X:EhE7YL0
 R3
 !s105 dsa_top_sv_unit
 S1
 R0
-w1764868551
+w1764872331
 8C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_top.sv
 FC:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_top.sv
 L0 5
@@ -276,7 +276,7 @@ R4
 r1
 !s85 0
 31
-R11
+Z13 !s108 1764872413.000000
 !s107 C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_top.sv|
 !s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga|C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_top.sv|
 !i113 1
@@ -285,7 +285,7 @@ R7
 R8
 vdsa_top_tb
 R1
-R10
+R12
 !i10b 1
 !s100 iBV?nTc9e^`l__TA[mQo73
 I8eCLo:P>SgBC2HHY1clFU2
@@ -301,7 +301,7 @@ R4
 r1
 !s85 0
 31
-R11
+R13
 !s107 C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_top_tb.sv|
 !s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga|C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_top_tb.sv|
 !i113 1
