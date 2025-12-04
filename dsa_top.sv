@@ -85,7 +85,7 @@ module dsa_top #(
         .DW(DATA_WIDTH),
         .AW(ADDR_WIDTH)
     ) vjtag_inst (
-        .tck(clk),
+        .sys_clk(clk),      // Reloj del sistema para sincronización
         .aclr(reset_n),
         .data_out(jtag_data_out),
         .data_in(jtag_data_in),

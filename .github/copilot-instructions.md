@@ -99,13 +99,70 @@ write_value_to_fpga(conn, 0xAB)
 
 ### Hardware Design Patterns
 
-#### JTAG Interface Module (`vjtag_interface.sv`)
+#### JTAG Interface Module (`vjtag_interface.sv`) ✅ REDESIGNED
 
-**Architecture**: Custom SystemVerilog wrapper around Intel Virtual JTAG IP
+**Architecture**: Self-contained SystemVerilog module that internally instantiates Intel Virtual JTAG IP with **Clock Domain Crossing (CDC) synchronization**
+
+**CRITICAL CHANGES**: 
+1. Module now **instantiates** the `vjtag` IP core internally - no external JTAG signals needed
+2. **TCK is now an OUTPUT** from the Virtual JTAG IP, not an input to the module
+3. **CDC synchronization** implemented: JTAG domain (tck) → System domain (sys_clk) via double flip-flop
+
+**Module Interface** (7 ports):
+```systemverilog
+module vjtag_interface #(
+    parameter DW = 8,  // Data width for read/write
+    parameter AW = 16  // Address width (64KB range)
+)(
+    input  wire         sys_clk,  // System clock for output synchronization
+    input  wire         aclr,     // Async reset (active low)
+    input  wire [DW-1:0] data_in, // Data from RAM/logic
+    output logic [DW-1:0] data_out, // Data to RAM/logic (synchronized)
+    output logic [AW-1:0] addr_out, // Address output (synchronized)
+    // Debug ports
+    output logic [DW-1:0] debug_dr1,
+    output logic [DW-1:0] debug_dr2
+);
+```
+
+**Internal IP Instantiation**:
+```systemverilog
+// Internal JTAG signals
+wire        tck;     // JTAG clock OUTPUT from IP (not input!)
+wire        tdi, tdo;
+wire [1:0]  ir_in;
+wire        v_cdr, v_sdr, udr;
+
+// Virtual JTAG IP Core (Qsys-generated)
+vjtag vjtag_ip (
+    .tck(tck),       // TCK is OUTPUT from IP
+    .tdi(tdi),
+    .tdo(tdo),
+    .ir_in(ir_in),
+    .virtual_state_cdr(v_cdr),
+    .virtual_state_sdr(v_sdr),
+    .virtual_state_udr(udr)
+);
+```
+
+**Clock Domain Crossing (CDC) Architecture**:
+```systemverilog
+// Registers in JTAG domain (tck)
+logic [DW-1:0] data_out_jtag;  // Updated on UDR pulse
+logic [AW-1:0] addr_out_jtag;  // Updated on UDR pulse
+
+// Synchronization chain to system domain (sys_clk)
+logic [DW-1:0] data_sync1, data_sync2;  // Double FF for data
+logic [AW-1:0] addr_sync1, addr_sync2;  // Double FF for addr
+
+// Final synchronized outputs
+assign data_out = data_sync2;  // Stable in sys_clk domain
+assign addr_out = addr_sync2;  // Stable in sys_clk domain
+```
 
 **Parameters**:
 - `DW = 8`: Data width for read/write operations (configurable)
-- `AW = 16`: Address width for memory operations (configurable, 64KB range)
+- `AW = 16`: Address width for memory operations (64KB addressable range)
 
 **Key Registers** (internal shift registers):
 - `DR0_bypass_reg`: 1-bit JTAG bypass register
@@ -121,10 +178,12 @@ READ     = 2'b10  // Capture data_in into DR2, shift out via TDO
 SET_ADDR = 2'b11  // Shift address into DR_ADDR, update addr_out on UDR
 ```
 
-**JTAG Signals** (from Virtual JTAG IP):
+**Internal JTAG Signals** (from Virtual JTAG IP):
 - `v_cdr`: Virtual Capture-DR (loads data into shift register)
 - `v_sdr`: Virtual Shift-DR (shifts data through TDI→TDO)
 - `udr`: Virtual Update-DR (commits shifted data to output registers)
+- `tdi`, `tdo`: JTAG data in/out (managed by IP core)
+- `ir_in`: 2-bit instruction register (managed by IP core)
 
 **Operation Flow**:
 1. **WRITE**: Shift DW bits into DR1 → On UDR, copy DR1 to `data_out`
@@ -143,10 +202,16 @@ SET_ADDR = 2'b11  // Shift address into DR_ADDR, update addr_out on UDR
 - `debug_dr2`: Exposes DR2 register for verification
 
 **Critical Design Notes**:
+- **Self-contained**: Module instantiates Virtual JTAG IP internally - no external JTAG signals needed
+- **TCK is OUTPUT**: Virtual JTAG IP generates TCK from USB-Blaster (DO NOT connect system clock!)
+- **CDC Synchronization**: 2-stage flip-flop chain prevents metastability during clock domain crossings
+- **Latency**: ~3 sys_clk cycles from UDR pulse to stable addr_out/data_out (acceptable for debug)
 - All shift operations are LSB-first: `{tdi, REG[(WIDTH-1):1]}`
 - Address width (AW) is independent from data width (DW)
-- `data_out` and `addr_out` only update on UDR (Update-DR) pulse
+- `data_out_jtag` and `addr_out_jtag` update on UDR (Update-DR) pulse in JTAG domain
+- Outputs `data_out` and `addr_out` are synchronized to sys_clk domain
 - Asynchronous active-low reset (`aclr`) clears all registers
+- **Integration**: `dsa_top.sv` must connect `.sys_clk(clk)` NOT `.tck(clk)`
 
 #### Fixed-Point Arithmetic
 - **Format**: Q8.8 (8 integer bits, 8 fractional bits)
@@ -232,15 +297,39 @@ SET_ADDR = 2'b11  // Shift address into DR_ADDR, update addr_out on UDR
 
 ### Common Pitfalls
 
-1. **Binary String Format**: TCL server expects pure binary strings WITHOUT `0b` prefix
-2. **Address Width**: `SETADDR` uses 16 bits (64KB RAM range), data uses 8 bits - DO NOT confuse
-3. **Server Not Running**: Python client will hang/timeout if `jtag_server.tcl` isn't active
-4. **Quartus Version**: IP cores (vjtag, ram) generated for 18.1 - regenerate if using different version
-5. **Windows Path Handling**: Use raw strings or forward slashes in Python for file paths
-6. **Testbenches are for ModelSim ONLY**: DO NOT compile testbenches with Quartus - use ModelSim for simulation
-7. **Loop Variables in Testbenches**: Use `integer` instead of `int` for loop variables to avoid Quartus elaboration errors
-8. **RAM Size Limitation**: Cyclone V 5CSEMA5F31C6 has only 397 M10K blocks - max practical RAM is ~64KB for DUAL_PORT mode
-9. **Reset Pin**: `reset_n` is connected to `KEY[3]` internally in `dsa_top.sv` - no separate reset pin in QSF
+1. **CRITICAL - Clock Domain Crossing**: **NEVER** connect system clock to `.tck()` port of vjtag_interface
+   - **Wrong**: `.tck(clk)` - causes data corruption, intermediate values in displays
+   - **Correct**: `.sys_clk(clk)` - proper CDC synchronization
+   - **Why**: TCK comes from USB-Blaster (asynchronous to system), IP generates it internally
+   - **Symptom**: Seeing 0x03 instead of 0x80, or 0x05 instead of 0x100 in HEX displays
+
+2. **Binary String Format**: TCL server expects pure binary strings WITHOUT `0b` prefix
+
+3. **Address Width**: `SETADDR` uses 16 bits (64KB RAM range), data uses 8 bits - DO NOT confuse
+
+4. **Server Not Running**: Python client will hang/timeout if `jtag_server.tcl` isn't active
+
+5. **Quartus Version**: IP cores (vjtag, ram) generated for 18.1 - regenerate if using different version
+
+6. **Windows Path Handling**: Use raw strings or forward slashes in Python for file paths
+
+7. **Testbenches are for ModelSim ONLY**: DO NOT compile testbenches with Quartus - use ModelSim for simulation
+
+8. **Loop Variables in Testbenches**: Use `integer` instead of `int` for loop variables to avoid Quartus elaboration errors
+
+9. **RAM Size Limitation**: Cyclone V 5CSEMA5F31C6 has only 397 M10K blocks - max practical RAM is ~64KB for DUAL_PORT mode
+
+10. **Reset Pin**: `reset_n` is connected to `KEY[3]` internally in `dsa_top.sv` - no separate reset pin in QSF
+
+11. **VJTAG Module Changes**: `vjtag_interface.sv` was redesigned to:
+    - Instantiate Virtual JTAG IP internally
+    - Use TCK as OUTPUT from IP (not input)
+    - Implement CDC synchronization (JTAG → System clock)
+    - **Requires recompilation** after changes
+
+12. **UDR Timing**: `addr_out` and `data_out` only update on UDR (Update-DR) pulse
+    - Intermediate shift values are NOT visible on outputs (by design)
+    - Synchronization adds ~3 clock cycle latency (acceptable for debug)
 
 ### Testing Strategy
 
@@ -292,7 +381,9 @@ python vjtag_pc\jtag_fpga.py -v  # verbose mode
 ## Current State
 
 **Implemented** ✅:
-- JTAG communication infrastructure (`vjtag_interface.sv`, `jtag_server.tcl`)
+- JTAG communication infrastructure:
+  - `vjtag_interface.sv` - **REDESIGNED** to instantiate Virtual JTAG IP internally (self-contained module)
+  - `jtag_server.tcl` - TCP bridge to JTAG hardware
 - Python client tools (`jtag_fpga.py`, `control_gui.py`)
 - Software test suite (`test_memory_debug.py`, `write_sequence.py`)
 - Hardware testbenches (`tb_ram.sv`, `tb_vjtag_interface.sv`, `tb_vjtag_ram_integrated.sv`, `tb_dsa_top.sv`)
@@ -306,16 +397,20 @@ python vjtag_pc\jtag_fpga.py -v  # verbose mode
   - Complete DE1-SoC pin assignments
 
 **Pending** ⚠️:
+- **CRITICAL**: Recompilation required after `vjtag_interface.sv` redesign
+- **CRITICAL**: FPGA reprogramming with updated .sof file
+- JTAG communication verification (should work after reprogramming)
 - Bilinear interpolation datapath (`dsa_datapath.sv`)
 - Image processing control FSM
 - Fixed-point arithmetic units (Q8.8)
 - Performance counters and optimization
 
 **Ready for**:
-- Physical FPGA programming and testing
+- Recompilation and reprogramming with fixed VJTAG design
+- Physical FPGA testing after update
 - PC-to-FPGA communication verification via JTAG
 - Manual memory browsing with KEY buttons
-- Next phase: Implement image processing pipeline
+- Next phase: Implement image processing pipeline (after JTAG verified)
 
 ## Quick Reference
 

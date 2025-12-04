@@ -2,7 +2,7 @@ module vjtag_interface #(
     parameter int DW = 8,
     parameter int AW = 16  // Ancho de dirección configurable (16 bits para 64KB)
 ) (
-    input  wire        tck,
+    input  wire        sys_clk,  // System clock para sincronización de salidas
     input  wire        aclr,
     output logic [(DW-1):0] data_out,   // Output data written from PC to FPGA
     input  wire  [(DW-1):0] data_in,    // Input data from FPGA to be read by PC
@@ -12,6 +12,7 @@ module vjtag_interface #(
 );
 
     // Señales del IP Virtual JTAG
+    wire        tck;     // JTAG clock desde el IP
     wire        tdi;
     wire        tdo;
     wire [1:0]  ir_in;
@@ -21,6 +22,7 @@ module vjtag_interface #(
 
     // Instancia del IP Virtual JTAG de Intel
     vjtag vjtag_ip (
+        .tck(tck),       // TCK es SALIDA del IP, no entrada
         .tdi(tdi),
         .tdo(tdo),
         .ir_in(ir_in),
@@ -111,20 +113,50 @@ always_ff @(posedge tck or negedge aclr) begin
 end
 
 //----------------------------------------------------------
-// Update Output Register (data_out)
+// Update Output Register (data_out) - Sincronizado a dominio del sistema
 //----------------------------------------------------------
-always_ff @(posedge tck) begin
-    if (udr && (ir_state == WRITE)) begin
-        data_out <= DR1;
+logic [(DW-1):0] data_out_jtag;  // Registro en dominio JTAG
+logic [(AW-1):0] addr_out_jtag;  // Registro en dominio JTAG
+
+// Captura en dominio JTAG
+always_ff @(posedge tck or negedge aclr) begin
+    if (~aclr) begin
+        data_out_jtag <= '0;
+    end else if (udr && (ir_state == WRITE)) begin
+        data_out_jtag <= DR1;
     end
 end
 
-//----------------------------------------------------------
-// Update Address Register (addr_out)
-//----------------------------------------------------------
-always_ff @(posedge tck) begin
-    if (udr && (ir_state == SET_ADDR)) begin
-        addr_out <= DR_ADDR;  // Usar DR_ADDR de 15 bits
+always_ff @(posedge tck or negedge aclr) begin
+    if (~aclr) begin
+        addr_out_jtag <= '0;
+    end else if (udr && (ir_state == SET_ADDR)) begin
+        addr_out_jtag <= DR_ADDR;
+    end
+end
+
+// Sincronización a dominio del sistema (doble flip-flop)
+logic [(DW-1):0] data_sync1, data_sync2;
+logic [(AW-1):0] addr_sync1, addr_sync2;
+
+always_ff @(posedge sys_clk or negedge aclr) begin
+    if (~aclr) begin
+        data_sync1 <= '0;
+        data_sync2 <= '0;
+        data_out <= '0;
+        addr_sync1 <= '0;
+        addr_sync2 <= '0;
+        addr_out <= '0;
+    end else begin
+        // Primer etapa de sincronización
+        data_sync1 <= data_out_jtag;
+        addr_sync1 <= addr_out_jtag;
+        // Segunda etapa de sincronización
+        data_sync2 <= data_sync1;
+        addr_sync2 <= addr_sync1;
+        // Salida final
+        data_out <= data_sync2;
+        addr_out <= addr_sync2;
     end
 end
 
