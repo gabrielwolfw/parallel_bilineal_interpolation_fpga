@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import filedialog, messagebox, scrolledtext
 import subprocess
 import os
+import stat
 import numpy as np
 from PIL import Image
 
@@ -76,6 +77,7 @@ class InterfazSerial:
             if escala < 0.5 or escala > 1.0:
                 messagebox.showwarning("Error", "Escala debe estar entre 0.5 y 1.0")
                 return 0.75
+            # redondear a múltiplos de 0.05
             return round(escala / 0.05) * 0.05
         except Exception:
             return 0.75
@@ -122,54 +124,118 @@ class InterfazSerial:
     def correr_modelo_referencia(self, escala):
         """
         Ejecuta el binario de referencia sobre la imagen seleccionada y lee el resultado como vector de píxeles.
+        Versión robusta con detección de nombres de salida (75 y 075).
         """
-        # Usar número arbitrario para la imagen (99), copiar/covnertir y correr interpolación
-        input_pgm_path = "images/99.pgm"
-        if not os.path.exists("images"):
-            os.makedirs("images")
+        # Resolver project root basado en la ubicación de este archivo
+        this_dir = os.path.dirname(os.path.abspath(__file__))  # controller_py
+        project_root = os.path.normpath(os.path.join(this_dir, ".."))
 
-        # Convertir/copiar la imagen seleccionada a .pgm formato correcto
+        # Asegurar carpeta images en project root
+        images_dir = os.path.join(project_root, "images")
+        os.makedirs(images_dir, exist_ok=True)
+
+        input_pgm_path = os.path.join(images_dir, "99.pgm")
+        # Convertir o copiar la imagen seleccionada
         if self.imagen_actual.lower().endswith('.pgm'):
-            # Copia directa
             import shutil
             shutil.copy2(self.imagen_actual, input_pgm_path)
         else:
             self.convertir_a_pgm(self.imagen_actual, input_pgm_path)
 
-        escala_str = str(int(escala * 100)).zfill(3)
-        salida_pgm_path = f"images/99_output_{escala_str}.pgm"
+        # Construir path al ejecutable en reference_model/bin (varias candidatas)
+        exe_candidates = [
+            os.path.join(project_root, "reference_model", "bin", "bilinear_interpolator"),
+            os.path.join(project_root, "reference_model", "bin", "bilinear_interpolator.exe"),
+            os.path.join(project_root, "bin", "bilinear_interpolator"),
+            os.path.join(project_root, "bin", "bilinear_interpolator.exe"),
+        ]
 
-        # Ejecutar modelo C++ bin/bilinear_interpolator
-        cmd = [os.path.join("..", "reference_model", "bin", "bilinear_interpolator.exe"), "99", str(escala)]
+        exe_path = None
+        for cand in exe_candidates:
+            if os.path.exists(cand):
+                exe_path = cand
+                break
+
+        self.log(f"Buscando ejecutable en: {exe_candidates}")
+        self.log(f"Directorio de trabajo (cwd): {os.getcwd()}")
+        if exe_path is None:
+            self.log("No se encontró el ejecutable de referencia en las rutas esperadas.")
+            self.log("Comprueba que hayas compilado el proyecto y que 'bilinear_interpolator' exista en reference_model/bin")
+            return []
+
+        self.log(f"Ejecutable seleccionado: {exe_path}")
+
+        # Comprobar permisos de ejecución en Linux/Unix
         try:
-            result = subprocess.run(cmd, capture_output=True, check=True)
-            self.log("Modelo de referencia ejecutado correctamente.")
-            if os.path.exists(salida_pgm_path):
-                with open(salida_pgm_path, "rb") as f:
-                    # Leer header PGM
-                    magic = f.readline().strip()
-                    if magic != b'P5':
-                        self.log(f"Error: archivo PGM inesperado en {salida_pgm_path}")
-                        return []
-                    # Ignorar comentarios
-                    dim_line = b''
-                    while True:
-                        dim_line = f.readline()
-                        if not dim_line.startswith(b'#'):
-                            break
-                    width, height = [int(x) for x in dim_line.strip().split()]
-                    maxval = int(f.readline().strip())
-                    # Leer datos binarios de pixels
-                    raw = f.read()
-                    pixel_data = np.frombuffer(raw, dtype=np.uint8)
-                    if len(pixel_data) != width * height:
-                        self.log("Error: cantidad de datos pixel no coincide con dimensiones.")
-                        return []
-                    self.log(f"Salida correcta: {salida_pgm_path} ({width}x{height})")
-                    return pixel_data.tolist()
-            else:
-                self.log(f"No se encontró resultado: {salida_pgm_path}")
+            if not os.access(exe_path, os.X_OK):
+                # intentar dar permiso de ejecución
+                st = os.stat(exe_path)
+                os.chmod(exe_path, st.st_mode | stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH)
+                self.log(f"Se intentó añadir permiso de ejecución a: {exe_path}")
+        except Exception as e:
+            self.log(f"Advertencia al intentar fijar permisos de ejecución: {e}")
+
+        escala_arg = str(escala)
+        cmd = [exe_path, "99", escala_arg]
+
+        self.log(f"Ejecutando comando: {' '.join(cmd)}")
+        try:
+            p = subprocess.run(cmd, capture_output=True, check=False, text=True)
+            self.log("RETURNCODE: " + str(p.returncode))
+            if p.stdout:
+                self.log("--- stdout del modelo de referencia ---")
+                for line in p.stdout.splitlines():
+                    self.log(line)
+            if p.stderr:
+                self.log("--- stderr del modelo de referencia ---")
+                for line in p.stderr.splitlines():
+                    self.log(line)
+
+            # Comprobar archivo de salida: intentar con y sin padding
+            escala_int = int(round(float(escala) * 100))
+            candidates = [
+                os.path.join(images_dir, f"99_output_{escala_int}.pgm"),
+                os.path.join(images_dir, f"99_output_{escala_int:03d}.pgm"),
+            ]
+            salida_pgm_path = None
+            for cand in candidates:
+                self.log(f"Comprobando salida candidata: {cand}")
+                if os.path.exists(cand):
+                    salida_pgm_path = cand
+                    break
+
+            if salida_pgm_path is None:
+                self.log(f"No se creó ninguno de los archivos de salida esperados: {candidates}")
                 return []
+
+            self.log(f"Archivo de salida encontrado: {salida_pgm_path}")
+
+            # Leer PGM de salida
+            with open(salida_pgm_path, "rb") as f:
+                magic = f.readline().strip()
+                if magic != b'P5':
+                    self.log(f"Error: archivo PGM inesperado en {salida_pgm_path} (magic={magic})")
+                    return []
+                # Ignorar comentarios
+                line = f.readline()
+                while line.startswith(b'#'):
+                    line = f.readline()
+                width, height = [int(x) for x in line.strip().split()]
+                maxval = int(f.readline().strip())
+                raw = f.read()
+                pixel_data = np.frombuffer(raw, dtype=np.uint8)
+                if len(pixel_data) != width * height:
+                    self.log(f"Error: cantidad de datos pixel ({len(pixel_data)}) no coincide con dimensiones ({width*height}).")
+                    return []
+                self.log(f"Salida correcta: {salida_pgm_path} ({width}x{height})")
+                return pixel_data.tolist()
+
+        except FileNotFoundError as e:
+            self.log(f"Error: ejecutable no encontrado: {e}")
+            return []
+        except PermissionError as e:
+            self.log(f"Error de permisos al ejecutar: {e}")
+            return []
         except Exception as e:
             self.log(f"Error ejecutando modelo de referencia: {e}")
             return []
