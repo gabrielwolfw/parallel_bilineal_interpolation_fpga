@@ -5,17 +5,19 @@ if {[file exists rtl_work]} {
 vlib rtl_work
 vmap work rtl_work
 
-vlog -sv -work work +incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_datapath.sv}
-vlog -sv -work work +incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_datapath_simd.sv}
-vlog -sv -work work +incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_sequential.sv}
-vlog -sv -work work +incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_simd.sv}
-vlog -sv -work work +incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_unified.sv}
-vlog -sv -work work +incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_control_fsm_simd.sv}
-vlog -sv -work work +incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_control_fsm_sequential.sv}
-vlog -sv -work work +incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_mem_banked.sv}
-vlog -sv -work work +incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_top.sv}
+vlog -sv -work work +incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_datapath.sv}
+vlog -sv -work work +incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_datapath_simd.sv}
+vlog -sv -work work +incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_sequential.sv}
+vlog -sv -work work +incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_simd.sv}
+vlog -sv -work work +incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_unified.sv}
+vlog -sv -work work +incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_control_fsm_simd.sv}
+vlog -sv -work work +incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_control_fsm_sequential.sv}
+vlog -sv -work work +incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_mem_banked.sv}
+vlog -sv -work work +incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_step_controller.sv}
+vlog -sv -work work +incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_debug_registers.sv}
+vlog -sv -work work +incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_top.sv}
 
-vlog -sv -work work +incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_top_tb.sv}
+vlog -sv -work work +incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_top_tb.sv}
 
 vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cyclonev_ver -L cyclonev_hssi_ver -L cyclonev_pcie_hip_ver -L rtl_work -L work -voptargs="+acc"  dsa_top_tb
 

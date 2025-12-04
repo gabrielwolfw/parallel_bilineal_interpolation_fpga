@@ -1,0 +1,167 @@
+//============================================================
+// dsa_step_controller.sv
+// Controlador de ejecución paso a paso para debugging
+// CORREGIDO: Mejor timing y detección de eventos
+//============================================================
+
+module dsa_step_controller (
+    input  logic        clk,
+    input  logic        rst,
+    
+    //========================================================
+    // Control desde JTAG/Host
+    //========================================================
+    input  logic        step_enable,
+    input  logic        step_trigger,
+    input  logic [1:0]  step_granularity,
+    
+    //========================================================
+    // Interfaz con FSMs
+    //========================================================
+    input  logic [3:0]  fsm_state_seq,
+    input  logic [3:0]  fsm_state_simd,
+    input  logic        mode_simd,
+    input  logic        pixel_complete,
+    input  logic        group_complete,
+    
+    //========================================================
+    // Salida de control
+    //========================================================
+    output logic        fsm_hold,
+    output logic        step_ack,
+    output logic        step_ready
+);
+
+    //========================================================
+    // Granularidad de stepping
+    //========================================================
+    localparam GRAN_STATE = 2'd0;
+    localparam GRAN_PIXEL = 2'd1;
+    localparam GRAN_GROUP = 2'd2;
+    
+    //========================================================
+    // Estados internos
+    //========================================================
+    typedef enum logic [2:0] {
+        ST_IDLE,
+        ST_RUNNING,
+        ST_HOLD_WAIT_TRIGGER,
+        ST_RELEASING,
+        ST_WAIT_CONDITION
+    } step_state_t;
+    
+    step_state_t state, next_state;
+    
+    //========================================================
+    // Detección de eventos
+    //========================================================
+    logic [3:0] fsm_state_current;
+    logic [3:0] fsm_state_prev;
+    logic       state_changed;
+    logic       step_trigger_prev;
+    logic       step_trigger_edge;
+    logic       pixel_complete_prev;
+    logic       pixel_complete_edge;
+    logic       group_complete_prev;
+    logic       group_complete_edge;
+    
+    assign fsm_state_current = mode_simd ? fsm_state_simd : fsm_state_seq;
+    assign state_changed = fsm_state_current != fsm_state_prev;
+    assign step_trigger_edge = step_trigger && !step_trigger_prev;
+    assign pixel_complete_edge = pixel_complete && !pixel_complete_prev;
+    assign group_complete_edge = group_complete && !group_complete_prev;
+    
+    //========================================================
+    // Lógica de condición de parada según granularidad
+    //========================================================
+    logic stop_condition_met;
+    
+    always_comb begin
+        case (step_granularity)
+            GRAN_STATE: stop_condition_met = state_changed;
+            GRAN_PIXEL: stop_condition_met = pixel_complete_edge;
+            GRAN_GROUP: stop_condition_met = mode_simd ?  group_complete_edge : pixel_complete_edge;
+            default:    stop_condition_met = state_changed;
+        endcase
+    end
+    
+    //========================================================
+    // Registros de historial
+    //========================================================
+    always_ff @(posedge clk or posedge rst) begin
+        if (rst) begin
+            fsm_state_prev <= 4'd0;
+            step_trigger_prev <= 1'b0;
+            pixel_complete_prev <= 1'b0;
+            group_complete_prev <= 1'b0;
+        end else begin
+            fsm_state_prev <= fsm_state_current;
+            step_trigger_prev <= step_trigger;
+            pixel_complete_prev <= pixel_complete;
+            group_complete_prev <= group_complete;
+        end
+    end
+    
+    //========================================================
+    // FSM de Stepping
+    //========================================================
+    always_ff @(posedge clk or posedge rst) begin
+        if (rst) begin
+            state <= ST_IDLE;
+        end else begin
+            state <= next_state;
+        end
+    end
+    
+    always_comb begin
+        next_state = state;
+        fsm_hold = 1'b0;
+        step_ack = 1'b0;
+        step_ready = 1'b0;
+        
+        case (state)
+            ST_IDLE: begin
+                if (step_enable)
+                    next_state = ST_HOLD_WAIT_TRIGGER;
+                else
+                    next_state = ST_RUNNING;
+            end
+            
+            ST_RUNNING: begin
+                fsm_hold = 1'b0;
+                if (step_enable)
+                    next_state = ST_HOLD_WAIT_TRIGGER;
+            end
+            
+            ST_HOLD_WAIT_TRIGGER: begin
+                fsm_hold = 1'b1;
+                step_ready = 1'b1;
+                
+                if (! step_enable)
+                    next_state = ST_RUNNING;
+                else if (step_trigger_edge)
+                    next_state = ST_RELEASING;
+            end
+            
+            ST_RELEASING: begin
+                // Liberar hold por un ciclo para permitir transición
+                fsm_hold = 1'b0;
+                step_ack = 1'b1;
+                next_state = ST_WAIT_CONDITION;
+            end
+            
+            ST_WAIT_CONDITION: begin
+                // Mantener liberado hasta que se cumpla la condición
+                fsm_hold = 1'b0;
+                
+                if (! step_enable)
+                    next_state = ST_RUNNING;
+                else if (stop_condition_met)
+                    next_state = ST_HOLD_WAIT_TRIGGER;
+            end
+            
+            default: next_state = ST_IDLE;
+        endcase
+    end
+
+endmodule

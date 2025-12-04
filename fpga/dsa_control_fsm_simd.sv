@@ -1,6 +1,7 @@
 //============================================================
-// dsa_control_fsm_simd_opt.sv
+// dsa_control_fsm_simd. sv
 // FSM SIMD optimizada - escritura paralela en 1 ciclo
+// CORREGIDO: Agregado state_out
 //============================================================
 
 module dsa_control_fsm_simd #(
@@ -12,6 +13,7 @@ module dsa_control_fsm_simd #(
     input  logic        rst,
     
     input  logic        enable,
+    input  logic        hold,
     input  logic [15:0] img_width_out,
     input  logic [15:0] img_height_out,
     
@@ -19,17 +21,18 @@ module dsa_control_fsm_simd #(
     input  logic        fetch_done,
     output logic        dp_start,
     input  logic        dp_done,
-    output logic        simd_write_en,      // Escritura paralela
+    output logic        simd_write_en,
     
     output logic [15:0] current_x,
     output logic [15:0] current_y,
     
     output logic        busy,
-    output logic        ready
+    output logic        ready,
+    output logic [3:0]  state_out          // ← Estado para debug
 );
 
     //========================================================
-    // Estados - OPTIMIZADOS
+    // Estados
     //========================================================
     typedef enum logic [3:0] {
         ST_IDLE          = 4'd0,
@@ -38,7 +41,7 @@ module dsa_control_fsm_simd #(
         ST_WAIT_FETCH    = 4'd3,
         ST_START_DP      = 4'd4,
         ST_WAIT_DP       = 4'd5,
-        ST_WRITE_ALL     = 4'd6,   // Escritura de 4 píxeles en 1 ciclo
+        ST_WRITE_ALL     = 4'd6,
         ST_NEXT_GROUP    = 4'd7,
         ST_DONE          = 4'd8
     } state_t;
@@ -59,7 +62,7 @@ module dsa_control_fsm_simd #(
             x_reg <= 16'd0;
             y_reg <= 16'd0;
             pixels_processed <= 32'd0;
-        end else begin
+        end else if (! hold) begin
             state <= next_state;
             
             case (state)
@@ -124,7 +127,7 @@ module dsa_control_fsm_simd #(
             end
             
             ST_WRITE_ALL: begin
-                simd_write_en = 1'b1;   // Escribir 4 píxeles en 1 ciclo
+                simd_write_en = 1'b1;
                 next_state = ST_NEXT_GROUP;
             end
             
@@ -148,5 +151,6 @@ module dsa_control_fsm_simd #(
     assign current_y = y_reg;
     assign busy = (state != ST_IDLE) && (state != ST_DONE);
     assign ready = (state == ST_DONE);
+    assign state_out = state;  // ← AGREGADO
 
 endmodule

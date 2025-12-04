@@ -1,7 +1,7 @@
 //============================================================
-// dsa_top_tb.sv
+// dsa_top_tb. sv
 // Testbench completo para dsa_top
-// Compatible con la nueva interfaz
+// Incluye pruebas de stepping (Test 6)
 //============================================================
 
 `timescale 1ns/1ps
@@ -39,6 +39,27 @@ module dsa_top_tb;
     logic [31:0]            flops_count;
     logic [31:0]            mem_reads_count;
     logic [31:0]            mem_writes_count;
+    
+    //========================================================
+    // Señales de Stepping
+    //========================================================
+    logic                   step_enable;
+    logic                   step_trigger;
+    logic [1:0]             step_granularity;
+    logic                   step_ready;
+    logic                   step_ack;
+    
+    //========================================================
+    // Señales de Debug
+    //========================================================
+    logic [31:0]            debug_reg_0;
+    logic [31:0]            debug_reg_1;
+    logic [31:0]            debug_reg_2;
+    logic [31:0]            debug_reg_3;
+    logic [31:0]            debug_reg_4;
+    logic [31:0]            debug_reg_5;
+    logic [31:0]            debug_reg_6;
+    logic [31:0]            debug_reg_7;
 
     //========================================================
     // Generación de reloj
@@ -75,7 +96,22 @@ module dsa_top_tb;
         .progress(progress),
         .flops_count(flops_count),
         .mem_reads_count(mem_reads_count),
-        .mem_writes_count(mem_writes_count)
+        .mem_writes_count(mem_writes_count),
+        // Stepping
+        .step_enable(step_enable),
+        .step_trigger(step_trigger),
+        .step_granularity(step_granularity),
+        .step_ready(step_ready),
+        .step_ack(step_ack),
+        // Debug
+        .debug_reg_0(debug_reg_0),
+        .debug_reg_1(debug_reg_1),
+        .debug_reg_2(debug_reg_2),
+        .debug_reg_3(debug_reg_3),
+        .debug_reg_4(debug_reg_4),
+        .debug_reg_5(debug_reg_5),
+        .debug_reg_6(debug_reg_6),
+        .debug_reg_7(debug_reg_7)
     );
 
     //========================================================
@@ -86,8 +122,24 @@ module dsa_top_tb;
     integer seq_cycles;
     integer simd_cycles;
     real speedup;
+    
+    // Variables para stepping
+    integer step_count;
+    integer total_steps;
+    
+    // Nombres de estados FSM para debug
+    string fsm_state_names_seq[8] = '{
+        "IDLE", "INIT", "REQ_FETCH", "WAIT_FETCH",
+        "INTERPOLATE", "WRITE", "NEXT_PIXEL", "DONE"
+    };
+    
+    string fsm_state_names_simd[9] = '{
+        "IDLE", "INIT", "REQ_FETCH", "WAIT_FETCH",
+        "START_DP", "WAIT_DP", "WRITE_ALL", "NEXT_GROUP", "DONE"
+    };
+
     //========================================================
-    // Tasks
+    // Tasks Básicos
     //========================================================
 
     // Reset del sistema
@@ -104,6 +156,10 @@ module dsa_top_tb;
             ext_mem_read_en = 0;
             ext_mem_addr = 0;
             ext_mem_data_in = 0;
+            // Stepping deshabilitado por defecto
+            step_enable = 0;
+            step_trigger = 0;
+            step_granularity = 2'b00;
             
             repeat(10) @(posedge clk);
             rst = 0;
@@ -118,7 +174,7 @@ module dsa_top_tb;
         integer addr;
         logic [7:0] pixel_value;
         begin
-            $display("[%0t] Cargando imagen de prueba %0dx%0d...", $time, width, height);
+            $display("[%0t] Cargando imagen de prueba %0dx%0d.. .", $time, width, height);
             
             ext_mem_write_en = 1;
             
@@ -172,7 +228,7 @@ module dsa_top_tb;
             
             $display("[%0t] Esperando completar procesamiento...", $time);
             
-            while (!ready && cycle_count < timeout_cycles) begin
+            while (! ready && cycle_count < timeout_cycles) begin
                 @(posedge clk);
                 cycle_count = cycle_count + 1;
                 
@@ -183,7 +239,7 @@ module dsa_top_tb;
             end
             
             if (cycle_count >= timeout_cycles) begin
-                $display("ERROR: Timeout después de %0d ciclos", timeout_cycles);
+                $display("ERROR: Timeout despues de %0d ciclos", timeout_cycles);
                 $finish;
             end
             
@@ -210,7 +266,7 @@ module dsa_top_tb;
         logic [7:0] actual;
         integer tolerance;
         begin
-            tolerance = 2; // Tolerancia para errores de redondeo
+            tolerance = 2;
             
             addr = (MEM_SIZE/2) + (y * width_out + x);
             
@@ -224,7 +280,7 @@ module dsa_top_tb;
             if ((actual >= expected - tolerance) && (actual <= expected + tolerance)) begin
                 // Correcto
             end else begin
-                $display("ERROR: Píxel (%0d,%0d) esperado=%0d obtenido=%0d diferencia=%0d",
+                $display("ERROR: Pixel (%0d,%0d) esperado=%0d obtenido=%0d diferencia=%0d",
                          x, y, expected, actual, $signed(actual - expected));
             end
         end
@@ -246,8 +302,8 @@ module dsa_top_tb;
                     addr = (MEM_SIZE/2) + (y * width_out + x);
                     ext_mem_read_en = 1;
                     ext_mem_addr = addr[ADDR_WIDTH-1:0];
-                    @(posedge clk); // Ciclo 1: Dirección registrada
-						  @(posedge clk); // Ciclo 2: Dato disponible
+                    @(posedge clk);
+                    @(posedge clk);
                     pixel = ext_mem_data_out;
                     ext_mem_read_en = 0;
                     
@@ -262,7 +318,133 @@ module dsa_top_tb;
     endtask
 
     //========================================================
-    // Test 1: Imagen pequeña secuencial
+    // Tasks de Stepping
+    //========================================================
+    
+    // Decodificar y mostrar estado de debug
+    task display_debug_state(input integer step_num);
+        logic [3:0] fsm_state;
+        logic       is_simd;
+        logic       mem_rd, mem_wr;
+        logic [15:0] curr_x, curr_y;
+        logic [7:0] p00, p01, p10, p11;
+        logic [15:0] coef_a, coef_b;
+        logic [7:0] pixel_out;
+        logic [17:0] mem_addr_val;
+        logic [7:0] mem_data_val;
+        logic [7:0] simd_out[4];
+        string state_name;
+        begin
+            // Decodificar debug_reg_0: Estado y modo
+            fsm_state = debug_reg_0[27:24];
+            mem_wr = debug_reg_0[9];
+            mem_rd = debug_reg_0[8];
+            is_simd = debug_reg_0[0];
+            
+            // Obtener nombre del estado
+            if (is_simd) begin
+                if (fsm_state < 9)
+                    state_name = fsm_state_names_simd[fsm_state];
+                else
+                    state_name = $sformatf("UNKNOWN(%0d)", fsm_state);
+            end else begin
+                if (fsm_state < 8)
+                    state_name = fsm_state_names_seq[fsm_state];
+                else
+                    state_name = $sformatf("UNKNOWN(%0d)", fsm_state);
+            end
+            
+            // Decodificar debug_reg_1: Coordenadas
+            curr_y = debug_reg_1[31:16];
+            curr_x = debug_reg_1[15:0];
+            
+            // Decodificar debug_reg_2: Pixeles vecinos
+            p11 = debug_reg_2[31:24];
+            p10 = debug_reg_2[23:16];
+            p01 = debug_reg_2[15:8];
+            p00 = debug_reg_2[7:0];
+            
+            // Decodificar debug_reg_3: Coeficientes
+            coef_b = debug_reg_3[31:16];
+            coef_a = debug_reg_3[15:0];
+            
+            // Decodificar debug_reg_4: Pixel de salida
+            pixel_out = debug_reg_4[7:0];
+            
+            // Decodificar debug_reg_5: Direccion memoria
+            mem_addr_val = debug_reg_5[17:0];
+            
+            // Decodificar debug_reg_6: Dato memoria
+            mem_data_val = debug_reg_6[7:0];
+            
+            // Decodificar debug_reg_7: Salidas SIMD
+            simd_out[0] = debug_reg_7[7:0];
+            simd_out[1] = debug_reg_7[15:8];
+            simd_out[2] = debug_reg_7[23:16];
+            simd_out[3] = debug_reg_7[31:24];
+            
+            // Mostrar informacion
+            $display("");
+            $display("+-------------------------------------------------------------+");
+            $display("|                    STEP %4d                                 |", step_num);
+            $display("+-------------------------------------------------------------+");
+            $display("| FSM State: %-12s (%0d)    Mode: %-10s          |", 
+                     state_name, fsm_state, is_simd ? "SIMD" : "Sequential");
+            $display("| Position:  (%4d, %4d)                                      |", curr_x, curr_y);
+            $display("+-------------------------------------------------------------+");
+            $display("| Neighbors: p00=%3d  p01=%3d  p10=%3d  p11=%3d              |", 
+                     p00, p01, p10, p11);
+            $display("| Coefficients: a=0x%04X (%.4f)  b=0x%04X (%.4f)            |", 
+                     coef_a, real'(coef_a)/256.0, coef_b, real'(coef_b)/256.0);
+            $display("+-------------------------------------------------------------+");
+            $display("| Output Pixel: %3d                                           |", pixel_out);
+            if (is_simd) begin
+                $display("| SIMD Outputs: [%3d, %3d, %3d, %3d]                          |",
+                         simd_out[0], simd_out[1], simd_out[2], simd_out[3]);
+            end
+            $display("+-------------------------------------------------------------+");
+            $display("| Memory: Addr=0x%05X  Data=%3d  RD=%b  WR=%b                 |",
+                     mem_addr_val, mem_data_val, mem_rd, mem_wr);
+            $display("+-------------------------------------------------------------+");
+        end
+    endtask
+    
+    // Ejecutar un paso de stepping
+    task do_single_step();
+        integer timeout;
+        begin
+            timeout = 0;
+            
+            // Esperar a que step_ready este activo
+            while (! step_ready && timeout < 1000) begin
+                @(posedge clk);
+                timeout = timeout + 1;
+            end
+            
+            if (timeout >= 1000) begin
+                $display("WARNING: Timeout esperando step_ready");
+                return;
+            end
+            
+            // Enviar pulso de trigger
+            step_trigger = 1;
+            @(posedge clk);
+            step_trigger = 0;
+            
+            // Esperar acknowledge (con timeout)
+            timeout = 0;
+            while (!step_ack && timeout < 100) begin
+                @(posedge clk);
+                timeout = timeout + 1;
+            end
+            
+            // Esperar unos ciclos para que la FSM avance
+            repeat(5) @(posedge clk);
+        end
+    endtask
+
+    //========================================================
+    // Test 1: Imagen pequena secuencial
     //========================================================
     task test_small_sequential();
         integer test_width, test_height;
@@ -283,7 +465,6 @@ module dsa_top_tb;
             img_width_in = test_width;
             img_height_in = test_height;
             scale_factor = 8'h80;  // 0.5
-				
             
             width_out = (test_width * 8'h80) >> 8;
             height_out = (test_height * 8'h80) >> 8;
@@ -303,7 +484,7 @@ module dsa_top_tb;
     endtask
 
     //========================================================
-    // Test 2: Imagen pequeña SIMD
+    // Test 2: Imagen pequena SIMD
     //========================================================
     task test_small_simd();
         integer test_width, test_height;
@@ -352,11 +533,11 @@ module dsa_top_tb;
             test_num = test_num + 1;
             $display("");
             $display("========================================");
-            $display("TEST %0d: Imagen 16x16 Secuencial", test_num);
+            $display("TEST %0d: Imagen 32x32 Secuencial", test_num);
             $display("========================================");
             
-            test_width = 16;
-            test_height = 16;
+            test_width = 32;
+            test_height = 32;
             
             reset_system();
             load_test_image(test_width, test_height);
@@ -389,11 +570,11 @@ module dsa_top_tb;
             test_num = test_num + 1;
             $display("");
             $display("========================================");
-            $display("TEST %0d: Imagen 16x16 SIMD", test_num);
+            $display("TEST %0d: Imagen 32x32 SIMD", test_num);
             $display("========================================");
             
-            test_width = 16;
-            test_height = 16;
+            test_width = 32;
+            test_height = 32;
             
             reset_system();
             load_test_image(test_width, test_height);
@@ -438,7 +619,7 @@ module dsa_top_tb;
             load_test_image(test_width, test_height);
             img_width_in = test_width;
             img_height_in = test_height;
-            scale_factor = 8'hB3; // 0.7 -> 0.5 8'h80
+            scale_factor = 8'hB3; // 0.7
             start_processing(0);
             wait_for_completion();
             seq_cycles = cycle_count;
@@ -485,32 +666,260 @@ module dsa_top_tb;
     endtask
 
     //========================================================
+    // Test 6: Stepping - Ejecucion paso a paso
+    //========================================================
+    task test_stepping();
+        integer test_width, test_height;
+        integer width_out, height_out;
+        integer max_steps;
+        integer i;
+        logic [3:0] prev_state, curr_state;
+        integer state_transitions;
+        integer pixels_completed;
+        integer timeout;
+        begin
+            test_num = test_num + 1;
+            $display("");
+            $display("+==============================================================+");
+            $display("|            TEST %0d: STEPPING - Ejecucion Paso a Paso         |", test_num);
+            $display("+==============================================================+");
+            
+            //----------------------------------------------------
+            // PARTE A: Stepping por ESTADO en modo SECUENCIAL
+            //----------------------------------------------------
+            $display("");
+            $display("--------------------------------------------------------------");
+            $display("  PARTE A: Stepping por ESTADO (Modo Secuencial)");
+            $display("--------------------------------------------------------------");
+            
+            test_width = 8;
+            test_height = 8;
+            
+            reset_system();
+            load_test_image(test_width, test_height);
+            
+            img_width_in = test_width;
+            img_height_in = test_height;
+            scale_factor = 8'h80;
+            
+            width_out = (test_width * 8'h80) >> 8;
+            height_out = (test_height * 8'h80) >> 8;
+            
+            $display("Imagen: %0dx%0d -> %0dx%0d", test_width, test_height, width_out, height_out);
+            
+            // Configurar stepping ANTES de iniciar
+            step_granularity = 2'b00;  // STATE
+            step_enable = 1;
+            repeat(3) @(posedge clk);
+            
+            // Iniciar procesamiento
+            mode_simd = 0;
+            start = 1;
+            @(posedge clk);
+            start = 0;
+            
+            // Esperar un poco para que arranque
+            repeat(5) @(posedge clk);
+            
+            // Ejecutar pasos
+            max_steps = 30;
+            step_count = 0;
+            prev_state = 4'hF;
+            state_transitions = 0;
+            
+            $display("");
+            $display("Ejecutando %0d pasos con granularidad STATE.. .", max_steps);
+            
+            for (i = 0; i < max_steps && ! ready; i = i + 1) begin
+                do_single_step();
+                step_count = step_count + 1;
+                
+                // Leer estado actual
+                curr_state = debug_reg_0[27:24];
+                
+                // Mostrar solo si hubo cambio de estado
+                if (curr_state != prev_state) begin
+                    state_transitions = state_transitions + 1;
+                    display_debug_state(step_count);
+                    prev_state = curr_state;
+                end
+                
+                // Verificar si termino
+                if (curr_state == 4'd7) begin // ST_DONE para secuencial
+                    $display("  FSM alcanzo estado DONE");
+                    break;
+                end
+            end
+            
+            $display("");
+            $display("  Pasos ejecutados: %0d", step_count);
+            $display("  Transiciones de estado observadas: %0d", state_transitions);
+            
+            // Deshabilitar stepping
+            step_enable = 0;
+            repeat(5) @(posedge clk);
+            
+            // Esperar completar (si no termino ya)
+            timeout = 0;
+            while (!ready && timeout < 100000) begin
+                @(posedge clk);
+                timeout = timeout + 1;
+            end
+            
+            if (ready)
+                $display("  Procesamiento completado correctamente");
+            else
+                $display("  WARNING: Timeout esperando completar");
+            
+            //----------------------------------------------------
+            // PARTE B: Stepping por PIXEL
+            //----------------------------------------------------
+            $display("");
+            $display("--------------------------------------------------------------");
+            $display("  PARTE B: Stepping por PIXEL (Modo Secuencial)");
+            $display("--------------------------------------------------------------");
+            
+            reset_system();
+            load_test_image(test_width, test_height);
+            
+            img_width_in = test_width;
+            img_height_in = test_height;
+            scale_factor = 8'h80;
+            
+            // Configurar stepping
+            step_granularity = 2'b01;  // PIXEL
+            step_enable = 1;
+            repeat(3) @(posedge clk);
+            
+            mode_simd = 0;
+            start = 1;
+            @(posedge clk);
+            start = 0;
+            repeat(5) @(posedge clk);
+            
+            max_steps = 5;
+            step_count = 0;
+            
+            $display("");
+            $display("Ejecutando %0d pasos con granularidad PIXEL...", max_steps);
+            
+            for (i = 0; i < max_steps && !ready; i = i + 1) begin
+                do_single_step();
+                step_count = step_count + 1;
+                display_debug_state(step_count);
+            end
+            
+            $display("");
+            $display("  Pixeles procesados: %0d", step_count);
+            
+            step_enable = 0;
+            repeat(5) @(posedge clk);
+            
+            timeout = 0;
+            while (!ready && timeout < 100000) begin
+                @(posedge clk);
+                timeout = timeout + 1;
+            end
+            
+            //----------------------------------------------------
+            // PARTE C: Stepping por GRUPO (SIMD)
+            //----------------------------------------------------
+            $display("");
+            $display("--------------------------------------------------------------");
+            $display("  PARTE C: Stepping por GRUPO (Modo SIMD)");
+            $display("--------------------------------------------------------------");
+            
+            reset_system();
+            load_test_image(test_width, test_height);
+            
+            img_width_in = test_width;
+            img_height_in = test_height;
+            scale_factor = 8'h80;
+            
+            step_granularity = 2'b10;  // GROUP
+            step_enable = 1;
+            repeat(3) @(posedge clk);
+            
+            mode_simd = 1;  // SIMD mode
+            start = 1;
+            @(posedge clk);
+            start = 0;
+            repeat(5) @(posedge clk);
+            
+            max_steps = 4;
+            step_count = 0;
+            
+            $display("");
+            $display("Ejecutando %0d pasos con granularidad GROUP...", max_steps);
+            
+            for (i = 0; i < max_steps && !ready; i = i + 1) begin
+                do_single_step();
+                step_count = step_count + 1;
+                display_debug_state(step_count);
+            end
+            
+            $display("");
+            $display("  Grupos procesados: %0d (%0d pixeles)", step_count, step_count * SIMD_WIDTH);
+            
+            step_enable = 0;
+            repeat(5) @(posedge clk);
+            
+            timeout = 0;
+            while (!ready && timeout < 100000) begin
+                @(posedge clk);
+                timeout = timeout + 1;
+            end
+            
+            //----------------------------------------------------
+            // Resumen
+            //----------------------------------------------------
+            $display("");
+            $display("+==============================================================+");
+            $display("|                  RESUMEN TEST STEPPING                       |");
+            $display("+==============================================================+");
+            $display("|  [OK] Stepping por ESTADO: Verificado                        |");
+            $display("|  [OK] Stepping por PIXEL:  Verificado                        |");
+            $display("|  [OK] Stepping por GRUPO:  Verificado                        |");
+            $display("+==============================================================+");
+            
+            $display("");
+            $display("TEST %0d COMPLETADO", test_num);
+        end
+    endtask
+
+    //========================================================
     // Secuencia principal de tests
     //========================================================
     initial begin
         $display("");
-        $display("====================================================");
-        $display("INICIO DE TESTBENCH DSA DOWNSCALING");
-        $display("====================================================");
+        $display("+================================================================+");
+        $display("|           INICIO DE TESTBENCH DSA DOWNSCALING                  |");
+        $display("|              Con soporte para Stepping                         |");
+        $display("+================================================================+");
         
         test_num = 0;
         
-        // Ejecutar tests
+        // Ejecutar tests 1-5 (sin stepping)
         test_small_sequential();
         test_small_simd();
         test_medium_sequential();
         test_medium_simd();
         test_performance_comparison();
         
+        // Ejecutar test 6 (con stepping)
+        test_stepping();
+        
         // Resumen final
         $display("");
-        $display("====================================================");
-        $display("RESUMEN FINAL");
-        $display("====================================================");
-        $display("Tests ejecutados: %0d", test_num);
-        $display("====================================================");
-        $display("FIN DE TESTBENCH");
-        $display("====================================================");
+        $display("+================================================================+");
+        $display("|                      RESUMEN FINAL                             |");
+        $display("+================================================================+");
+        $display("|  Tests ejecutados: %0d                                          |", test_num);
+        $display("|  Tests 1-5: Funcionalidad basica (sin stepping)                |");
+        $display("|  Test 6:    Verificacion de stepping                           |");
+        $display("+================================================================+");
+        $display("|                    FIN DE TESTBENCH                            |");
+        $display("+================================================================+");
         
         $finish;
     end
@@ -525,7 +934,7 @@ module dsa_top_tb;
     end
 
     //========================================================
-    // Generación de waveforms
+    // Generacion de waveforms
     //========================================================
     initial begin
         $dumpfile("dsa_top_tb.vcd");

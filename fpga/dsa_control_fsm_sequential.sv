@@ -13,6 +13,7 @@ module dsa_control_fsm_sequential #(
     
     // Control desde top
     input  logic        enable,           // Activar este FSM
+	 input  logic        hold,             // Pausar FSM
     input  logic [15:0] img_width_out,    // Ancho de imagen salida
     input  logic [15:0] img_height_out,   // Alto de imagen salida
     
@@ -29,7 +30,8 @@ module dsa_control_fsm_sequential #(
     
     // Estado
     output logic        busy,
-    output logic        ready
+    output logic        ready,
+	 output logic [3:0]  state_out          // Estado para debug
 );
 
     //========================================================
@@ -71,7 +73,7 @@ module dsa_control_fsm_sequential #(
             x_reg <= 16'd0;
             y_reg <= 16'd0;
             pixels_processed <= 32'd0;
-        end else begin
+        end else if (! hold) begin
             state <= next_state;
             
             case (state)
@@ -161,5 +163,6 @@ module dsa_control_fsm_sequential #(
     assign current_y = y_reg;
     assign busy = (state != ST_IDLE) && (state != ST_DONE);
     assign ready = (state == ST_DONE);
+	 assign state_out = state;
 
 endmodule

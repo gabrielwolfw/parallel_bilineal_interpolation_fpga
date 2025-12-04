@@ -10,114 +10,136 @@
 # Copying C:/intelFPGA_lite/18.1/modelsim_ase/win32aloem/../modelsim.ini to modelsim.ini
 # Modifying modelsim.ini
 # 
-# vlog -sv -work work +incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_datapath.sv}
+# vlog -sv -work work +incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_datapath.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 20:43:58 on Nov 27,2025
-# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga" C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_datapath.sv 
+# Start time: 12:13:04 on Dec 04,2025
+# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga" C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_datapath.sv 
 # -- Compiling module dsa_datapath
 # 
 # Top level modules:
 # 	dsa_datapath
-# End time: 20:43:58 on Nov 27,2025, Elapsed time: 0:00:00
+# End time: 12:13:04 on Dec 04,2025, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
-# vlog -sv -work work +incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_datapath_simd.sv}
+# vlog -sv -work work +incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_datapath_simd.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 20:43:58 on Nov 27,2025
-# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga" C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_datapath_simd.sv 
+# Start time: 12:13:04 on Dec 04,2025
+# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga" C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_datapath_simd.sv 
 # -- Compiling module dsa_datapath_simd
 # 
 # Top level modules:
 # 	dsa_datapath_simd
-# End time: 20:43:59 on Nov 27,2025, Elapsed time: 0:00:01
+# End time: 12:13:04 on Dec 04,2025, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
-# vlog -sv -work work +incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_sequential.sv}
+# vlog -sv -work work +incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_sequential.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 20:43:59 on Nov 27,2025
-# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga" C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_sequential.sv 
+# Start time: 12:13:04 on Dec 04,2025
+# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga" C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_sequential.sv 
 # -- Compiling module dsa_pixel_fetch_sequential
 # 
 # Top level modules:
 # 	dsa_pixel_fetch_sequential
-# End time: 20:43:59 on Nov 27,2025, Elapsed time: 0:00:00
+# End time: 12:13:04 on Dec 04,2025, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
-# vlog -sv -work work +incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_simd.sv}
+# vlog -sv -work work +incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_simd.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 20:43:59 on Nov 27,2025
-# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga" C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_simd.sv 
+# Start time: 12:13:04 on Dec 04,2025
+# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga" C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_simd.sv 
 # -- Compiling module dsa_pixel_fetch_simd
 # 
 # Top level modules:
 # 	dsa_pixel_fetch_simd
-# End time: 20:43:59 on Nov 27,2025, Elapsed time: 0:00:00
+# End time: 12:13:04 on Dec 04,2025, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
-# vlog -sv -work work +incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_unified.sv}
+# vlog -sv -work work +incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_unified.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 20:43:59 on Nov 27,2025
-# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga" C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_unified.sv 
+# Start time: 12:13:04 on Dec 04,2025
+# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga" C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_pixel_fetch_unified.sv 
 # -- Compiling module dsa_pixel_fetch_unified
 # 
 # Top level modules:
 # 	dsa_pixel_fetch_unified
-# End time: 20:43:59 on Nov 27,2025, Elapsed time: 0:00:00
+# End time: 12:13:04 on Dec 04,2025, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
-# vlog -sv -work work +incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_control_fsm_simd.sv}
+# vlog -sv -work work +incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_control_fsm_simd.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 20:43:59 on Nov 27,2025
-# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga" C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_control_fsm_simd.sv 
+# Start time: 12:13:04 on Dec 04,2025
+# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga" C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_control_fsm_simd.sv 
 # -- Compiling module dsa_control_fsm_simd
 # 
 # Top level modules:
 # 	dsa_control_fsm_simd
-# End time: 20:43:59 on Nov 27,2025, Elapsed time: 0:00:00
+# End time: 12:13:04 on Dec 04,2025, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
-# vlog -sv -work work +incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_control_fsm_sequential.sv}
+# vlog -sv -work work +incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_control_fsm_sequential.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 20:43:59 on Nov 27,2025
-# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga" C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_control_fsm_sequential.sv 
+# Start time: 12:13:04 on Dec 04,2025
+# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga" C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_control_fsm_sequential.sv 
 # -- Compiling module dsa_control_fsm_sequential
 # 
 # Top level modules:
 # 	dsa_control_fsm_sequential
-# End time: 20:43:59 on Nov 27,2025, Elapsed time: 0:00:00
+# End time: 12:13:04 on Dec 04,2025, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
-# vlog -sv -work work +incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_mem_banked.sv}
+# vlog -sv -work work +incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_mem_banked.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 20:43:59 on Nov 27,2025
-# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga" C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_mem_banked.sv 
+# Start time: 12:13:05 on Dec 04,2025
+# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga" C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_mem_banked.sv 
 # -- Compiling module dsa_mem_banked
 # 
 # Top level modules:
 # 	dsa_mem_banked
-# End time: 20:43:59 on Nov 27,2025, Elapsed time: 0:00:00
+# End time: 12:13:05 on Dec 04,2025, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
-# vlog -sv -work work +incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_top.sv}
+# vlog -sv -work work +incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_step_controller.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 20:44:00 on Nov 27,2025
-# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga" C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_top.sv 
+# Start time: 12:13:05 on Dec 04,2025
+# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga" C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_step_controller.sv 
+# -- Compiling module dsa_step_controller
+# 
+# Top level modules:
+# 	dsa_step_controller
+# End time: 12:13:05 on Dec 04,2025, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -sv -work work +incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_debug_registers.sv}
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 12:13:05 on Dec 04,2025
+# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga" C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_debug_registers.sv 
+# -- Compiling module dsa_debug_registers
+# 
+# Top level modules:
+# 	dsa_debug_registers
+# End time: 12:13:05 on Dec 04,2025, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -sv -work work +incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_top.sv}
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 12:13:05 on Dec 04,2025
+# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga" C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_top.sv 
 # -- Compiling module dsa_top
 # 
 # Top level modules:
 # 	dsa_top
-# End time: 20:44:00 on Nov 27,2025, Elapsed time: 0:00:00
+# End time: 12:13:05 on Dec 04,2025, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # 
-# vlog -sv -work work +incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_top_tb.sv}
+# vlog -sv -work work +incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga {C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_top_tb.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 20:44:00 on Nov 27,2025
-# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga" C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_top_tb.sv 
+# Start time: 12:13:05 on Dec 04,2025
+# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga" C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_top_tb.sv 
 # -- Compiling module dsa_top_tb
 # 
 # Top level modules:
 # 	dsa_top_tb
-# End time: 20:44:00 on Nov 27,2025, Elapsed time: 0:00:00
+# End time: 12:13:05 on Dec 04,2025, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # 
 # vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cyclonev_ver -L cyclonev_hssi_ver -L cyclonev_pcie_hip_ver -L rtl_work -L work -voptargs="+acc"  dsa_top_tb
 # vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cyclonev_ver -L cyclonev_hssi_ver -L cyclonev_pcie_hip_ver -L rtl_work -L work -voptargs=""+acc"" dsa_top_tb 
-# Start time: 20:44:01 on Nov 27,2025
+# Start time: 12:13:05 on Dec 04,2025
 # Loading sv_std.std
 # Loading work.dsa_top_tb
 # Loading work.dsa_top
+# Loading work.dsa_step_controller
+# Loading work.dsa_debug_registers
 # Loading work.dsa_control_fsm_sequential
 # Loading work.dsa_control_fsm_simd
 # Loading work.dsa_pixel_fetch_unified
@@ -134,16 +156,17 @@
 # .main_pane.objects.interior.cs.body.tree
 # run -all
 # 
-# ====================================================
-# INICIO DE TESTBENCH DSA DOWNSCALING
-# ====================================================
+# +================================================================+
+# |           INICIO DE TESTBENCH DSA DOWNSCALING                  |
+# |              Con soporte para Stepping                         |
+# +================================================================+
 # 
 # ========================================
 # TEST 1: Imagen 16x16 Secuencial
 # ========================================
 # [0] Reseteando sistema...
 # [145000] Reset completado
-# [145000] Cargando imagen de prueba 16x16...
+# [145000] Cargando imagen de prueba 16x16.. .
 #   Cargando fila 0/16
 #   Cargando fila 8/16
 # [2715000] Imagen cargada exitosamente
@@ -176,7 +199,7 @@
 # ========================================
 # [11075000] Reseteando sistema...
 # [11225000] Reset completado
-# [11225000] Cargando imagen de prueba 16x16...
+# [11225000] Cargando imagen de prueba 16x16.. .
 #   Cargando fila 0/16
 #   Cargando fila 8/16
 # [13795000] Imagen cargada exitosamente
@@ -205,40 +228,47 @@
 # TEST 2 COMPLETADO
 # 
 # ========================================
-# TEST 3: Imagen 16x16 Secuencial
+# TEST 3: Imagen 32x32 Secuencial
 # ========================================
 # [19435000] Reseteando sistema...
 # [19585000] Reset completado
-# [19585000] Cargando imagen de prueba 16x16...
-#   Cargando fila 0/16
-#   Cargando fila 8/16
-# [22155000] Imagen cargada exitosamente
-# Dimensiones salida esperadas: 8x8
-# [22155000] Iniciando procesamiento en modo SECUENCIAL
-# [22175000] Esperando completar procesamiento...
-# [29235000] Procesamiento completado en 706 ciclos
-#   FLOPs ejecutadas: 512
-#   Lecturas de memoria: 256
-#   Escrituras de memoria: 320
+# [19585000] Cargando imagen de prueba 32x32.. .
+#   Cargando fila 0/32
+#   Cargando fila 8/32
+#   Cargando fila 16/32
+#   Cargando fila 24/32
+# [29835000] Imagen cargada exitosamente
+# Dimensiones salida esperadas: 16x16
+# [29835000] Iniciando procesamiento en modo SECUENCIAL
+# [29855000] Esperando completar procesamiento...
+#   Ciclo 1000: Progreso = 90 pixeles
+#   Ciclo 2000: Progreso = 181 pixeles
+# [58035000] Procesamiento completado en 2818 ciclos
+#   FLOPs ejecutadas: 2048
+#   Lecturas de memoria: 1024
+#   Escrituras de memoria: 1280
 #   Throughput: 0.73 FLOPs/ciclo
 # TEST 3 COMPLETADO
 # 
 # ========================================
-# TEST 4: Imagen 16x16 SIMD
+# TEST 4: Imagen 32x32 SIMD
 # ========================================
-# [29235000] Reseteando sistema...
-# [29385000] Reset completado
-# [29385000] Cargando imagen de prueba 16x16...
-#   Cargando fila 0/16
-#   Cargando fila 8/16
-# [31955000] Imagen cargada exitosamente
-# Dimensiones salida esperadas: 8x8
-# [31955000] Iniciando procesamiento en modo       SIMD
-# [31975000] Esperando completar procesamiento...
-# [36315000] Procesamiento completado en 434 ciclos
-#   FLOPs ejecutadas: 512
-#   Lecturas de memoria: 256
-#   Escrituras de memoria: 320
+# [58035000] Reseteando sistema...
+# [58185000] Reset completado
+# [58185000] Cargando imagen de prueba 32x32.. .
+#   Cargando fila 0/32
+#   Cargando fila 8/32
+#   Cargando fila 16/32
+#   Cargando fila 24/32
+# [68435000] Imagen cargada exitosamente
+# Dimensiones salida esperadas: 16x16
+# [68435000] Iniciando procesamiento en modo       SIMD
+# [68455000] Esperando completar procesamiento...
+#   Ciclo 1000: Progreso = 144 pixeles
+# [85755000] Procesamiento completado en 1730 ciclos
+#   FLOPs ejecutadas: 2048
+#   Lecturas de memoria: 1024
+#   Escrituras de memoria: 1280
 #   Throughput: 1.18 FLOPs/ciclo
 # TEST 4 COMPLETADO
 # 
@@ -247,31 +277,31 @@
 # ========================================
 # 
 # --- MODO SECUENCIAL ---
-# [36315000] Reseteando sistema...
-# [36465000] Reset completado
-# [36465000] Cargando imagen de prueba 16x16...
+# [85755000] Reseteando sistema...
+# [85905000] Reset completado
+# [85905000] Cargando imagen de prueba 16x16.. .
 #   Cargando fila 0/16
 #   Cargando fila 8/16
-# [39035000] Imagen cargada exitosamente
-# [39035000] Iniciando procesamiento en modo SECUENCIAL
-# [39055000] Esperando completar procesamiento...
+# [88475000] Imagen cargada exitosamente
+# [88475000] Iniciando procesamiento en modo SECUENCIAL
+# [88495000] Esperando completar procesamiento...
 #   Ciclo 1000: Progreso = 90 pixeles
-# [52385000] Procesamiento completado en 1333 ciclos
+# [101825000] Procesamiento completado en 1333 ciclos
 #   FLOPs ejecutadas: 968
 #   Lecturas de memoria: 484
 #   Escrituras de memoria: 377
 #   Throughput: 0.73 FLOPs/ciclo
 # 
 # --- MODO SIMD ---
-# [52385000] Reseteando sistema...
-# [52535000] Reset completado
-# [52535000] Cargando imagen de prueba 16x16...
+# [101825000] Reseteando sistema...
+# [101975000] Reset completado
+# [101975000] Cargando imagen de prueba 16x16.. .
 #   Cargando fila 0/16
 #   Cargando fila 8/16
-# [55105000] Imagen cargada exitosamente
-# [55105000] Iniciando procesamiento en modo       SIMD
-# [55125000] Esperando completar procesamiento...
-# [63515000] Procesamiento completado en 839 ciclos
+# [104545000] Imagen cargada exitosamente
+# [104545000] Iniciando procesamiento en modo       SIMD
+# [104565000] Esperando completar procesamiento...
+# [112955000] Procesamiento completado en 839 ciclos
 #   FLOPs ejecutadas: 992
 #   Lecturas de memoria: 496
 #   Escrituras de memoria: 380
@@ -289,16 +319,252 @@
 # 
 # TEST 5 COMPLETADO
 # 
-# ====================================================
-# RESUMEN FINAL
-# ====================================================
-# Tests ejecutados: 5
-# ====================================================
-# FIN DE TESTBENCH
-# ====================================================
-# ** Note: $finish    : C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_top_tb.sv(515)
-#    Time: 63515 ns  Iteration: 1  Instance: /dsa_top_tb
+# +==============================================================+
+# |            TEST 6: STEPPING - Ejecucion Paso a Paso         |
+# +==============================================================+
+# 
+# --------------------------------------------------------------
+#   PARTE A: Stepping por ESTADO (Modo Secuencial)
+# --------------------------------------------------------------
+# [112955000] Reseteando sistema...
+# [113105000] Reset completado
+# [113105000] Cargando imagen de prueba 8x8.. .
+#   Cargando fila 0/8
+# [113755000] Imagen cargada exitosamente
+# Imagen: 8x8 -> 4x4
+# 
+# Ejecutando 30 pasos con granularidad STATE.. .
+# 
+# +-------------------------------------------------------------+
+# |                    STEP    1                                 |
+# +-------------------------------------------------------------+
+# | FSM State: IDLE         (0)    Mode: Sequential          |
+# | Position:  (   0,    0)                                      |
+# +-------------------------------------------------------------+
+# | Neighbors: p00=  0  p01=  0  p10=  0  p11=  0              |
+# | Coefficients: a=0x0000 (0.0000)  b=0x0000 (0.0000)            |
+# +-------------------------------------------------------------+
+# | Output Pixel:   0                                           |
+# +-------------------------------------------------------------+
+# | Memory: Addr=0x00000  Data=170  RD=0  WR=0                 |
+# +-------------------------------------------------------------+
+# WARNING: Timeout esperando step_ready
+# WARNING: Timeout esperando step_ready
+# WARNING: Timeout esperando step_ready
+# WARNING: Timeout esperando step_ready
+# WARNING: Timeout esperando step_ready
+# WARNING: Timeout esperando step_ready
+# WARNING: Timeout esperando step_ready
+# WARNING: Timeout esperando step_ready
+# WARNING: Timeout esperando step_ready
+# WARNING: Timeout esperando step_ready
+# WARNING: Timeout esperando step_ready
+# WARNING: Timeout esperando step_ready
+# WARNING: Timeout esperando step_ready
+# WARNING: Timeout esperando step_ready
+# WARNING: Timeout esperando step_ready
+# WARNING: Timeout esperando step_ready
+# WARNING: Timeout esperando step_ready
+# WARNING: Timeout esperando step_ready
+# WARNING: Timeout esperando step_ready
+# WARNING: Timeout esperando step_ready
+# WARNING: Timeout esperando step_ready
+# WARNING: Timeout esperando step_ready
+# WARNING: Timeout esperando step_ready
+# WARNING: Timeout esperando step_ready
+# WARNING: Timeout esperando step_ready
+# WARNING: Timeout esperando step_ready
+# WARNING: Timeout esperando step_ready
+# WARNING: Timeout esperando step_ready
+# WARNING: Timeout esperando step_ready
+# 
+#   Pasos ejecutados: 30
+#   Transiciones de estado observadas: 1
+#   WARNING: Timeout esperando completar
+# 
+# --------------------------------------------------------------
+#   PARTE B: Stepping por PIXEL (Modo Secuencial)
+# --------------------------------------------------------------
+# [1403965000] Reseteando sistema...
+# [1404115000] Reset completado
+# [1404115000] Cargando imagen de prueba 8x8.. .
+#   Cargando fila 0/8
+# [1404765000] Imagen cargada exitosamente
+# 
+# Ejecutando 5 pasos con granularidad PIXEL...
+# 
+# +-------------------------------------------------------------+
+# |                    STEP    1                                 |
+# +-------------------------------------------------------------+
+# | FSM State: IDLE         (0)    Mode: Sequential          |
+# | Position:  (   0,    0)                                      |
+# +-------------------------------------------------------------+
+# | Neighbors: p00=  0  p01=  0  p10=  0  p11=  0              |
+# | Coefficients: a=0x0000 (0.0000)  b=0x0000 (0.0000)            |
+# +-------------------------------------------------------------+
+# | Output Pixel:   0                                           |
+# +-------------------------------------------------------------+
+# | Memory: Addr=0x00000  Data=170  RD=0  WR=0                 |
+# +-------------------------------------------------------------+
+# WARNING: Timeout esperando step_ready
+# 
+# +-------------------------------------------------------------+
+# |                    STEP    2                                 |
+# +-------------------------------------------------------------+
+# | FSM State: IDLE         (0)    Mode: Sequential          |
+# | Position:  (   0,    0)                                      |
+# +-------------------------------------------------------------+
+# | Neighbors: p00=  0  p01=  0  p10=  0  p11=  0              |
+# | Coefficients: a=0x0000 (0.0000)  b=0x0000 (0.0000)            |
+# +-------------------------------------------------------------+
+# | Output Pixel:   0                                           |
+# +-------------------------------------------------------------+
+# | Memory: Addr=0x00000  Data=170  RD=0  WR=0                 |
+# +-------------------------------------------------------------+
+# WARNING: Timeout esperando step_ready
+# 
+# +-------------------------------------------------------------+
+# |                    STEP    3                                 |
+# +-------------------------------------------------------------+
+# | FSM State: IDLE         (0)    Mode: Sequential          |
+# | Position:  (   0,    0)                                      |
+# +-------------------------------------------------------------+
+# | Neighbors: p00=  0  p01=  0  p10=  0  p11=  0              |
+# | Coefficients: a=0x0000 (0.0000)  b=0x0000 (0.0000)            |
+# +-------------------------------------------------------------+
+# | Output Pixel:   0                                           |
+# +-------------------------------------------------------------+
+# | Memory: Addr=0x00000  Data=170  RD=0  WR=0                 |
+# +-------------------------------------------------------------+
+# WARNING: Timeout esperando step_ready
+# 
+# +-------------------------------------------------------------+
+# |                    STEP    4                                 |
+# +-------------------------------------------------------------+
+# | FSM State: IDLE         (0)    Mode: Sequential          |
+# | Position:  (   0,    0)                                      |
+# +-------------------------------------------------------------+
+# | Neighbors: p00=  0  p01=  0  p10=  0  p11=  0              |
+# | Coefficients: a=0x0000 (0.0000)  b=0x0000 (0.0000)            |
+# +-------------------------------------------------------------+
+# | Output Pixel:   0                                           |
+# +-------------------------------------------------------------+
+# | Memory: Addr=0x00000  Data=170  RD=0  WR=0                 |
+# +-------------------------------------------------------------+
+# WARNING: Timeout esperando step_ready
+# 
+# +-------------------------------------------------------------+
+# |                    STEP    5                                 |
+# +-------------------------------------------------------------+
+# | FSM State: IDLE         (0)    Mode: Sequential          |
+# | Position:  (   0,    0)                                      |
+# +-------------------------------------------------------------+
+# | Neighbors: p00=  0  p01=  0  p10=  0  p11=  0              |
+# | Coefficients: a=0x0000 (0.0000)  b=0x0000 (0.0000)            |
+# +-------------------------------------------------------------+
+# | Output Pixel:   0                                           |
+# +-------------------------------------------------------------+
+# | Memory: Addr=0x00000  Data=170  RD=0  WR=0                 |
+# +-------------------------------------------------------------+
+# 
+#   Pixeles procesados: 5
+# 
+# --------------------------------------------------------------
+#   PARTE C: Stepping por GRUPO (Modo SIMD)
+# --------------------------------------------------------------
+# [2444975000] Reseteando sistema...
+# [2445125000] Reset completado
+# [2445125000] Cargando imagen de prueba 8x8.. .
+#   Cargando fila 0/8
+# [2445775000] Imagen cargada exitosamente
+# 
+# Ejecutando 4 pasos con granularidad GROUP...
+# 
+# +-------------------------------------------------------------+
+# |                    STEP    1                                 |
+# +-------------------------------------------------------------+
+# | FSM State: IDLE         (0)    Mode: SIMD                |
+# | Position:  (   0,    0)                                      |
+# +-------------------------------------------------------------+
+# | Neighbors: p00=  0  p01=  0  p10=  0  p11=  0              |
+# | Coefficients: a=0x0000 (0.0000)  b=0x0000 (0.0000)            |
+# +-------------------------------------------------------------+
+# | Output Pixel:   0                                           |
+# | SIMD Outputs: [  0,   0,   0,   0]                          |
+# +-------------------------------------------------------------+
+# | Memory: Addr=0x00000  Data=170  RD=0  WR=0                 |
+# +-------------------------------------------------------------+
+# WARNING: Timeout esperando step_ready
+# 
+# +-------------------------------------------------------------+
+# |                    STEP    2                                 |
+# +-------------------------------------------------------------+
+# | FSM State: IDLE         (0)    Mode: SIMD                |
+# | Position:  (   0,    0)                                      |
+# +-------------------------------------------------------------+
+# | Neighbors: p00=  0  p01=  0  p10=  0  p11=  0              |
+# | Coefficients: a=0x0000 (0.0000)  b=0x0000 (0.0000)            |
+# +-------------------------------------------------------------+
+# | Output Pixel:   0                                           |
+# | SIMD Outputs: [  0,   0,   0,   0]                          |
+# +-------------------------------------------------------------+
+# | Memory: Addr=0x00000  Data=170  RD=0  WR=0                 |
+# +-------------------------------------------------------------+
+# WARNING: Timeout esperando step_ready
+# 
+# +-------------------------------------------------------------+
+# |                    STEP    3                                 |
+# +-------------------------------------------------------------+
+# | FSM State: IDLE         (0)    Mode: SIMD                |
+# | Position:  (   0,    0)                                      |
+# +-------------------------------------------------------------+
+# | Neighbors: p00=  0  p01=  0  p10=  0  p11=  0              |
+# | Coefficients: a=0x0000 (0.0000)  b=0x0000 (0.0000)            |
+# +-------------------------------------------------------------+
+# | Output Pixel:   0                                           |
+# | SIMD Outputs: [  0,   0,   0,   0]                          |
+# +-------------------------------------------------------------+
+# | Memory: Addr=0x00000  Data=170  RD=0  WR=0                 |
+# +-------------------------------------------------------------+
+# WARNING: Timeout esperando step_ready
+# 
+# +-------------------------------------------------------------+
+# |                    STEP    4                                 |
+# +-------------------------------------------------------------+
+# | FSM State: IDLE         (0)    Mode: SIMD                |
+# | Position:  (   0,    0)                                      |
+# +-------------------------------------------------------------+
+# | Neighbors: p00=  0  p01=  0  p10=  0  p11=  0              |
+# | Coefficients: a=0x0000 (0.0000)  b=0x0000 (0.0000)            |
+# +-------------------------------------------------------------+
+# | Output Pixel:   0                                           |
+# | SIMD Outputs: [  0,   0,   0,   0]                          |
+# +-------------------------------------------------------------+
+# | Memory: Addr=0x00000  Data=170  RD=0  WR=0                 |
+# +-------------------------------------------------------------+
+# 
+#   Grupos procesados: 4 (16 pixeles)
+# 
+# +==============================================================+
+# |                  RESUMEN TEST STEPPING                       |
+# +==============================================================+
+# |  [OK] Stepping por ESTADO: Verificado                        |
+# |  [OK] Stepping por PIXEL:  Verificado                        |
+# |  [OK] Stepping por GRUPO:  Verificado                        |
+# +==============================================================+
+# 
+# TEST 6 COMPLETADO
+# 
+# +================================================================+
+# |                      RESUMEN FINAL                             |
+# +================================================================+
+# |  Tests ejecutados: 6                                          |
+# |  Tests 1-5: Funcionalidad basica (sin stepping)                |
+# |  Test 6:    Verificacion de stepping                           |
+# +================================================================+
+# |                    FIN DE TESTBENCH                            |
+# +================================================================+
+# ** Note: $finish    : C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_top_tb.sv(924)
+#    Time: 3475985 ns  Iteration: 1  Instance: /dsa_top_tb
 # 1
-# Break in Module dsa_top_tb at C:/Users/lobok/Documents/parallel_bilineal_interpolation_fpga/fpga/dsa_top_tb.sv line 515
-# End time: 20:45:31 on Nov 27,2025, Elapsed time: 0:01:30
-# Errors: 0, Warnings: 0
+# Break in Module dsa_top_tb at C:/Users/lobok/Desktop/proyecto/parallel_bilineal_interpolation_fpga/fpga/dsa_top_tb.sv line 924
